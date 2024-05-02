@@ -34,11 +34,3 @@ const executeQuery = (sql) => {
     });
   });
 };
-
-executeQuery(`
-CREATE TABLE utenti (
-  id INT PRIMARY KEY AUTO_INCREMENT ,
-  username varchar(255),
-  password varchar(255)
-)`)
-
