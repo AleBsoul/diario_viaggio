@@ -80,7 +80,6 @@ app.post("/addviaggio", (req,res)=>{
     })
     
   })
-  
 })
 
 app.post("/addpost", (req, res)=>{
@@ -99,6 +98,41 @@ app.post("/addpost", (req, res)=>{
   `
   
   executeQuery(sql).then((result)=>{
-    res.json({result: "post aggiunto"})
+    res.json({result: "post aggiunto"});
+  })
+})
+
+
+
+app.post("/add_user",(req, res)=>{
+  const username = req.body.username;
+  const password = req.body.password;
+  const sql = `
+  INSERT INTO utente (username, password)
+  VALUES('${username}', '${password}')
+  `
+
+  executeQuery(sql).then((result)=>{
+    res.json({result: "user aggiunto"});
+  })
+})
+
+
+app.get("/get_users",(req, res)=>{
+  const sql = `
+  SELECT * FROM utente
+  `
+  executeQuery(sql).then((result)=>{
+    res.json({result: result});
+  })
+})
+
+app.delete("/del_user/:id",(req,res)=>{
+  const id = req.params.id 
+  const sql = `
+  DELETE FROM utente WHERE id = '${id}'
+  `;
+  executeQuery(sql).then((result)=>{
+    res.json({result: "utente eliminato"});
   })
 })
