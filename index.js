@@ -41,8 +41,14 @@ const select_viaggi = () =>{
   `)
 } 
 
-app.post("/addviaggio", (req,res)=>{
-  const id_utente = req.body.id_utente;
+const select_utenti = () =>{
+  return executeQuery(`
+  SELECT * FROM utente
+  `)
+} 
+
+app.post("/addviaggio/:id_utente", (req,res)=>{
+  const id_utente = req.params.id_utente;
     select_utenti().then((result_users)=>{
       //controllo se esiste l'utente
       let utente_find = false;
@@ -65,6 +71,23 @@ app.post("/addviaggio", (req,res)=>{
     })
 })
 
+
+app.get("/get_viaggi",(req, res)=>{
+  select_viaggi().then((result)=>{
+    res.json({result: result});
+  })
+})
+
+app.delete("/del_viaggio/:id",(req,res)=>{
+  const id = req.params.id 
+  const sql = `
+  DELETE FROM viaggio WHERE id = '${id}'
+  `;
+  executeQuery(sql).then((result)=>{
+    res.json({result: "viaggio eliminato"});
+  })
+})
+
 app.post("/addpost", (req, res)=>{
   const immagine = req.body.immagine;
   const testo = req.body.testo;
@@ -78,7 +101,7 @@ app.post("/addpost", (req, res)=>{
     //controllo se esiste l'utente
     let find_viaggio = false;
     result_viaggi.forEach((row)=>{
-      if(parseInt(row.id)===parseInt(id_utente)){
+      if(parseInt(row.id)===parseInt(id_viaggio)){
         find_viaggio = true;
       }
     });
@@ -98,6 +121,25 @@ app.post("/addpost", (req, res)=>{
 
 })
 
+app.get("/get_post",(req, res)=>{
+  const sql = `
+  SELECT * FROM post
+  `;
+  executeQuery(sql).then((result)=>{
+    res.json({result: result});
+  })
+})
+
+app.delete("/del_post/:id",(req,res)=>{
+  const id = req.params.id 
+  const sql = `
+  DELETE FROM post WHERE id = '${id}'
+  `;
+  executeQuery(sql).then((result)=>{
+    res.json({result: "post eliminato"});
+  })
+})
+
 app.post("/add_user",(req, res)=>{
   const username = req.body.username;
   const password = req.body.password;
@@ -112,10 +154,7 @@ app.post("/add_user",(req, res)=>{
 
 
 app.get("/get_users",(req, res)=>{
-  const sql = `
-  SELECT * FROM utente
-  `
-  executeQuery(sql).then((result)=>{
+  select_utenti().then((result)=>{
     res.json({result: result});
   })
 })
