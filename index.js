@@ -47,9 +47,12 @@ const select_utenti = () =>{
   `)
 } 
 
-app.post("/addviaggio/:id_utente", (req,res)=>{
-  const id_utente = req.params.id_utente;
-    select_utenti().then((result_users)=>{
+app.post("/addviaggio", (req,res)=>{
+
+  const id_utente = req.body.id_utente;
+  const titolo = req.body.titolo;
+  const descrizione = req.body.descrizione;
+  select_utenti().then((result_users)=>{
       //controllo se esiste l'utente
       let utente_find = false;
       result_users.forEach((row)=>{
@@ -59,8 +62,8 @@ app.post("/addviaggio/:id_utente", (req,res)=>{
       });
       if(utente_find){
         const sql = `
-          INSERT INTO viaggio (id_utente)
-          VALUES ('${id_utente}')
+          INSERT INTO viaggio (id_utente, titolo, descrizione)
+          VALUES ('${id_utente}', '${titolo}','${descrizione}')
           `
         executeQuery(sql).then((result)=>{
           res.json({result: "viaggio inserito"});
@@ -69,6 +72,19 @@ app.post("/addviaggio/:id_utente", (req,res)=>{
         res.json({result: "utente non ancora creato"})
       }
     })
+})
+ 
+app.put("/modificaViaggio",(req, res)=>{
+  const id = req.body.id;
+  const titolo = req.body.titolo;
+  const descrizione = req.body.descrizione
+  const sql = `
+  UPDATE viaggio
+  SET titolo = '${titolo}', descrizione = '${descrizione}'
+  WHERE id = '${id}'`;
+  executeQuery(sql).then((result)=>{
+    res.json({result: "viaggio modificato"});
+  })
 })
 
 
@@ -87,6 +103,7 @@ app.delete("/del_viaggio/:id",(req,res)=>{
     res.json({result: "viaggio eliminato"});
   })
 })
+
 
 app.post("/addpost", (req, res)=>{
   const immagine = req.body.immagine;
@@ -117,6 +134,24 @@ app.post("/addpost", (req, res)=>{
     }else{
       res.json({result: "viaggio non ancora creato"})
     }
+  })
+
+})
+
+app.put("/modificaPost",(req, res)=>{
+  const id =req.body.id;
+  const immagine = req.body.immagine;
+  const testo = req.body.testo;
+  const video = req.body.video;
+  const audio = req.body.audio;
+  const descrizione = req.body.descrizione;
+  const posizione = req.body.posizione;
+  const sql = `
+  UPDATE post
+  SET immagine = '${immagine}', testo = '${testo}', video = '${video}', audio = '${audio}', descrizione = '${descrizione}', posizione = '${posizione}'
+  WHERE id = '${id}'`;
+  executeQuery(sql).then((result)=>{
+    res.json({result: "post modificato"});
   })
 
 })
@@ -168,3 +203,4 @@ app.delete("/del_user/:id",(req,res)=>{
     res.json({result: "utente eliminato"});
   })
 })
+

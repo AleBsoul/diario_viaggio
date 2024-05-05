@@ -1,11 +1,11 @@
-
-const add_viaggio = (id_utente) => {
+const add_viaggio = (viaggio) => {
     return new Promise((resolve, reject) => {
-        fetch("/addviaggio/"+id_utente, {
+        fetch("/addviaggio/", {
             method: 'POST',
             headers: {
             "Content-Type": "application/json"
-            }
+            },
+            body: JSON.stringify(viaggio)
         })
         .then((response) => response.json())
         .then((json) => {
@@ -17,7 +17,25 @@ const add_viaggio = (id_utente) => {
         });
     });
 }
-
+const modifica_viaggio = (viaggio) =>{
+    return new Promise((resolve, reject) => {
+        fetch("/modificaViaggio", {
+            method: 'PUT',
+            headers: {
+            "Content-Type": "application/json"
+            },
+            body: JSON.stringify(viaggio)
+        })
+        .then((response) => response.json())
+        .then((json) => {
+            console.log(json);
+            resolve(json); //risposta server
+        })
+        .catch((error) => {
+            reject(error);
+        });
+    });
+}
 
 const get_viaggi = async() => {
     return new Promise((resolve, reject) => {
@@ -97,7 +115,27 @@ const get_post = async() => {
     });
 }
 
-const deletePost= (id) => {
+const modifica_post = (post) =>{
+    return new Promise((resolve, reject) => {
+        fetch("/modificaPost", {
+            method: 'PUT',
+            headers: {
+            "Content-Type": "application/json"
+            },
+            body: JSON.stringify(post)
+        })
+        .then((response) => response.json())
+        .then((json) => {
+            console.log(json);
+            resolve(json); //risposta server
+        })
+        .catch((error) => {
+            reject(error);
+        });
+    });
+}
+
+const deletePost = (id) => {
     return new Promise((resolve, reject) => {
         fetch("/del_post/"+id, {
             method: 'DELETE',
@@ -175,20 +213,27 @@ const deleteUser = (id) => {
 
 // esempio funzionamento servizi
 
-// const user = {username : "prova", password : "prova"};
+const user = {username : "prova", password : "prova"};
 
-// add_user(user);
-// const users = await get_users();
+add_user(user);
+const users = await get_users();
 
-// add_viaggio(users.result[0].id);
-// const viaggi = await get_viaggi();
+const viaggio = {id_utente: users.result[0].id, titolo:"prova",descrizione: "prova"};
+add_viaggio(viaggio);
+const viaggi = await get_viaggi();
 
-// const id_viaggio = viaggi.result[0].id;
+const id_viaggio = viaggi.result[0].id;
 
-// const post = {immagine:"prova",testo: "prova", video:"prova",audio:"prova",descrizione:"prova",posizione:"prova",id_viaggio: id_viaggio}
-// add_post(post);
-// const posts = await get_post();
+const viaggioModificato = {titolo:"prova modifica",descrizione:"prova modifica",id:id_viaggio};
+modifica_viaggio(viaggioModificato);
 
-// deleteViaggio(viaggi.result[0].id);
-// deleteUser(users.result[0].id);
-// deletePost(posts.result[0].id)
+const post = {immagine:"prova",testo: "prova", video:"prova",audio:"prova",descrizione:"prova",posizione:"prova",id_viaggio: id_viaggio};
+add_post(post);
+const posts = await get_post();
+const id_post = posts.result[0].id;
+const postModificato = {immagine:"prova modifica",testo: "prova modifica", video:"prova modifica",audio:"prova modifica ",descrizione:"prova modifica",posizione:"prova modifica", id:id_post};
+modifica_post(postModificato);
+
+deleteViaggio(viaggi.result[0].id);
+deleteUser(users.result[0].id);
+deletePost(posts.result[0].id);
