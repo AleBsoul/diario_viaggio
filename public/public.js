@@ -57,9 +57,9 @@ const deleteUser = (id) => {
 
 
 // esempio funzionamento servizi
-const user = {username : "prova", password : "prova"};
-add_user(user);
+// const user = {username : "prova", password : "prova"};
+// add_user(user);
 
-const users = await get_users();
+// const users = await get_users();
 
-deleteUser(users.result[0].id);
+// deleteUser(users.result[0].id);
