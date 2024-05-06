@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="styles.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <title>Home</title>
+        
       </head>
     <body>
         <div class="navbar">
@@ -13,19 +14,26 @@
                 <img src="assets/images/logo.png" alt="" class="logo">
             </div>
             <div class="right-nav" id="right-nav">
-                <div class="invisible"></div>
-                <div id="uncollapsed">
-                    <button id="btn-home">
+                <div class="invisible" id="bar">
+                    <button type="button" id="bar-btn">
+                        <i class="fa fa-bars fa-3x" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div id="right-nav-content" class="uncollapsed">
+                    <a href="home.html">
                         <i class="fa fa-home fa-3x"></i>
-                    </button>
+                    </a>
     
-                    <button id="btn-user">
-                        <i class="fa fa-user fa-3x"></i>
-                    </button>
                     
-                    <button id="btn-plus">
+                    <a href="user.html">
+                        <i class="fa fa-user fa-3x"></i>
+                    </a>
+                    
+                    <a href="">
                         <i class="fa fa-plus fa-3x"></i>
-                    </button>
+                    </a>
+                    
+                    
     
                     <button id="btn-logout">
                         Log Out
@@ -33,6 +41,7 @@
                 </div>
             </div>
         </div>
+        
         
       
         <script type="module" src='home.js'></script>
