@@ -213,27 +213,27 @@ const deleteUser = (id) => {
 
 // esempio funzionamento servizi
 
-const user = {username : "prova", password : "prova"};
+// const user = {username : "prova", password : "prova"};
 
-add_user(user);
-const users = await get_users();
+// add_user(user);
+// const users = await get_users();
 
-const viaggio = {id_utente: users.result[0].id, titolo:"prova",descrizione: "prova"};
-add_viaggio(viaggio);
-const viaggi = await get_viaggi();
+// const viaggio = {id_utente: users.result[0].id, titolo:"prova",descrizione: "prova"};
+// add_viaggio(viaggio);
+// const viaggi = await get_viaggi();
 
-const id_viaggio = viaggi.result[0].id;
+// const id_viaggio = viaggi.result[0].id;
 
-const viaggioModificato = {titolo:"prova modifica",descrizione:"prova modifica",id:id_viaggio};
-modifica_viaggio(viaggioModificato);
+// const viaggioModificato = {titolo:"prova modifica",descrizione:"prova modifica",id:id_viaggio};
+// modifica_viaggio(viaggioModificato);
 
-const post = {immagine:"prova",testo: "prova", video:"prova",audio:"prova",descrizione:"prova",posizione:"prova",id_viaggio: id_viaggio};
-add_post(post);
-const posts = await get_post();
-const id_post = posts.result[0].id;
-const postModificato = {immagine:"prova modifica",testo: "prova modifica", video:"prova modifica",audio:"prova modifica ",descrizione:"prova modifica",posizione:"prova modifica", id:id_post};
-modifica_post(postModificato);
+// const post = {immagine:"prova",testo: "prova", video:"prova",audio:"prova",descrizione:"prova",posizione:"prova",id_viaggio: id_viaggio};
+// add_post(post);
+// const posts = await get_post();
+// const id_post = posts.result[0].id;
+// const postModificato = {immagine:"prova modifica",testo: "prova modifica", video:"prova modifica",audio:"prova modifica ",descrizione:"prova modifica",posizione:"prova modifica", id:id_post};
+// modifica_post(postModificato);
 
-deleteViaggio(viaggi.result[0].id);
-deleteUser(users.result[0].id);
-deletePost(posts.result[0].id);
+// deleteViaggio(viaggi.result[0].id);
+// deleteUser(users.result[0].id);
+// deletePost(posts.result[0].id);
