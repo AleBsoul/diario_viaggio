@@ -204,3 +204,21 @@ app.delete("/del_user/:id",(req,res)=>{
   })
 })
 
+app.post("/login",(req,res)=>{
+  const username = req.body.username;
+  const password = req.body.password;
+  let trovato = false;
+  let messaggio = "utente non loggato";
+  select_utenti().then((utenti)=>{
+    utenti.forEach((utente)=>{
+      if(utente.username === username){
+        if(utente.password === password){
+          trovato = true;
+          messaggio = "utente loggato"
+        }
+      }
+    })
+    res.json({result: messaggio});
+  })
+  
+})
