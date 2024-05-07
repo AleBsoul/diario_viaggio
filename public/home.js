@@ -25,3 +25,30 @@ window.addEventListener("resize", function(){
     check_size();
 })
 check_size();
+
+
+const loadTravels = async () => {
+    try {
+        const r = await fetch("/get_viaggi");
+        const json = await r.json();
+        return json
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+const travelTemplate = `
+`;
+
+const divTravelContent = document.getElementById("travel-content");
+
+loadTravels().then((result)=>{
+    /*divTravelContent.innerHTML = "";
+    console.log(result)
+    result.result.forEach((travel)=>{
+        divTravelContent.innerHTML+=travelTemplate.replace("%nome",travel.titolo);
+    })*/
+})
+
+
+  
