@@ -105,7 +105,6 @@ body{
     align-items: center;
     justify-content: center;
     transition: 0.4s;
-    border-bottom: 1px solid lightgrey;
   }
   
   .modal-container {
