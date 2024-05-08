@@ -20,16 +20,15 @@ body{
     background: none;
     border: none;
     cursor: pointer;
-    transition: all 0.3s ease;
     color: rgb(60, 60, 60);
+    transition: all 0.3s ease;
 }
 
 
-
-.right-nav a:hover,
-.right-nav button:hover{
-    color: rgb(100,100,100);
-    font-size: 25px;
+.right-nav button:hover,
+.right-nav a:hover{
+  color: rgb(100,100,100);
+  transform: scale(1.1);
 }
 
 
@@ -83,6 +82,11 @@ body{
   width:100%;
   background-color: #55311c;
 } */
+
+.error-space{
+  height: 20px;
+  margin-bottom: 20px;
+}
 
 
 .login_form{
@@ -233,6 +237,20 @@ body{
   .sign-up a {
     color: #8c7569;
   }
+
+
+  .input-file{
+    width: 90px;
+    padding: 8px 12px;
+    outline: none;
+    border: 1px solid #8c7569 ;
+    color: #8c7569;
+    border-radius: 4px;
+    background: #fff;
+    font-family: "Nunito", sans-serif;
+    transition: 0.3s;
+    cursor: pointer;
+  }
   
   .input-button {
     padding: 8px 12px;
@@ -265,7 +283,6 @@ body{
     padding: 10px 10px 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    margin-bottom: 20px;
     transition: 0.3s;
 }
 
