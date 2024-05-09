@@ -167,9 +167,14 @@ app.delete("/del_post/:id",(req,res)=>{
 app.post("/add_user",(req, res)=>{
   const username = req.body.username;
   const password = req.body.password;
+  const email = req.body.email;
+  const nome = req.body.nome;
+  const cognome = req.body.cognome;
+  const bio = req.body.bio;
+
   const sql = `
-  INSERT INTO utente (username, password)
-  VALUES('${username}', '${password}')
+  INSERT INTO utente (username, password, email, nome, cognome, bio)
+  VALUES('${username}', '${password}', '${email}', '${nome}', '${cognome}', '${bio}')
   `
   executeQuery(sql).then((result)=>{
     res.json({result: "user aggiunto"});
@@ -203,11 +208,11 @@ app.post("/login",(req,res)=>{
       if(utente.username === username){
         if(utente.password === password){
           trovato = true;
-          messaggio = "utente loggato"
         }
       }
     })
-    res.json({result: messaggio});
+    res.json({result: trovato});
   })
   
 })
+
