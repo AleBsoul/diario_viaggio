@@ -28,13 +28,19 @@ check_size();
 
 
 
-const travelTemplate = `
-`;
+const homeBtn = document.getElementById("nav-home");
+homeBtn.onclick=()=>{
+    window.location.href='home.html';
+}
 
-const divTravelContent = document.getElementById("travel-content");
+
+const userBtn = document.getElementById("nav-user");
+userBtn.onclick=()=>{
+    window.location.href='user.html';
+}
 
 
-
+const logoutBtn = document.getElementById("nav-logout ");
 
 
 //modal new viaggio

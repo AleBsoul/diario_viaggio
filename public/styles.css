@@ -16,19 +16,27 @@ body{
   margin-right: 60px;
 }
 
-.right-nav button,a{
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: rgb(60, 60, 60);
-    transition: all 0.3s ease;
+
+.nav-element{
+  z-index: 1000;
+  border: none;
+  background: none;
+  color: rgb(60, 60, 60);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 15px;
+}
+#nav-logout{
+  font-size: 18px;
 }
 
-
-.right-nav button:hover,
-.right-nav a:hover{
-  color: rgb(100,100,100);
+.nav-element:hover{
+  color: rgb(100, 100, 100);
   transform: scale(1.1);
+}
+
+.nav-element i{
+  color: inherit;
 }
 
 
