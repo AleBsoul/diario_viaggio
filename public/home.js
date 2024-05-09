@@ -27,28 +27,13 @@ window.addEventListener("resize", function(){
 check_size();
 
 
-const loadTravels = async () => {
-    try {
-        const r = await fetch("/get_viaggi");
-        const json = await r.json();
-        return json
-    } catch (e) {
-        console.log(e)
-    }
-}
 
 const travelTemplate = `
 `;
 
 const divTravelContent = document.getElementById("travel-content");
 
-loadTravels().then((result)=>{
-    /*divTravelContent.innerHTML = "";
-    console.log(result)
-    result.result.forEach((travel)=>{
-        divTravelContent.innerHTML+=travelTemplate.replace("%nome",travel.titolo);
-    })*/
-})
+
 
 
 
@@ -90,13 +75,48 @@ const titoloErr = document.getElementById("titolo_error");
 const descrErr = document.getElementById("descrizione_error");
 const immErr = document.getElementById("immagine_error");
 
+const time = 3000;
+
+const render = (data) => {
+    console.log(data);
+}
+
+const getViaggi = async () => {
+    try{
+        const r = await fetch("/getViaggi");
+        const json = await r.json();
+        return json;
+    } catch (e) {
+        console.log(e);
+    }
+    
+}
+
+const saveViaggio = async (data) => {
+    try{
+        const r = await fetch("/addViaggio", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({data})
+        });
+        const result = await r.json();
+        return result;
+    } catch (e) {
+        console.log(e);
+    }
+};
+
 newViaggio.onclick=()=>{
     const titolo = titoloInput.value;
+
+    
     if(!titolo){
         titoloErr.classList.remove("invisible");
         setTimeout(()=>{
             titoloErr.classList.add("invisible");
-        },2000)
+        },time)
     }
 
     const descrizione = descrInput.value;
@@ -104,15 +124,33 @@ newViaggio.onclick=()=>{
         descrErr.classList.remove("invisible");
         setTimeout(()=>{
             descrErr.classList.add("invisible");
-        },2000)
+        },time)
     }
     const immagine = immInput.value;
     if(!immagine){
         immErr.classList.remove("invisible");
         setTimeout(()=>{
             immErr.classList.add("invisible");
-        },2000)
+        },time)
+    };
+
+    if(titolo && descrizione && immagine){
+        const id_utente = null;
+        const viaggio = {
+            titolo: titolo,
+            descrizione: descrizione,
+            immagine: null,
+            id_utente: id_utente
+        }
+    
+        saveViaggio(viaggio).then(()=>{
+            getViaggi().then((result)=>{
+                render(result);
+            })
+        })
     }
-    console.log(titolo, descrizione, immagine)
+
+    
+    
 }
   

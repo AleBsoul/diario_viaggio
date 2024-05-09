@@ -47,32 +47,21 @@ const select_utenti = () =>{
   `)
 } 
 
-app.post("/addviaggio", (req,res)=>{
-
-  const id_utente = req.body.id_utente;
-  const titolo = req.body.titolo;
-  const descrizione = req.body.descrizione;
-  select_utenti().then((result_users)=>{
-      //controllo se esiste l'utente
-      let utente_find = false;
-      result_users.forEach((row)=>{
-        if(parseInt(row.id)===parseInt(id_utente)){
-          utente_find = true;
-        }
-      });
-      if(utente_find){
-        const sql = `
-          INSERT INTO viaggio (id_utente, titolo, descrizione)
-          VALUES ('${id_utente}', '${titolo}','${descrizione}')
-          `
-        executeQuery(sql).then((result)=>{
-          res.json({result: "viaggio inserito"});
-        })
-      }else{
-        res.json({result: "utente non ancora creato"})
-      }
-    })
-})
+app.post("/addViaggio", (req,res)=>{
+  const data = req.body.data;
+  const id_utente = data.id_utente;
+  const titolo = data.titolo;
+  const descrizione = data.descrizione;
+  const immagine = data.immagine;
+  const sql = `
+    INSERT INTO viaggio (id_utente, titolo, descrizione, immagine)
+    VALUES ('${id_utente}', '${titolo}','${descrizione}', '${immagine}')
+    `
+  executeQuery(sql).then((result)=>{
+    res.json({result: "viaggio inserito"});
+  });
+      
+});
  
 app.put("/modificaViaggio",(req, res)=>{
   const id = req.body.id;
@@ -88,7 +77,7 @@ app.put("/modificaViaggio",(req, res)=>{
 })
 
 
-app.get("/get_viaggi",(req, res)=>{
+app.get("/getViaggi",(req, res)=>{
   select_viaggi().then((result)=>{
     res.json({result: result});
   })

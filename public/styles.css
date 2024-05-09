@@ -85,7 +85,12 @@ body{
 
 .error-space{
   height: 20px;
-  margin-bottom: 20px;
+  position: relative;
+}
+.error-space p{
+  position: absolute;
+  top: -10px;
+  color: #8c7569;
 }
 
 
@@ -283,6 +288,7 @@ body{
     padding: 10px 10px 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    margin-bottom: 20px;
     transition: 0.3s;
 }
 
