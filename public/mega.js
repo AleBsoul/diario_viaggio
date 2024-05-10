@@ -19,7 +19,37 @@ const uploadFile = async(input) =>{
     })
 }
 
+const downloadFile = async(fileName) => {
+    let body = {mega: fileName, name: 'test.txt'};
+    try {
+        const response = await fetch("/download", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlN0ZWZhbm8iLCJpYXQiOjE3MTUwMTIyMTIsImV4cCI6MTcxNTAxOTQxMn0.ZZSIlqewPKhG-qJ6a9VA9NjGTeSNpdwiHZ2tIx-aoa4"
+            },
+            body: JSON.stringify(body)
+        });
 
+        if (!response.ok) {
+            throw new Error("HTTP error " + response.status);
+        }
+
+        const buffer = await response.arrayBuffer();
+        const file = new File([buffer], response.headers.get('Content-Disposition').split('filename=')[1]);
+        // Create a new URL object for the file
+        const url = window.URL.createObjectURL(file);
+
+        // Set the source of the img element to the file URL
+        /*const img = document.getElementById('image');
+        img.src = url;*/
+        return url
+    } catch (e) {
+        console.error('Error during file download:', e);
+    }
+}
+
+/*
 const downloadFile=async(fileName)=>{
     let body = {mega: fileName, name: 'test.txt'};
     try {
@@ -54,6 +84,6 @@ const downloadFile=async(fileName)=>{
     } catch (e) {
         console.error('Error during file download:', e);
     }
-}
+}*/
 
 export { uploadFile, downloadFile};

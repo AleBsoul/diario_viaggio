@@ -1,4 +1,4 @@
-import { uploadFile } from "./mega.js"
+import { uploadFile, downloadFile} from "./mega.js"
 
 
 const user = JSON.parse(sessionStorage.getItem("utente"));
