@@ -1,3 +1,5 @@
+import { uploadFile } from "./mega.js"
+
 //navbar
 const rightNavContent = document.getElementById("right-nav-content");
 const bar = document.getElementById("bar");
@@ -48,17 +50,12 @@ logoutBtn.onclick=()=>{
 
 
 
-
 //check user logged
 
 const user = JSON.parse(sessionStorage.getItem("utente"));
 if(!user){
     window.location.href="login.html";
 }
-
-
-
-
 
 //modal new viaggio
 const modal = document.getElementById("modal");
@@ -84,11 +81,6 @@ openModal_btn.onclick=()=>{
 close_btn.onclick=()=>{
     closeModal();
 }
-
-
-
-
-
 
 //add viaggio
 const newViaggio = document.getElementById("newViaggio_btn");
@@ -157,10 +149,9 @@ const saveViaggio = async (data) => {
 
 const formAdd = document.getElementById("formAdd");
 
-newViaggio.onclick=()=>{
+newViaggio.onclick= async()=>{
     const titolo = titoloInput.value;
 
-    
     if(!titolo){
         titoloErr.classList.remove("invisible");
         setTimeout(()=>{
@@ -175,21 +166,23 @@ newViaggio.onclick=()=>{
             descrErr.classList.add("invisible");
         },time)
     }
+
     const immagine = immInput.value;
+    // aggiunta dell'immagine
+    const link = await uploadFile(immInput); //contiente il path e il link
     if(!immagine){
         immErr.classList.remove("invisible");
         setTimeout(()=>{
             immErr.classList.add("invisible");
         },time)
     };
-
     
     if(titolo && descrizione && immagine){
         const id_utente = user.id;
         const viaggio = {
             titolo: titolo,
             descrizione: descrizione,
-            immagine: null,
+            immagine: link.link,
             id_utente: id_utente
         }
     

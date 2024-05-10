@@ -1,9 +1,20 @@
+import {createRequire} from "module";
+import {fileURLToPath} from 'url';
+import {dirname} from 'path';
+import { conf } from "./conf.js";
+import {megaFunction} from "./server/mega.js";
+import multer from 'multer';
+const require = createRequire(import.meta.url);
+
 const express = require("express");
 const fs = require("fs");
 const http = require("http");
 const path = require("path");
 const app = express();
 const bodyParser = require("body-parser");
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 app.use(bodyParser.json());
 app.use(
@@ -14,14 +25,18 @@ app.use(
 
 app.use("/", express.static(path.join(__dirname, "public")));
 
+// Utilizza il middleware express.json() per analizzare le richieste JSON
+app.use(express.json());
+
 const server = http.createServer(app);
 server.listen(80, () => {
   console.log("- server running");
 });
 
 const mysql = require("mysql2");
-const conf = require("./conf.js")
+
 const connection = mysql.createConnection(conf);
+
 
 const executeQuery = (sql) => {
   return new Promise((resolve, reject) => {
@@ -77,7 +92,6 @@ app.put("/modificaViaggio",(req, res)=>{
     res.json({result: "viaggio modificato"});
   })
 })
-
 
 app.get("/getViaggi",(req, res)=>{
   select_viaggi().then((result)=>{
@@ -220,3 +234,37 @@ app.post("/login",(req,res)=>{
   
 })
 
+// ===========mega=========== //
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+      fileSize: 500 * 1024 * 1024, // limita la dimensione del file a 5MB
+  },
+  allowUploadBuffering: true, // abilita il buffering del file
+});
+app.post('/upload', upload.single('file'), async (req, res) => {
+  try {
+      const file = req.file; // Accedi al file caricato
+      const fileName = path.basename(file.originalname); // Estrai solo il nome del file
+      const link = await megaFunction.uploadFileToStorage(fileName, file.buffer); // Carica il file su Mega
+      console.log('File caricato con successo. Path: ', fileName);
+      res.status(200).json({"Result": fileName, "link": link}); // Restituisci solo il nome del file e il link
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Errore del server');
+  }
+});
+
+app.post('/download', async (req, res) => {
+  const link = req.body.mega;
+  const name = req.body.name;
+  try {
+      const {stream, fileName} = await megaFunction.downloadFileFromLink(link); // Scarica il file da Mega
+      res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
+      stream.pipe(res); // Invia il flusso di dati al client
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Errore del server');
+  }
+});
