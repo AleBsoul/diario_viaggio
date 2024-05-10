@@ -19,11 +19,10 @@ const uploadFile = async(input) =>{
     })
 }
 
-
 const downloadFile=async(fileName)=>{
     let body = {mega: fileName, name: 'test.txt'};
     try {
-        const response = await fetch(`/download`, {
+        const response = await fetch('/download', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -40,17 +39,7 @@ const downloadFile=async(fileName)=>{
         const file = new File([buffer], response.headers.get('Content-Disposition').split('filename=')[1]);
         // Create a new URL object for the file
         const url = window.URL.createObjectURL(file);
-
-        // Create a link and download the file
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = file.name;
-        document.body.appendChild(a);
-        a.click();
-
-        // Release the file URL
-        window.URL.revokeObjectURL(url);
+        return url
     } catch (e) {
         console.error('Error during file download:', e);
     }

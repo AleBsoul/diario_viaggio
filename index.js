@@ -268,3 +268,8 @@ app.post('/download', async (req, res) => {
       res.status(500).send('Errore del server');
   }
 });
+
+const sql = `
+ALTER TABLE utente
+ADD foto VARCHAR(255);
+`

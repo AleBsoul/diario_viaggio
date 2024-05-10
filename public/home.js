@@ -1,4 +1,4 @@
-import { uploadFile } from "./mega.js"
+import { uploadFile, downloadFile } from "./mega.js"
 
 //navbar
 const rightNavContent = document.getElementById("right-nav-content");
@@ -99,7 +99,7 @@ const travelContentDiv = document.getElementById("travel-content");
 const travelTemplate = `
 <div class="travel" id="travel-%id">
     <div class="image-space">
-        <img src="assets/images/ex-travel.jpeg">
+        <img src="%SRC">
     </div>
 
     <div class="bottom-travel">
@@ -114,10 +114,10 @@ const travelTemplate = `
 const render = (data) => {
     console.log(data);
     travelContentDiv.innerHTML="";
-    data.result.forEach((travel)=>{
-        travelContentDiv.innerHTML+=travelTemplate.replace("%nome",travel.titolo).replace("%utente",travel.username)
+    data.result.forEach(async(travel)=>{
+        const url = await downloadFile(travel.immagine);
+        travelContentDiv.innerHTML+=travelTemplate.replace("%nome",travel.titolo).replace("%utente",travel.username).replace("%SRC", url)
     })
-
 }
 
 const getViaggi = async () => {
@@ -127,9 +127,9 @@ const getViaggi = async () => {
         return json;
     } catch (e) {
         console.log(e);
-    }
-    
+    } 
 }
+
 
 const saveViaggio = async (data) => {
     try{
@@ -169,7 +169,9 @@ newViaggio.onclick= async()=>{
 
     const immagine = immInput.value;
     // aggiunta dell'immagine
-    const link = await uploadFile(immInput); //contiente il path e il link
+    const fileImg = await uploadFile(immInput); //contiente il path e il link
+    const link = fileImg.link;
+  
     if(!immagine){
         immErr.classList.remove("invisible");
         setTimeout(()=>{
@@ -182,7 +184,7 @@ newViaggio.onclick= async()=>{
         const viaggio = {
             titolo: titolo,
             descrizione: descrizione,
-            immagine: link.link,
+            immagine: link,
             id_utente: id_utente
         }
     
@@ -196,6 +198,7 @@ newViaggio.onclick= async()=>{
 }
 
 getViaggi().then((result)=>{
+    
     render(result);
 })
 

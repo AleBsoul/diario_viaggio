@@ -1,3 +1,5 @@
+import { uploadFile, downloadFile } from "./mega.js"
+
 const modal = document.getElementById("modal");
 const modalButton = document.querySelector(".modal-button");
 const closeButton = document.querySelector(".close-button");
@@ -111,7 +113,8 @@ loginNow.onclick=()=>{
   signUp_form.style.display = "none"
 }
 
-sign_submit.onclick=()=>{
+sign_submit.onclick=async()=>{
+  const file = document.getElementById("imgProfilo");
   const username = document.getElementById("username_sign").value;
   const pass = document.getElementById("password_sign").value;
   const email = document.getElementById("email").value;
@@ -119,7 +122,12 @@ sign_submit.onclick=()=>{
   const cognome = document.getElementById("cognome").value;
   const bio = document.getElementById("bio").value;
 
+  // aggiunta dell'immagine
+  const fileImg = await uploadFile(file); //contiente il path e il link
+  const link = fileImg.link;
+    
   document.getElementById("signUp_form").reset();
-  const user = {username: username, password: pass, email:email, nome:nome, cognome:cognome, bio:bio}
+
+  const user = {username: username, password: pass, email:email, nome:nome, cognome:cognome, bio:bio, foto:link}
   addUser(user);
 }
