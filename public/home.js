@@ -40,7 +40,24 @@ userBtn.onclick=()=>{
 }
 
 
-const logoutBtn = document.getElementById("nav-logout ");
+const logoutBtn = document.getElementById("nav-logout");
+logoutBtn.onclick=()=>{
+    sessionStorage.setItem("utente",null);
+    window.location.href="login.html";
+}
+
+
+
+
+//check user logged
+
+const user = JSON.parse(sessionStorage.getItem("utente"));
+if(!user){
+    window.location.href="login.html";
+}
+
+
+
 
 
 //modal new viaggio
@@ -71,6 +88,8 @@ close_btn.onclick=()=>{
 
 
 
+
+
 //add viaggio
 const newViaggio = document.getElementById("newViaggio_btn");
 const titoloInput = document.getElementById("titolo_viaggio_input");
@@ -83,8 +102,30 @@ const immErr = document.getElementById("immagine_error");
 
 const time = 3000;
 
+const travelContentDiv = document.getElementById("travel-content");
+
+const travelTemplate = `
+<div class="travel" id="travel-%id">
+    <div class="image-space">
+        <img src="assets/images/ex-travel.jpeg">
+    </div>
+
+    <div class="bottom-travel">
+        <p class="nome">%nome</p>
+        <div class="utente" id="%id_utente">
+            <img src="assets/images/ex-travel.jpeg" id="user-foto">
+            <p>%utente</p>
+        </div>
+    </div>
+</div>
+`
 const render = (data) => {
     console.log(data);
+    travelContentDiv.innerHTML="";
+    data.result.forEach((travel)=>{
+        travelContentDiv.innerHTML+=travelTemplate.replace("%nome",travel.titolo).replace("%utente",travel.username)
+    })
+
 }
 
 const getViaggi = async () => {
@@ -114,6 +155,8 @@ const saveViaggio = async (data) => {
     }
 };
 
+const formAdd = document.getElementById("formAdd");
+
 newViaggio.onclick=()=>{
     const titolo = titoloInput.value;
 
@@ -140,8 +183,9 @@ newViaggio.onclick=()=>{
         },time)
     };
 
+    
     if(titolo && descrizione && immagine){
-        const id_utente = null;
+        const id_utente = user.id;
         const viaggio = {
             titolo: titolo,
             descrizione: descrizione,
@@ -150,13 +194,17 @@ newViaggio.onclick=()=>{
         }
     
         saveViaggio(viaggio).then(()=>{
+            formAdd.reset();
             getViaggi().then((result)=>{
                 render(result);
             })
         })
     }
-
-    
-    
 }
+
+getViaggi().then((result)=>{
+    render(result);
+})
+
+
   

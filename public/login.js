@@ -76,6 +76,15 @@ const addUser = (user) => {
   });
 }
 
+
+
+loginForm.addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    log_submit.click();
+  }
+});
+
 log_submit.onclick=()=>{
   const username_value = document.getElementById("username_log").value;
   const password_value = document.getElementById("password_log").value;
@@ -83,6 +92,7 @@ log_submit.onclick=()=>{
   login(user).then((result)=>{
     if(result.result){
       window.location.href="home.html";
+      sessionStorage.setItem("utente", JSON.stringify(result.utente));
     }
   });
   loginForm.reset();
@@ -109,6 +119,7 @@ sign_submit.onclick=()=>{
   const cognome = document.getElementById("cognome").value;
   const bio = document.getElementById("bio").value;
 
+  document.getElementById("signUp_form").reset();
   const user = {username: username, password: pass, email:email, nome:nome, cognome:cognome, bio:bio}
   addUser(user);
 }

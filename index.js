@@ -37,7 +37,9 @@ const executeQuery = (sql) => {
 
 const select_viaggi = () =>{
   return executeQuery(`
-  SELECT * FROM viaggio
+  SELECT viaggio.titolo, viaggio.descrizione, viaggio.immagine, utente.username, utente.id
+  FROM utente, viaggio
+  WHERE utente.id = viaggio.id_utente
   `)
 } 
 
@@ -45,7 +47,7 @@ const select_utenti = () =>{
   return executeQuery(`
   SELECT * FROM utente
   `)
-} 
+}; 
 
 app.post("/addViaggio", (req,res)=>{
   const data = req.body.data;
@@ -203,15 +205,17 @@ app.post("/login",(req,res)=>{
   const password = req.body.password;
   let trovato = false;
   let messaggio = "utente non loggato";
+  let user;
   select_utenti().then((utenti)=>{
     utenti.forEach((utente)=>{
       if(utente.username === username){
         if(utente.password === password){
           trovato = true;
+          user = utente;
         }
       }
     })
-    res.json({result: trovato});
+    res.json({result: trovato, utente: user});
   })
   
 })
