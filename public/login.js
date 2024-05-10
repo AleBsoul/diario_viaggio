@@ -125,9 +125,10 @@ sign_submit.onclick=async()=>{
   // aggiunta dell'immagine
   const fileImg = await uploadFile(file); //contiente il path e il link
   const link = fileImg.link;
+  const user = {username: username, password: pass, email:email, nome:nome, cognome:cognome, bio:bio, foto:link}
+  addUser(user);
     
   document.getElementById("signUp_form").reset();
 
-  const user = {username: username, password: pass, email:email, nome:nome, cognome:cognome, bio:bio, foto:link}
-  addUser(user);
+  
 }

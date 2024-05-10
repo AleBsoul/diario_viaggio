@@ -52,9 +52,8 @@ const executeQuery = (sql) => {
 
 const select_viaggi = () =>{
   return executeQuery(`
-  SELECT viaggio.titolo, viaggio.descrizione, viaggio.immagine, utente.username, utente.id
-  FROM utente, viaggio
-  WHERE utente.id = viaggio.id_utente
+  SELECT *
+  FROM viaggio
   `)
 } 
 
@@ -95,6 +94,21 @@ app.put("/modificaViaggio",(req, res)=>{
 
 app.get("/getViaggi",(req, res)=>{
   select_viaggi().then((result)=>{
+    res.json({result: result});
+  })
+})
+
+const select_viaggi_user=(id_user)=>{
+  return executeQuery(`
+  SELECT viaggio.titolo, viaggio.descrizione, viaggio.immagine, utente.username, utente.id
+  FROM utente, viaggio
+  WHERE utente.id = '${id_user}'
+  AND utente.id = viaggio.id_utente
+  `)
+}
+
+app.get("/getViaggi/:id", (req,res) => {
+  select_viaggi_user(req.params.id).then((result)=>{
     res.json({result: result});
   })
 })
@@ -187,10 +201,10 @@ app.post("/add_user",(req, res)=>{
   const nome = req.body.nome;
   const cognome = req.body.cognome;
   const bio = req.body.bio;
-
+  const foto = req.body.foto
   const sql = `
-  INSERT INTO utente (username, password, email, nome, cognome, bio)
-  VALUES('${username}', '${password}', '${email}', '${nome}', '${cognome}', '${bio}')
+  INSERT INTO utente (username, password, email, nome, cognome, bio, foto)
+  VALUES('${username}', '${password}', '${email}', '${nome}', '${cognome}', '${bio}', '${foto}')
   `
   executeQuery(sql).then((result)=>{
     res.json({result: "user aggiunto"});
@@ -268,8 +282,3 @@ app.post('/download', async (req, res) => {
       res.status(500).send('Errore del server');
   }
 });
-
-const sql = `
-ALTER TABLE utente
-ADD foto VARCHAR(255);
-`

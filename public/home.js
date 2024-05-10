@@ -1,4 +1,4 @@
-import { uploadFile, downloadFile } from "./mega.js"
+import { uploadFile, downloadFile} from "./mega.js"
 
 //navbar
 const rightNavContent = document.getElementById("right-nav-content");
@@ -53,9 +53,6 @@ logoutBtn.onclick=()=>{
 //check user logged
 
 const user = JSON.parse(sessionStorage.getItem("utente"));
-if(!user){
-    window.location.href="login.html";
-}
 
 //modal new viaggio
 const modal = document.getElementById("modal");
@@ -99,24 +96,32 @@ const travelContentDiv = document.getElementById("travel-content");
 const travelTemplate = `
 <div class="travel" id="travel-%id">
     <div class="image-space">
-        <img src="%SRC">
+        <img src="%VIAGGIO">
     </div>
 
     <div class="bottom-travel">
         <p class="nome">%nome</p>
         <div class="utente" id="%id_utente">
-            <img src="assets/images/ex-travel.jpeg" id="user-foto">
+            <img src="%PROFILO" id="user-foto">
             <p>%utente</p>
         </div>
     </div>
 </div>
 `
-const render = (data) => {
-    console.log(data);
+const render = (viaggi, utenti) => {
     travelContentDiv.innerHTML="";
-    data.result.forEach(async(travel)=>{
-        const url = await downloadFile(travel.immagine);
-        travelContentDiv.innerHTML+=travelTemplate.replace("%nome",travel.titolo).replace("%utente",travel.username).replace("%SRC", url)
+    viaggi.result.forEach(async(travel)=>{
+        const utente = utenti.result.find(u => u.id === travel.id_utente);
+        const srcViaggio = await downloadFile(travel.immagine);
+        const srcProfilo = await downloadFile(utente.foto);
+        travelContentDiv.innerHTML+=travelTemplate.replace("%nome",travel.titolo).replace("%utente",utente.username).replace("%VIAGGIO", srcViaggio).replace("%PROFILO", srcProfilo)
+    })
+
+    const travels = document.querySelectorAll(".travel");
+    travels.forEach((travel)=>{
+        travel.onclick=()=>{
+
+        }
     })
 }
 
@@ -130,7 +135,15 @@ const getViaggi = async () => {
     } 
 }
 
-
+const getUtenti = async () => {
+    try{
+        const r = await fetch("/get_users");
+        const json = await r.json();
+        return json;
+    } catch (e) {
+        console.log(e);
+    } 
+}
 const saveViaggio = async (data) => {
     try{
         const r = await fetch("/addViaggio", {
@@ -188,19 +201,18 @@ newViaggio.onclick= async()=>{
             id_utente: id_utente
         }
     
-        saveViaggio(viaggio).then(()=>{
+        saveViaggio(viaggio).then(async()=>{
             formAdd.reset();
-            getViaggi().then((result)=>{
-                render(result);
-            })
+            const viaggi = await getViaggi();
+            const utenti = await getUtenti();
+            render(viaggi,utenti);
         })
     }
 }
 
-getViaggi().then((result)=>{
-    
-    render(result);
-})
 
 
-  
+const viaggi = await getViaggi();
+const utenti = await getUtenti();
+console.log(utenti);
+render(viaggi, utenti);
