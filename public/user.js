@@ -2,31 +2,7 @@ import { uploadFile } from "./mega.js"
 
 
 const user = JSON.parse(sessionStorage.getItem("utente"));
-
-//modal new viaggio
-const modal = document.getElementById("modal");
-const closeButton = document.querySelector(".close-button");
-const openModal_btn = document.getElementById("openModal");
-const close_btn = document.getElementById("close_btn");
-
-let isOpened = false;
-
-const openModal = () => {
-  modal.classList.add("is-open");
-};
-
-const closeModal = () => {
-  modal.classList.remove("is-open");
-};
-
-
-
-openModal_btn.onclick=()=>{
-    openModal();
-}
-close_btn.onclick=()=>{
-    closeModal();
-}
+console.log(user)
 
 //add viaggio
 const newViaggio = document.getElementById("newViaggio_btn");
@@ -49,11 +25,7 @@ const travelTemplate = `
     </div>
 
     <div class="bottom-travel">
-        <p class="nome">%nome</p>
-        <div class="utente" id="%id_utente">
-            <img src="assets/images/ex-travel.jpeg" id="user-foto">
-            <p>%utente</p>
-        </div>
+        <p class="nome user_nome">%nome</p>
     </div>
 </div>
 `
@@ -74,7 +46,7 @@ const render = (data) => {
 
 const getViaggi = async () => {
     try{
-        const r = await fetch("/getViaggi");
+        const r = await fetch("/getViaggi/"+user.id);
         const json = await r.json();
         return json;
     } catch (e) {

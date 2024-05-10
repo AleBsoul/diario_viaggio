@@ -99,6 +99,21 @@ app.get("/getViaggi",(req, res)=>{
   })
 })
 
+const select_viaggi_user=(id_user)=>{
+  return executeQuery(`
+  SELECT viaggio.titolo, viaggio.descrizione, viaggio.immagine, utente.username, utente.id
+  FROM utente, viaggio
+  WHERE utente.id = '${id_user}'
+  AND utente.id = viaggio.id_utente
+  `)
+}
+
+app.get("/getViaggi/:id", (req,res) => {
+  select_viaggi_user(req.params.id).then((result)=>{
+    res.json({result: result});
+  })
+})
+
 app.delete("/del_viaggio/:id",(req,res)=>{
   const id = req.params.id 
   const sql = `

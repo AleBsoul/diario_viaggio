@@ -427,6 +427,9 @@ body{
   font-size: 32px;
   flex: 5;
 }
+.user_nome{
+  text-align: center;
+}
 .utente{
   margin-right: 25px;
   flex: 1;
@@ -444,4 +447,15 @@ body{
   width: 20px;
   height: 20px;
   border-radius: 10px;
+}
+
+
+
+
+
+/*user*/
+.user-content{
+  width: 70%;
+  margin: auto;
+  margin-top: 60px;
 }
