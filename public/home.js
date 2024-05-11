@@ -93,37 +93,65 @@ const time = 3000;
 
 const travelContentDiv = document.getElementById("travel-content");
 
-const travelTemplate = `
+const travelsTemplate = `
 <div class="travel" id="travel-%id">
     <div class="image-space">
-        <img src="%VIAGGIO">
+    %IMGVIAGGIO
     </div>
 
     <div class="bottom-travel">
         <p class="nome">%nome</p>
         <div class="utente" id="%id_utente">
-            <img src="%PROFILO" id="user-foto">
+            %IMGPROFILO
             <p>%utente</p>
         </div>
     </div>
 </div>
 `
-const render = async (viaggi) => {
-    travelContentDiv.innerHTML = "";
-    for (const travel of viaggi.result) {
-        const srcViaggio = await downloadFile(travel.immagine);
-        const srcProfilo = await downloadFile(travel.fotoProfilo);
-        travelContentDiv.innerHTML += travelTemplate.replace("%nome", travel.titolo).replace("%utente", travel.username).replace("%VIAGGIO", srcViaggio).replace("%PROFILO", srcProfilo).replace("%id_utente", travel.idUser).replace("%id", travel.idViaggio);
-    }
+const travelTemplate =
+`
+<div class="image-space">
+    %IMGVIAGGIO
+    </div>
 
+    <div class="bottom-travel">
+        <p class="nome">%nome</p>
+        <div class="utente" id="%id_utente">
+            %IMGPROFILO
+            <p>%utente</p>
+        </div>
+</div>
+`
+const render = async (viaggi,travels) => {
+    // console.log(viaggi);
+    for(let i=0;i<travels.length;i++){
+        console.log(travels[i].innerHTML)
+        const imgViaggio = `<img src="${await downloadFile(viaggi[i].immagine)}">`;
+        const imgProfilo = `<img src="${await downloadFile(viaggi[i].fotoProfilo)}" class="user-foto">`;  
+        travels[i].innerHTML=travelTemplate.replace("%nome", viaggi[i].titolo).replace("%utente", viaggi[i].username).replace("%id_utente", viaggi[i].idUser).replace("%id", viaggi[i].idViaggio).replace("%IMGVIAGGIO",imgViaggio).replace("%IMGPROFILO",imgProfilo);
+        console.log(travels[i].innerHTML)
+        
+    }
+}
+const preRender=async(viaggi)=>{
+    const loadingViaggio = `<iframe id='loadingViaggio' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`
+    const loadingProfilo = `<iframe id='loadingProfilo' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`
+
+    travelContentDiv.innerHTML = "";
+
+    for (const travel of viaggi.result) {
+        
+        travelContentDiv.innerHTML += travelsTemplate.replace("%nome", travel.titolo).replace("%utente", travel.username).replace("%id_utente", travel.idUser).replace("%id", travel.idViaggio).replace("%IMGVIAGGIO",loadingViaggio).replace("%IMGPROFILO",loadingProfilo);
+    }
     const travels = document.querySelectorAll(".travel");
+    await render(viaggi.result,travels);
+
     travels.forEach((travel) => {
         travel.addEventListener('click', function (event) {
         });
     });
     const users = document.querySelectorAll(".utente");
     users.forEach((user) => {
-        console.log(user.id);
         user.addEventListener('click', async function (event) {
             const utente = await getUser(user.id)
             sessionStorage.setItem("utente",JSON.stringify(utente.result));
@@ -213,7 +241,7 @@ newViaggio.onclick= async()=>{
         saveViaggio(viaggio).then(async()=>{
             formAdd.reset();
             const viaggi = await getViaggi();
-            render(viaggi);
+            preRender(viaggi);
         })
     }
 }
@@ -221,4 +249,4 @@ newViaggio.onclick= async()=>{
 
 
 // const viaggi = await getViaggi();
-render(await getViaggi());
+preRender(await getViaggi());
