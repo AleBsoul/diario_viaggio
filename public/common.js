@@ -38,7 +38,7 @@ homeBtn.onclick=()=>{
 
 const userBtn = document.getElementById("nav-user");
 userBtn.onclick=()=>{
-    window.location.href='user.html';
+    window.location.href='personal_user.html';
 }
 
 

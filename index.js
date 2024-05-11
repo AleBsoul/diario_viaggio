@@ -52,8 +52,9 @@ const executeQuery = (sql) => {
 
 const select_viaggi = () =>{
   return executeQuery(`
-  SELECT *
-  FROM viaggio
+  SELECT viaggio.id as idViaggio, viaggio.titolo, viaggio.descrizione, viaggio.immagine, utente.username, utente.id AS idUser, utente.foto AS fotoProfilo
+  FROM utente, viaggio
+  WHERE utente.id = viaggio.id_utente
   `)
 } 
 
@@ -100,14 +101,14 @@ app.get("/getViaggi",(req, res)=>{
 
 const select_viaggi_user=(id_user)=>{
   return executeQuery(`
-  SELECT viaggio.titolo, viaggio.descrizione, viaggio.immagine, utente.username, utente.id
+  SELECT viaggio.titolo, viaggio.descrizione, viaggio.immagine, utente.username, utente.id AS idUser, viaggio.id AS idViaggio, utente.foto AS fotoProfilo
   FROM utente, viaggio
   WHERE utente.id = '${id_user}'
   AND utente.id = viaggio.id_utente
   `)
 }
 
-app.get("/getViaggi/:id", (req,res) => {
+app.get("/getViaggiUser/:id", (req,res) => {
   select_viaggi_user(req.params.id).then((result)=>{
     res.json({result: result});
   })
@@ -214,6 +215,17 @@ app.post("/add_user",(req, res)=>{
 
 app.get("/get_users",(req, res)=>{
   select_utenti().then((result)=>{
+    res.json({result: result});
+  })
+})
+
+app.get("/get_singleUser/:id",(req, res)=>{
+  const id = req.params.id 
+  const sql = `
+SELECT * FROM utente 
+WHERE utente.id = '${id}'
+  `;
+  executeQuery(sql).then((result)=>{
     res.json({result: result});
   })
 })

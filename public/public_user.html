@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <title>Home</title>
+        
+      </head>
+    <body>
+        <div class="navbar">
+            <div class="left-nav">
+                <img src="assets/images/logo.png" alt="" class="logo">
+            </div>
+            <div class="right-nav" id="right-nav">
+                <div class="invisible" id="bar">
+                    <button type="button" id="bar-btn">
+                        <i class="fa fa-bars fa-3x" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div id="right-nav-content" class="uncollapsed">
+                    
+                    <button id="nav-home" class="nav-element">
+                        <i class="fa fa-home fa-3x"></i>
+                    </button>
+                        
+                    
+                    <button id="nav-user" class="nav-element">
+                        <i class="fa fa-user fa-3x"></i>
+                    </button>
+                
+                
+                    <button id="openModal" class="nav-element">
+                        <i class="fa fa-plus fa-3x"></i>
+                    </button>
+                    
+                
+                    <button id="nav-logout" class="nav-element">
+                        Log Out
+                    </button>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="modal">
+            <div class="modal-container">
+                <div class="modal-left">
+                    <form id="formAdd">
+                        <h1>Aggiungi viaggio</h1>
+
+                        <div class="input-block">
+                            <label for="titolo_viaggio_input" class="input-label">Titolo</label>
+                            <input type="text" id="titolo_viaggio_input">
+                            <div class="error-space">
+                                <p class="invisible" id="titolo_error">Titolo vuoto</p>
+                            </div>
+                            
+                        </div>
+                        
+
+                        <div class="textarea-block">
+                            <label for="descrizione_viaggio_input" class="input-label">Descrizione</label>
+                            <textarea id="descrizione_viaggio_input"></textarea>
+                            <div class="error-space">
+                                <p class="invisible" id="descrizione_error">Descrizione vuota</p>
+                            </div>
+                            
+                        </div>
+                        
+
+                        <div class="input-block">
+                            <label for="immagine_viaggio_input" class="input-label">Immagine</label>
+                            <input type="file" id="immagine_viaggio_input">
+                            <div class="error-space">
+                                <p class="invisible" id="immagine_error">Inserisci l'immagine</p>
+                            </div>
+                            
+                        </div>
+
+                        <div class="modal-buttons">
+                            <button type="button" class="input-button" id="newViaggio_btn">Aggiungi viaggio</button>
+                        </div> 
+                    </form>
+                </div>
+                <div class="modal-right" id="modal-right">
+                  <img src="assets/images/logo_sfondo.png" alt="">
+                </div>
+                <button class="icon-button close-button" id="close_btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+                    <path d="M 25 3 C 12.86158 3 3 12.86158 3 25 C 3 37.13842 12.86158 47 25 47 C 37.13842 47 47 37.13842 47 25 C 47 12.86158 37.13842 3 25 3 z M 25 5 C 36.05754 5 45 13.94246 45 25 C 45 36.05754 36.05754 45 25 45 C 13.94246 45 5 36.05754 5 25 C 5 13.94246 13.94246 5 25 5 z M 16.990234 15.990234 A 1.0001 1.0001 0 0 0 16.292969 17.707031 L 23.585938 25 L 16.292969 32.292969 A 1.0001 1.0001 0 1 0 17.707031 33.707031 L 25 26.414062 L 32.292969 33.707031 A 1.0001 1.0001 0 1 0 33.707031 32.292969 L 26.414062 25 L 33.707031 17.707031 A 1.0001 1.0001 0 0 0 32.980469 15.990234 A 1.0001 1.0001 0 0 0 32.292969 16.292969 L 25 23.585938 L 17.707031 16.292969 A 1.0001 1.0001 0 0 0 16.990234 15.990234 z"></path>
+                  </svg>
+                </button>
+            </div>
+        </div>
+
+        <div id="user-content" class="user-content">
+            foto, bio, nome, ecc
+        </div>
+        
+        <div id="travel-content" class="travel-content"></div>
+        
+        <script type="module" src="common.js"></script>
+        <script type="module" src='public_user.js'></script>
+    </body>
+</html>

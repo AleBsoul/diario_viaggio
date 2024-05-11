@@ -1,4 +1,4 @@
-import { uploadFile } from "./mega.js"
+import { uploadFile, downloadFile} from "./mega.js"
 
 
 const user = JSON.parse(sessionStorage.getItem("utente"));
@@ -21,7 +21,7 @@ const travelContentDiv = document.getElementById("travel-content");
 const travelTemplate = `
 <div class="travel" id="travel-%id">
     <div class="image-space">
-        <img src="assets/images/ex-travel.jpeg">
+        <img src="%link">
     </div>
 
     <div class="bottom-travel">
@@ -32,8 +32,9 @@ const travelTemplate = `
 const render = (data) => {
     console.log(data);
     travelContentDiv.innerHTML="";
-    data.result.forEach((travel)=>{
-        travelContentDiv.innerHTML+=travelTemplate.replace("%nome",travel.titolo).replace("%utente",travel.username)//.replace("%link",travel.immagine)
+    data.result.forEach(async (travel)=>{
+        const srcViaggio = await downloadFile(travel.immagine);
+        travelContentDiv.innerHTML+=travelTemplate.replace("%nome",travel.titolo).replace("%utente",travel.username).replace("%link", srcViaggio);
     })
 
     const travels = document.querySelectorAll(".travel");
@@ -46,7 +47,7 @@ const render = (data) => {
 
 const getViaggi = async () => {
     try{
-        const r = await fetch("/getViaggi/"+user.id);
+        const r = await fetch("/getViaggiUser/"+user.id);
         const json = await r.json();
         return json;
     } catch (e) {

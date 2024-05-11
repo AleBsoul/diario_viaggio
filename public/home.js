@@ -38,7 +38,7 @@ homeBtn.onclick=()=>{
 
 const userBtn = document.getElementById("nav-user");
 userBtn.onclick=()=>{
-    window.location.href='user.html';
+    window.location.href='personal_user.html';
 }
 
 
@@ -108,22 +108,29 @@ const travelTemplate = `
     </div>
 </div>
 `
-const render = (viaggi, utenti) => {
-    travelContentDiv.innerHTML="";
-    viaggi.result.forEach(async(travel)=>{
-        const utente = utenti.result.find(u => u.id === travel.id_utente);
+const render = async (viaggi) => {
+    travelContentDiv.innerHTML = "";
+    for (const travel of viaggi.result) {
         const srcViaggio = await downloadFile(travel.immagine);
-        const srcProfilo = await downloadFile(utente.foto);
-        travelContentDiv.innerHTML+=travelTemplate.replace("%nome",travel.titolo).replace("%utente",utente.username).replace("%VIAGGIO", srcViaggio).replace("%PROFILO", srcProfilo)
-    })
+        const srcProfilo = await downloadFile(travel.fotoProfilo);
+        travelContentDiv.innerHTML += travelTemplate.replace("%nome", travel.titolo).replace("%utente", travel.username).replace("%VIAGGIO", srcViaggio).replace("%PROFILO", srcProfilo).replace("%id_utente", travel.idUser).replace("%id", travel.idViaggio);
+    }
 
     const travels = document.querySelectorAll(".travel");
-    travels.forEach((travel)=>{
-        travel.onclick=()=>{
-
-        }
-    })
+    travels.forEach((travel) => {
+        travel.addEventListener('click', function (event) {
+        });
+    });
+    const users = document.querySelectorAll(".utente");
+    users.forEach((user) => {
+        console.log(user.id);
+        user.addEventListener('click', async function (event) {
+            sessionStorage.setItem("pub_utente",user.id);
+            window.location.href='public_user.html';
+        });
+    });
 }
+
 
 const getViaggi = async () => {
     try{
@@ -134,16 +141,17 @@ const getViaggi = async () => {
         console.log(e);
     } 
 }
-
-const getUtenti = async () => {
+const getViaggiUser = async (id_user) => {
     try{
-        const r = await fetch("/get_users");
+        const r = await fetch("/getViaggiUser/"+id_user);
         const json = await r.json();
         return json;
     } catch (e) {
         console.log(e);
     } 
 }
+
+
 const saveViaggio = async (data) => {
     try{
         const r = await fetch("/addViaggio", {
@@ -204,15 +212,12 @@ newViaggio.onclick= async()=>{
         saveViaggio(viaggio).then(async()=>{
             formAdd.reset();
             const viaggi = await getViaggi();
-            const utenti = await getUtenti();
-            render(viaggi,utenti);
+            render(viaggi);
         })
     }
 }
 
 
 
-const viaggi = await getViaggi();
-const utenti = await getUtenti();
-console.log(utenti);
-render(viaggi, utenti);
+// const viaggi = await getViaggi();
+render(await getViaggi());
