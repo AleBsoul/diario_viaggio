@@ -117,7 +117,7 @@ app.get("/getViaggiUser/:id", (req,res) => {
 app.delete("/del_viaggio/:id",(req,res)=>{
   const id = req.params.id 
   const sql = `
-  DELETE FROM viaggio WHERE id = '${id}'
+  DELETE FROM viaggio WHERE viaggio.id = '${id}'
   `;
   executeQuery(sql).then((result)=>{
     res.json({result: "viaggio eliminato"});
@@ -226,7 +226,7 @@ SELECT * FROM utente
 WHERE utente.id = '${id}'
   `;
   executeQuery(sql).then((result)=>{
-    res.json({result: result});
+    res.json({result: result[0]});
   })
 })
 

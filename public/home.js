@@ -38,13 +38,13 @@ homeBtn.onclick=()=>{
 
 const userBtn = document.getElementById("nav-user");
 userBtn.onclick=()=>{
-    window.location.href='personal_user.html';
+    window.location.href='user.html';
 }
 
 
 const logoutBtn = document.getElementById("nav-logout");
 logoutBtn.onclick=()=>{
-    sessionStorage.setItem("utente",null);
+    sessionStorage.setItem("loggato",null);
     window.location.href="login.html";
 }
 
@@ -52,7 +52,7 @@ logoutBtn.onclick=()=>{
 
 //check user logged
 
-const user = JSON.parse(sessionStorage.getItem("utente"));
+const user = JSON.parse(sessionStorage.getItem("loggato"));
 
 //modal new viaggio
 const modal = document.getElementById("modal");
@@ -125,25 +125,26 @@ const render = async (viaggi) => {
     users.forEach((user) => {
         console.log(user.id);
         user.addEventListener('click', async function (event) {
-            sessionStorage.setItem("pub_utente",user.id);
-            window.location.href='public_user.html';
+            const utente = await getUser(user.id)
+            sessionStorage.setItem("utente",JSON.stringify(utente.result));
+            window.location.href='user.html';
         });
     });
 }
 
-
-const getViaggi = async () => {
+const getUser = async (id) => {
     try{
-        const r = await fetch("/getViaggi");
+        const r = await fetch("/get_singleUser/"+id);
         const json = await r.json();
         return json;
     } catch (e) {
         console.log(e);
     } 
 }
-const getViaggiUser = async (id_user) => {
+
+const getViaggi = async () => {
     try{
-        const r = await fetch("/getViaggiUser/"+id_user);
+        const r = await fetch("/getViaggi");
         const json = await r.json();
         return json;
     } catch (e) {

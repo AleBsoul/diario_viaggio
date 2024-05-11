@@ -38,13 +38,13 @@ homeBtn.onclick=()=>{
 
 const userBtn = document.getElementById("nav-user");
 userBtn.onclick=()=>{
-    window.location.href='personal_user.html';
+    window.location.href='user.html';
 }
 
 
 const logoutBtn = document.getElementById("nav-logout");
 logoutBtn.onclick=()=>{
-    sessionStorage.setItem("utente",null);
+    sessionStorage.setItem("loggato",null);
     window.location.href="login.html";
 }
 
@@ -52,7 +52,7 @@ logoutBtn.onclick=()=>{
 
 //check user logged
 
-const user = JSON.parse(sessionStorage.getItem("utente"));
+const user = JSON.parse(sessionStorage.getItem("loggato"));
 if(!user){
     window.location.href="login.html";
 }

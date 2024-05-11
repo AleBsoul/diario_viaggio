@@ -1,9 +1,50 @@
 import { uploadFile, downloadFile} from "./mega.js"
 
+let travelTemplate;
 
 const user = JSON.parse(sessionStorage.getItem("utente"));
-console.log(user)
+const loggato = JSON.parse(sessionStorage.getItem("loggato"));
 
+if(user.id===loggato.id){
+    travelTemplate = `
+<div class="travel" id="travel-%id">
+    <div class="image-space">
+        <img src="%link">
+    </div>
+
+    <div class="bottom-travel">
+        <p class="nome user_nome">%nome</p>
+        <button type="button" class="del_btn" id="%idViaggioDel"><i class="fi fi-rr-trash"></i></button>
+    </div>
+</div>
+`
+}else{
+    travelTemplate = `
+<div class="travel" id="travel-%id">
+    <div class="image-space">
+        <img src="%link">
+    </div>
+
+    <div class="bottom-travel">
+        <p class="nome user_nome">%nome</p>
+    </div>
+</div>
+`
+}
+
+const userTemplate = `
+<div class="profile-picture">
+    <img src="%SRC"/>
+</div>
+<div class="profile-details">
+    <h2 class="username">%nome %cognome</h2>
+    <p><i>%username</i></p>
+    <p class="bio">%bio</p>
+    <div class="contact-info">
+        <p><i class="fa fa-envelope"></i>%email</p>
+    </div>
+</div>
+`
 //add viaggio
 const newViaggio = document.getElementById("newViaggio_btn");
 const titoloInput = document.getElementById("titolo_viaggio_input");
@@ -17,30 +58,28 @@ const immErr = document.getElementById("immagine_error");
 const time = 3000;
 
 const travelContentDiv = document.getElementById("travel-content");
+const userContentDiv = document.getElementById("user-content");
 
-const travelTemplate = `
-<div class="travel" id="travel-%id">
-    <div class="image-space">
-        <img src="%link">
-    </div>
 
-    <div class="bottom-travel">
-        <p class="nome user_nome">%nome</p>
-    </div>
-</div>
-`
-const render = (data) => {
-    console.log(data);
+const render = async(data) => {
+    const scrProfilo = await downloadFile(user.foto)
+    userContentDiv.innerHTML = userTemplate.replace("%SRC",scrProfilo).replace("%nome", user.nome).replace("%cognome",user.cognome).replace("%username",user.username).replace("%bio",user.bio).replace("%email",user.email);
     travelContentDiv.innerHTML="";
-    data.result.forEach(async (travel)=>{
+    for (const travel of data.result) {
         const srcViaggio = await downloadFile(travel.immagine);
-        travelContentDiv.innerHTML+=travelTemplate.replace("%nome",travel.titolo).replace("%utente",travel.username).replace("%link", srcViaggio);
-    })
-
+        travelContentDiv.innerHTML+=travelTemplate.replace("%nome",travel.titolo).replace("%utente",travel.username).replace("%link", srcViaggio).replace("%idViaggioDel",travel.idViaggio);
+    }
     const travels = document.querySelectorAll(".travel");
     travels.forEach((travel)=>{
         travel.onclick=()=>{
 
+        }
+    })
+    const del_btns = document.querySelectorAll(".del_btn");
+    del_btns.forEach((del_btn)=>{
+        del_btn.onclick=async()=>{
+            await delViaggio(del_btn.id);
+            render(await(getViaggi()));
         }
     })
 }
@@ -52,8 +91,22 @@ const getViaggi = async () => {
         return json;
     } catch (e) {
         console.log(e);
+    }  
+}
+
+const delViaggio = async(id) =>{
+    try{
+        const r = await fetch("/del_viaggio/"+id, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+        const result = await r.json();
+        return result;
+    } catch (e) {
+        console.log(e);
     }
-    
 }
 
 const saveViaggio = async (data) => {
@@ -123,6 +176,3 @@ newViaggio.onclick= async()=>{
 getViaggi().then((result)=>{
     render(result);
 })
-
-
-  

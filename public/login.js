@@ -94,7 +94,7 @@ log_submit.onclick=()=>{
   login(user).then((result)=>{
     if(result.result){
       window.location.href="home.html";
-      sessionStorage.setItem("utente", JSON.stringify(result.utente));
+      sessionStorage.setItem("loggato", JSON.stringify(result.utente));
     }
   });
   loginForm.reset();
