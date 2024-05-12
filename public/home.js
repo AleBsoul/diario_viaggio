@@ -38,6 +38,7 @@ homeBtn.onclick=()=>{
 
 const userBtn = document.getElementById("nav-user");
 userBtn.onclick=()=>{
+    sessionStorage.setItem("utente",JSON.stringify(user));
     window.location.href='user.html';
 }
 
@@ -49,9 +50,7 @@ logoutBtn.onclick=()=>{
 }
 
 
-
 //check user logged
-
 const user = JSON.parse(sessionStorage.getItem("loggato"));
 
 //modal new viaggio
@@ -123,13 +122,10 @@ const travelTemplate =
 </div>
 `
 const render = async (viaggi,travels) => {
-    // console.log(viaggi);
     for(let i=0;i<travels.length;i++){
-        console.log(travels[i].innerHTML)
         const imgViaggio = `<img src="${await downloadFile(viaggi[i].immagine)}">`;
         const imgProfilo = `<img src="${await downloadFile(viaggi[i].fotoProfilo)}" class="user-foto">`;  
         travels[i].innerHTML=travelTemplate.replace("%nome", viaggi[i].titolo).replace("%utente", viaggi[i].username).replace("%id_utente", viaggi[i].idUser).replace("%id", viaggi[i].idViaggio).replace("%IMGVIAGGIO",imgViaggio).replace("%IMGPROFILO",imgProfilo);
-        console.log(travels[i].innerHTML)
         
     }
 }
@@ -154,8 +150,8 @@ const preRender=async(viaggi)=>{
     users.forEach((user) => {
         user.addEventListener('click', async function (event) {
             const utente = await getUser(user.id)
-            sessionStorage.setItem("utente",JSON.stringify(utente.result));
-            window.location.href='user.html';
+            sessionStorage.setItem("utente",JSON.stringify(await utente.result));
+            // window.location.href='user.html';
         });
     });
 }
