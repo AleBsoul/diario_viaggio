@@ -151,7 +151,7 @@ const preRender=async(viaggi)=>{
         user.addEventListener('click', async function (event) {
             const utente = await getUser(user.id)
             sessionStorage.setItem("utente",JSON.stringify(await utente.result));
-            // window.location.href='user.html';
+            window.location.href='user.html';
         });
     });
 }
