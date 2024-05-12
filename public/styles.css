@@ -445,10 +445,11 @@ body{
   opacity: 0.6;
 }
 
-.user-foto{
+.utente img{
   width: 20px;
   height: 20px;
   border-radius: 10px;
+  object-fit: cover;
 }
 
 
@@ -470,11 +471,47 @@ body{
   font-size: larger;
 }
 
+.contact-info p{
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+}
+
+.addPostDiv {
+  width: 100%;
+  position: relative;
+  transition: all 0.3s ease;
+}
+.addPostDiv:hover{
+  opacity: 0.6;
+}
+
+#add-post{
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  border: 1px solid red;
+  border-radius: 5px;
+  background: none;
+  display: flex;
+  flex-direction: row;
+  width: 180px;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 20px;
+  padding-right: 20px;
+  cursor: pointer;
+}
+#add-post p{
+  font-size: 18px;
+}
+
 .profile-picture,.profile-picture img {
   width: 120px;
   height: 120px;
   border-radius: 50%;
   margin-right: 20px;
+  object-fit: cover;
 }
 
 .profile-picture{

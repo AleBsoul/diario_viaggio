@@ -1,5 +1,12 @@
 import { uploadFile } from "./mega.js"
 
+//check user logged
+
+const user = JSON.parse(sessionStorage.getItem("loggato"));
+if(!user){
+    window.location.href="login.html";
+}
+
 //navbar
 const rightNavContent = document.getElementById("right-nav-content");
 const bar = document.getElementById("bar");
@@ -38,6 +45,7 @@ homeBtn.onclick=()=>{
 
 const userBtn = document.getElementById("nav-user");
 userBtn.onclick=()=>{
+    sessionStorage.setItem("utente",JSON.stringify(user));
     window.location.href='user.html';
 }
 
@@ -50,12 +58,7 @@ logoutBtn.onclick=()=>{
 
 
 
-//check user logged
 
-const user = JSON.parse(sessionStorage.getItem("loggato"));
-if(!user){
-    window.location.href="login.html";
-}
 
 //modal new viaggio
 const modal = document.getElementById("modal");
