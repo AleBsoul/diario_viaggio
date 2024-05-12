@@ -114,6 +114,16 @@ app.get("/getViaggiUser/:id", (req,res) => {
   })
 })
 
+app.get("/getSingleViaggio/:id", (req,res) => {
+  const id = req.params.id 
+  const sql = `
+SELECT * FROM viaggio 
+WHERE viaggio.id = '${id}'
+  `;
+  executeQuery(sql).then((result)=>{
+    res.json({result: result[0]});
+  })
+})
 app.delete("/del_viaggio/:id",(req,res)=>{
   const id = req.params.id 
   const sql = `

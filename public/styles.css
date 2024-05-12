@@ -365,7 +365,7 @@ body{
   
 
 /*home page*/
-.travel-content{
+.travel-content, .post-content{
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 80px;
@@ -377,13 +377,13 @@ body{
 }
 
 @media(max-width: 900px) {
-  .travel-content {
+  .travel-content, .post-content {
     grid-template-columns: 1fr;
   }
 }
 
 @media(min-width: 901px) {
-  .travel-content {
+  .travel-content, .post-content {
     grid-template-columns: 1fr 1fr;
   }
 }

@@ -142,8 +142,12 @@ const preRender=async(viaggi)=>{
     const travels = document.querySelectorAll(".travel");
     await render(viaggi.result,travels);
 
-    travels.forEach((travel) => {
-        travel.addEventListener('click', function (event) {
+    travels.forEach(async(travel) => {
+        travel.addEventListener('click', async function (event) {
+            const viaggio = await getSingleViaggio(travel.id.split("-")[1]);
+            sessionStorage.setItem("viaggio",JSON.stringify(await viaggio.result));
+            window.location.href='viaggio.html';
+
         });
     });
     const users = document.querySelectorAll(".utente");
@@ -176,6 +180,15 @@ const getViaggi = async () => {
     } 
 }
 
+const getSingleViaggio = async (id) => {
+    try{
+        const r = await fetch("/getSingleViaggio/"+id);
+        const json = await r.json();
+        return json;
+    } catch (e) {
+        console.log(e);
+    } 
+}
 
 const saveViaggio = async (data) => {
     try{
