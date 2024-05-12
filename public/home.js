@@ -59,7 +59,6 @@ const preRender=async(viaggi)=>{
     travelContentDiv.innerHTML = "";
 
     for (const travel of viaggi.result) {
-        
         travelContentDiv.innerHTML += travelsTemplate.replace("%nome", travel.titolo).replace("%utente", travel.username).replace("%id_utente", travel.idUser).replace("%id", travel.idViaggio).replace("%IMGVIAGGIO",loadingViaggio).replace("%IMGPROFILO",loadingProfilo);
     }
     const travels = document.querySelectorAll(".travel");
@@ -67,10 +66,12 @@ const preRender=async(viaggi)=>{
 
     travels.forEach(async(travel) => {
         travel.addEventListener('click', async function (event) {
+            // const utente = await getUser(user.id)
             const viaggio = await getSingleViaggio(travel.id.split("-")[1]);
+            const utente = await getUser(viaggio.result.id_utente)
+            sessionStorage.setItem("utente",JSON.stringify(await utente.result));
             sessionStorage.setItem("viaggio",JSON.stringify(await viaggio.result));
             window.location.href='viaggio.html';
-
         });
     });
     const users = document.querySelectorAll(".utente");

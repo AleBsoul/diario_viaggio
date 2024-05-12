@@ -176,9 +176,11 @@ app.put("/modificaPost",(req, res)=>{
 
 })
 
-app.get("/get_post",(req, res)=>{
+app.get("/get_post/:id",(req, res)=>{
+  const id_viaggio = req.params.id;
   const sql = `
   SELECT * FROM post
+  WHERE post.id_viaggio = '${id_viaggio}'
   `;
   executeQuery(sql).then((result)=>{
     res.json({result: result});
@@ -186,7 +188,7 @@ app.get("/get_post",(req, res)=>{
 })
 
 app.delete("/del_post/:id",(req,res)=>{
-  const id = req.params.id 
+  const id = req.params.id;
   const sql = `
   DELETE FROM post WHERE id = '${id}'
   `;

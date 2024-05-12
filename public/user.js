@@ -4,7 +4,6 @@ let travelsTemplate;
 let travelTemplate;
 
 const user = JSON.parse(sessionStorage.getItem("utente"));
-console.log(user)
 const loggato = JSON.parse(sessionStorage.getItem("loggato"));
 
 const travelsTemplateLogged =`
@@ -110,11 +109,9 @@ const render = async (viaggi,travels) => {
 
 
     for(let i=0;i<travels.length;i++){
-        console.log(travels[i].innerHTML)
         const imgViaggio = `<img src="${await downloadFile(viaggi[i].immagine)}">`;
         const imgProfilo = `<img src="${await downloadFile(viaggi[i].fotoProfilo)}" class="user-foto">`;  
         travels[i].innerHTML=travelTemp.replace("%nome", viaggi[i].titolo).replace("%utente", viaggi[i].username).replace("%id_utente", viaggi[i].idUser).replace("%id", viaggi[i].idViaggio).replace("%IMGVIAGGIO",imgViaggio).replace("%IMGPROFILO",imgProfilo).replace("%IDViaggioDel",viaggi[i].idViaggio);
-        console.log(travels[i].innerHTML)
         
     }
 }

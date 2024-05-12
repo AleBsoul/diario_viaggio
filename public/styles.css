@@ -545,3 +545,65 @@ body{
   width: 20px;
   border: none;
 }
+
+/* ===============POST=============== */
+
+
+
+#travel-image{
+  max-height: 20vh;
+}
+
+#travel-container {
+  max-width: 1200px;
+  margin: auto;
+  overflow: hidden;
+}
+
+.travel-body {
+  padding: 2rem;
+  text-align: center;
+}
+.travel-title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+.travel-description {
+  margin-bottom: 1rem;
+}
+.travel-author {
+  font-style: italic;
+  color: #888;
+}
+.travel-posts {
+display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
+margin-top: 2rem;
+}
+.post {
+background-color: #ffffff;
+width: calc(33.333% - 1rem); 
+height: 300px; 
+box-sizing: border-box;
+}
+.post-image{
+  width:100%;
+}
+.post :hover{
+  box-shadow: 0px 0px 8px 0px grey;
+  transform: scale(1.1);
+  transition-duration: 0.3s;
+}
+
+@media (max-width: 768px) {
+.post {
+width: calc(50% - 1rem);
+}
+}
+
+@media (max-width: 480px) {
+.post {
+width: 100%; 
+}
+}
