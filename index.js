@@ -136,34 +136,24 @@ app.delete("/del_viaggio/:id",(req,res)=>{
 
 
 app.post("/addpost", (req, res)=>{
-  const immagine = req.body.immagine;
-  const testo = req.body.testo;
-  const video = req.body.video;
-  const audio = req.body.audio;
-  const descrizione = req.body.descrizione;
-  const posizione = req.body.posizione;
-  const id_viaggio = req.body.id_viaggio;
+  const data = req.body.data;
+  const immagine = data.immagine;
+  const testo = data.titolo;
+  const video = data.video;
+  const audio = data.audio;
+  const descrizione = data.descrizione;
+  const posizione = data.posizione;
+  const id_viaggio = data.id_viaggio;
 
   select_viaggi().then((result_viaggi)=>{
-    //controllo se esiste l'utente
-    let find_viaggio = false;
-    result_viaggi.forEach((row)=>{
-      if(parseInt(row.id)===parseInt(id_viaggio)){
-        find_viaggio = true;
-      }
-    });
-    if(find_viaggio){
-      const sql = `
-        INSERT INTO post (immagine, testo, video, audio, descrizione, posizione, id_viaggio)
-        VALUES('${immagine}', '${testo}', '${video}', '${audio}', '${descrizione}', '${posizione}', '${id_viaggio}')
-        `
-  
-      executeQuery(sql).then((result)=>{
-        res.json({result: "post aggiunto"});
-      })
-    }else{
-      res.json({result: "viaggio non ancora creato"})
-    }
+    const sql = `
+      INSERT INTO post (immagine, testo, video, audio, descrizione, posizione, id_viaggio)
+      VALUES('${immagine}', '${testo}', '${video}', '${audio}', '${descrizione}', '${posizione}', '${id_viaggio}')
+      `
+
+    executeQuery(sql).then((result)=>{
+      res.json({result: "post aggiunto"});
+    })
   })
 
 })
