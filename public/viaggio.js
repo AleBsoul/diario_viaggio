@@ -44,7 +44,7 @@ const savePost = async (data) => {
           headers: {
               "Content-Type": "application/json",
           },
-          body: JSON.stringify({data})
+          body: JSON.stringify(data)
       });
       const result = await r.json();
       return result;
@@ -59,23 +59,9 @@ const descrizione = document.getElementById("descrizione_post_input");
 const media = document.getElementById("media_post_input");
 const posizione = document.getElementById("posizione_post_input");
 
-function getFileType(file) {
-  if (file.type.match(/^image\//))
-    return 'image';
-
-  if (file.type.match(/^video\//))
-    return 'video';
-
-  if (file.type.match(/^audio\//))
-    return 'audio';
-
-  // Aggiungi altri tipi di file se necessario...
-
-  return 'other';
-}
 
 newPost.onclick=async()=>{
-  console.log(media.files[0].type.split("/")[0]);
+  const data = String(Date.now());
   const fileImg = await uploadFile(media);
   const imgLink = await fileImg.link;
   const post = {
@@ -84,11 +70,13 @@ newPost.onclick=async()=>{
     file: await imgLink,
     posizione: posizione.value,
     id_viaggio: viaggio.id,
-    mime: media.files[0].type.split("/")[0]
+    mime: media.files[0].type.split("/")[0],
+    data: data
   }
-  savePost(post).then((result)=>{
+  savePost(post).then(async(result)=>{
     document.getElementById("formAddPost").reset();
-    console.log(result);
+    const posts = await get_posts(viaggio.id);
+    render(posts.result);
   })
 }
 
@@ -124,7 +112,6 @@ const postsTemplate = `
 </div>
 `
 
-
 const postTemplate = `
   <div class="top-post">
     <p class="titolo-post">%TITOLO</p>
@@ -143,29 +130,6 @@ const postTemplate = `
     <p class="descrizione-post">%DESCRIZIONE</p>
   </div>
 `
-const videoTemplate = `
-<video class="post_media"width="320" height="240" controls>
-  <source src="%SRC" type="video/mp4">
-</video>`;
-
-const imgTemplate = `
-<img src="%SRC" alt="">`;
-const audioTemplate = `
-<audio controls>
-  <source src="%SRC" type="audio/mpeg">
-</audio>`;
-
-// const render = async(posts)=>{
-//   let postsContent=""
-//   const postsContentDiv = document.getElementById("post-content");
-//   const loadingPost = `<iframe class='post-loading' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' >`;
-//   posts.forEach((post) => {
-//     postsContent+=postTemplate.replace("%POST",loadingPost);
-//   });
-//   postsTemplate = postsTemplate.replace("%POSTS",postsContent);
-//   postsContentDiv.innerHTML=postsTemplate;
-// }
-
 
 const postsContentDiv = document.getElementById("post-content");
 
@@ -173,35 +137,35 @@ const render = async(posts) =>{
   const loadingPost = `<iframe id='loadingPost' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`;
   let postsContent = "";
   posts.forEach(post => {
-    console.log(post);
-    postsContent+=postsTemplate.replace("%POSIZIONE",post.posizione).replace("%TITOLO",post.testo).replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",post.descrizione);
+    const all_date = new Date(parseInt(post.data));
+    const data = all_date.getDay()+"/"+all_date.getMonth()+"/"+all_date.getFullYear()+" - "+all_date.getHours()+":"+all_date.getMinutes()
+    postsContent+=postsTemplate.replace("%POSIZIONE",post.posizione).replace("%TITOLO",post.testo).replace("%DATA",data).replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",post.descrizione);
   });
-  const postsDiv = document.querySelectorAll(".post-container")
   postsContentDiv.innerHTML=postsContent;
-  // postsContent = "";
-  // for (const post of posts) {
-  //   const srcPost = await downloadFile(post.file);
-  //   if (post.mime==="image"){
-  //     // postsContent+=postsTemplate.replace("%POSIZIONE",post.posizione).replace("%TITOLO",post.testo).replace("%MEDIA",imgTemplate.replace("%SRC"), srcPost).replace("%DESCRIZIONE",post.descrizione);
-  //   }else if (post.mime==="video"){
-
-  //   }else if (post.mime==="audio"){
+  const postsDivs = document.querySelectorAll(".post-container");
+  postsDivs.forEach((postDiv)=>{
+    postDiv.addEventListener('click', async function (event) {
       
-  //   }else{
-
-  //   }
-  //   postsDiv[i].innerHTML=postTemplate;
-  // }
-
-
-  /*postsTemplate = postsTemplate.replace("%NOMEVIAGGIO",viaggio.titolo).replace("%DESCRIZIONE",viaggio.descrizione).replace("%NOMEUTENTE",user.username).replace("%SRCVIAGGIO", srcViaggio);
-  for (const post of posts) {
-    const srcPost = `<img class="post-image" src="${await downloadFile(post.immagine)}">`;
-    postsContentDiv.innerHTML+=postTemplate.replace("%POST", srcPost);
-  };
-  postsTemplate = postsTemplate.replace("%POSTS", postsContent);
-  console.log(postsTemplate);
-  postsContentDiv.innerHTML = postsTemplate;*/
+    });
+  })
+  postsContent = "";
+  for (let i=0; i<posts.length;i++) {
+    const all_date = new Date(parseInt(posts[i].data));
+    const data = all_date.getDay()+"/"+all_date.getMonth()+"/"+all_date.getFullYear()+" - "+all_date.getHours()+":"+all_date.getMinutes()
+    const srcPost = await downloadFile(posts[i].file);
+    let media;
+    if (posts[i].mime==="image"){
+      media = `<img src="${srcPost}" class="post_media" width="320" height="240">`;
+    }else if (posts[i].mime==="video"){
+      media = `<video class="post_media"width="320" height="240" controls><source src="${srcPost}" type="video/mp4"></video>`;
+    }else if (posts[i].mime==="audio"){
+      media = `<audio controls class="post_media"><source src="${srcPost}" type="audio/mpeg"></audio>`;
+    }else{
+      console.log("niente");
+    }
+    postsContent=postTemplate.replace("%POSIZIONE",posts[i].posizione).replace("%TITOLO",posts[i].testo).replace("%DATA",data).replace("%MEDIA",media).replace("%DESCRIZIONE",posts[i].descrizione);
+    postsDivs[i].innerHTML=postsContent;
+  }
 }
 
 const posts = await get_posts(viaggio.id);

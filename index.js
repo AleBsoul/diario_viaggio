@@ -136,17 +136,18 @@ app.delete("/del_viaggio/:id",(req,res)=>{
 
 
 app.post("/addpost", (req, res)=>{
-  const data = req.body.data;
-  const file = data.file;
-  const testo = data.titolo;
-  const descrizione = data.descrizione;
-  const posizione = data.posizione;
-  const id_viaggio = data.id_viaggio;
+  const file = req.body.file;
+  const testo = req.body.titolo;
+  const descrizione = req.body.descrizione;
+  const posizione = req.body.posizione;
+  const id_viaggio = req.body.id_viaggio;
+  const mime = req.body.mime;
+  const data = req.body.data
 
   select_viaggi().then((result_viaggi)=>{
     const sql = `
-      INSERT INTO post (file, testo, video, audio, descrizione, posizione, id_viaggio)
-      VALUES('${file}', '${testo}', '${video}', '${audio}', '${descrizione}', '${posizione}', '${id_viaggio}')
+      INSERT INTO post (file, testo, descrizione, posizione, id_viaggio, data, mime)
+      VALUES('${file}', '${testo}',  '${descrizione}', '${posizione}', '${id_viaggio}', '${data}', '${mime}')
       `
 
     executeQuery(sql).then((result)=>{
