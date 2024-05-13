@@ -105,7 +105,7 @@ body{
 .login_form{
     margin-top: 5vh;
 }
-.signUp_form{
+.signUp_form, .formUpdate{
   margin-top: 5vh;
   display:none;
 }
@@ -127,6 +127,7 @@ body{
     align-items: center;
     justify-content: center;
     transition: 0.4s;
+    z-index:999;
   }
   
   .modal-container {
@@ -472,6 +473,7 @@ body{
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   font-size: larger;
+  position:relative;
 }
 
 .contact-info p{
@@ -532,7 +534,7 @@ body{
   cursor: pointer;
 }
 
-#loadingViaggio {
+#loadingViaggio, #loadingPost{
   height: 45px;
   width: 45px;
   border: none;
@@ -550,85 +552,23 @@ body{
 
 /* ===============POST=============== */
 
-
-
-#travel-image{
-  max-height: 20vh;
-}
-
-#travel-container {
-  max-width: 1200px;
-  margin: auto;
-  overflow: hidden;
-}
-
-.travel-body {
-  padding: 2rem;
-  text-align: center;
-}
-.travel-title {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-.travel-description {
-  margin-bottom: 1rem;
-}
-.travel-author {
-  font-style: italic;
-  color: #888;
-}
-.travel-posts {
-display: flex;
-flex-wrap: wrap;
-justify-content: space-between;
-margin-top: 2rem;
-}
-.post {
-background-color: #ffffff;
-width: calc(33.333% - 1rem); 
-height: 300px; 
-box-sizing: border-box;
-}
-.post-image{
-  width:100%;
-}
-.post :hover{
-  box-shadow: 0px 0px 8px 0px grey;
-  transform: scale(1.1);
-  transition-duration: 0.3s;
-}
-
-@media (max-width: 768px) {
-.post {
-width: calc(50% - 1rem);
-}
-}
-
-@media (max-width: 480px) {
-.post {
-width: 100%; 
-}
-}
-
-
-
 .post-container{
   width: 100%;
-  height: 300px;
+  /* height: 300px; */
+  height: 60vh;
   box-shadow: 0px 0px 4px 0px grey;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.15s ease;
   display:flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .post-container:hover{
   box-shadow: 0px 0px 8px 0px grey;
   transform: scale(1.03)
 }
-
-
 
 .top-post{
   height: 70px;
@@ -666,8 +606,28 @@ width: 100%;
   height: 50%;
   border-bottom: 1px solid lightgrey;
   padding-left: 20px;
+  overflow: hidden; 
+  position: relative; 
+}
+.middle-post video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  position: absolute; 
+  top: 0;
+  left: 0;
 }
 .bottom-post{
   height: 40%;
   padding-left: 20px;
+  word-wrap: break-word;
+}
+
+
+#pencil{
+  position:absolute;
+  height:20px;
+  top:30px;
+  margin-left:90%;
+  cursor: pointer;
 }

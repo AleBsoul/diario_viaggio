@@ -83,6 +83,40 @@
                             <button type="button" class="input-button" id="newViaggio_btn">Aggiungi viaggio</button>
                         </div> 
                     </form>
+                    <form class="formUpdate" id="formUpdate">
+                        <h1>Modifica profilo</h1>
+                        <div class="input-block">
+                        <label for="imgProfilo" class="input-label">Foto profilo</label>
+                        <input type="file" id="imgProfilo">
+                        </div>
+                        <div class="input-block">
+                        <label for="nome_input" class="input-label">Nome</label>
+                        <input type="text" id="nome" required>
+                        </div><div class="input-block">
+                        <label for="cognome_input" class="input-label">Cognome</label>
+                        <input type="text" id="cognome"required>
+                        </div>
+                        <div class="input-block">
+                        <label for="email_input" class="input-label">Email</label>
+                        <input type="text" id="email"required>
+                        </div>
+                        <div class="input-block">
+                            <label for="username_sign" class="input-label">Username</label>
+                            <input type="text" id="username_sign"required>
+                        </div>
+                        <div class="input-block">
+                            <label for="password_sign" class="input-label">Password</label>
+                            <input type="password" id="password_sign"required>
+                        </div>
+                        <div class="textarea-block">
+                        <label for="message" class="input-label">Bio</label>
+                        <textarea id="bio" rows="4"></textarea>
+                    </div>
+
+                        <div class="modal-buttons">
+                            <button type="button" class="input-button" id="saveChanges">Save changes</button>
+                        </div> 
+                    </form>
                 </div>
                 <div class="modal-right" id="modal-right">
                   <img src="assets/images/logo_sfondo.png" alt="">

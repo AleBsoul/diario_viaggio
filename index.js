@@ -137,18 +137,16 @@ app.delete("/del_viaggio/:id",(req,res)=>{
 
 app.post("/addpost", (req, res)=>{
   const data = req.body.data;
-  const immagine = data.immagine;
+  const file = data.file;
   const testo = data.titolo;
-  const video = data.video;
-  const audio = data.audio;
   const descrizione = data.descrizione;
   const posizione = data.posizione;
   const id_viaggio = data.id_viaggio;
 
   select_viaggi().then((result_viaggi)=>{
     const sql = `
-      INSERT INTO post (immagine, testo, video, audio, descrizione, posizione, id_viaggio)
-      VALUES('${immagine}', '${testo}', '${video}', '${audio}', '${descrizione}', '${posizione}', '${id_viaggio}')
+      INSERT INTO post (file, testo, video, audio, descrizione, posizione, id_viaggio)
+      VALUES('${file}', '${testo}', '${video}', '${audio}', '${descrizione}', '${posizione}', '${id_viaggio}')
       `
 
     executeQuery(sql).then((result)=>{
@@ -160,15 +158,13 @@ app.post("/addpost", (req, res)=>{
 
 app.put("/modificaPost",(req, res)=>{
   const id =req.body.id;
-  const immagine = req.body.immagine;
+  const file = req.body.file;
   const testo = req.body.testo;
-  const video = req.body.video;
-  const audio = req.body.audio;
   const descrizione = req.body.descrizione;
   const posizione = req.body.posizione;
   const sql = `
   UPDATE post
-  SET immagine = '${immagine}', testo = '${testo}', video = '${video}', audio = '${audio}', descrizione = '${descrizione}', posizione = '${posizione}'
+  SET file = '${file}', testo = '${testo}', descrizione = '${descrizione}', posizione = '${posizione}'
   WHERE id = '${id}'`;
   executeQuery(sql).then((result)=>{
     res.json({result: "post modificato"});
@@ -220,6 +216,35 @@ app.get("/get_users",(req, res)=>{
     res.json({result: result});
   })
 })
+
+
+
+app.put("/updateUser",(req, res)=>{
+  const id = req.body.id;
+  const username = req.body.username;
+  const password = req.body.password;
+  const email = req.body.email;
+  const nome = req.body.nome;
+  const cognome = req.body.cognome;
+  const bio = req.body.bio;
+  const foto = req.body.foto
+  let sql = `UPDATE utente SET`;
+
+  const updates = [];
+  if (foto) updates.push(` foto = '${foto}'`);
+  if (username) updates.push(` username = '${username}'`);
+  if (password) updates.push(` password = '${password}'`);
+  if (email) updates.push(` email = '${email}'`);
+  if (nome) updates.push(` nome = '${nome}'`);
+  if (cognome) updates.push(` cognome = '${cognome}'`);
+
+  sql += updates.join(',') + ` WHERE id = '${id}'`;
+  executeQuery(sql).then((result)=>{
+      res.json({result: "user modificato"});
+    })
+
+})
+
 
 app.get("/get_singleUser/:id",(req, res)=>{
   const id = req.params.id 
@@ -296,3 +321,5 @@ app.post('/download', async (req, res) => {
       res.status(500).send('Errore del server');
   }
 });
+
+export { require }

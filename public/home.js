@@ -49,7 +49,6 @@ const render = async (viaggi,travels) => {
         const imgViaggio = `<img src="${await downloadFile(viaggi[i].immagine)}">`;
         const imgProfilo = `<img src="${await downloadFile(viaggi[i].fotoProfilo)}" class="user-foto">`;  
         travels[i].innerHTML=travelTemplate.replace("%nome", viaggi[i].titolo).replace("%utente", viaggi[i].username).replace("%id_utente", viaggi[i].idUser).replace("%id", viaggi[i].idViaggio).replace("%IMGVIAGGIO",imgViaggio).replace("%IMGPROFILO",imgProfilo);
-        
     }
 }
 const preRender=async(viaggi)=>{

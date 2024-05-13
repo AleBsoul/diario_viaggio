@@ -85,3 +85,5 @@ close_btn.onclick=()=>{
     closeModal();
 }
 
+ 
+export { openModal };
