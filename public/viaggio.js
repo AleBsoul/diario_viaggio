@@ -16,7 +16,7 @@ if(user.id===loggato.id){
 const modal = document.getElementById("modalPost");
 const closeButton = document.querySelector(".close-button");
 const openModal_btn = document.getElementById("add-post");
-const close_btn = document.getElementById("close_btn");
+const close_btn = document.getElementById("close_btn_1");
 
 let isOpened = false;
 
@@ -94,19 +94,10 @@ const get_posts = async(id)=>{
 } 
 }
 
-let postsTemplate =`
-  <section class="travel-body">
-    <h2 class="travel-title">%NOMEVIAGGIO</h2>
-    <p class="travel-description">%DESCRIZIONE</p>
-    <p class="travel-author">Pubblicato da: %NOMEUTENTE</p>
-    %SRCVIAGGIO
-    <div class="travel-posts">
-      %POSTS
-    </div>
-  </section>
-`
+
 const postTemplate = `
-<div class="post">%POST</div>
+
+
 `
 // const preRender = async(posts)=>{
 //   let postsContent=""
@@ -121,19 +112,21 @@ const postTemplate = `
 //   postsContentDiv.innerHTML=postsTemplate;
 // }
 
+
+const postsContentDiv = document.getElementById("travel-container");
+
 const render = async(posts) =>{
-  let postsContent=""
-  const postsContentDiv = document.getElementById("travel-container");
+  /*postsContentDiv.innerHTML="";
   
   const srcViaggio = `<img id="travel-image" class="post-image" src="${await downloadFile(viaggio.immagine)}">`;
   postsTemplate = postsTemplate.replace("%NOMEVIAGGIO",viaggio.titolo).replace("%DESCRIZIONE",viaggio.descrizione).replace("%NOMEUTENTE",user.username).replace("%SRCVIAGGIO", srcViaggio);
   for (const post of posts) {
     const srcPost = `<img class="post-image" src="${await downloadFile(post.immagine)}">`;
-    postsContent+=postTemplate.replace("%POST", srcPost);
+    postsContentDiv.innerHTML+=postTemplate.replace("%POST", srcPost);
   };
   postsTemplate = postsTemplate.replace("%POSTS", postsContent);
   console.log(postsTemplate);
-  postsContentDiv.innerHTML = postsTemplate;
+  postsContentDiv.innerHTML = postsTemplate;*/
 }
 
 

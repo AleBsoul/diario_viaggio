@@ -127,11 +127,11 @@ body{
     align-items: center;
     justify-content: center;
     transition: 0.4s;
-    z-index: 999;
-    overflow: scroll;
   }
   
   .modal-container {
+    height: 600px;
+    
     display: flex;
     max-width: 60vw;
     width: 100%;
@@ -146,6 +146,7 @@ body{
   }
   
 
+
   .modal-left {
     padding: 60px 30px 20px;
     background: #fff;
@@ -153,6 +154,7 @@ body{
     transition-duration: 0.5s;
     transform: translateY(80px);
     opacity: 0;
+    overflow-y: scroll;
   }
 
   .modal-left h1{
@@ -606,4 +608,66 @@ width: calc(50% - 1rem);
 .post {
 width: 100%; 
 }
+}
+
+
+
+.post-container{
+  width: 100%;
+  height: 300px;
+  box-shadow: 0px 0px 4px 0px grey;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display:flex;
+  flex-direction: column;
+}
+
+.post-container:hover{
+  box-shadow: 0px 0px 8px 0px grey;
+  transform: scale(1.03)
+}
+
+
+
+.top-post{
+  height: 70px;
+  border-bottom: 1px solid lightgrey;
+  padding-left: 20px;
+  position: relative;
+}
+
+.data-div{
+  position: absolute;
+  right: 15px;
+  bottom: 5px;
+}
+
+.titolo-post{
+  margin-bottom: 0;
+  margin-top: 10px;
+  font-size: 20px;
+}
+.posizione-post{
+  margin: 0;
+  font-size: 12px;
+  display: flex;
+  flex-direction: row;
+  column-gap: 7px;
+}
+
+.posizione-post svg{
+  padding-top: 0;
+  width: 10px;
+}
+
+
+.middle-post{
+  height: 50%;
+  border-bottom: 1px solid lightgrey;
+  padding-left: 20px;
+}
+.bottom-post{
+  height: 40%;
+  padding-left: 20px;
 }

@@ -62,7 +62,7 @@ const preRender=async(viaggi)=>{
         travelContentDiv.innerHTML += travelsTemplate.replace("%nome", travel.titolo).replace("%utente", travel.username).replace("%id_utente", travel.idUser).replace("%id", travel.idViaggio).replace("%IMGVIAGGIO",loadingViaggio).replace("%IMGPROFILO",loadingProfilo);
     }
     const travels = document.querySelectorAll(".travel");
-    await render(viaggi.result,travels);
+    render(viaggi.result,travels);
 
     travels.forEach(async(travel) => {
         travel.addEventListener('click', async function (event) {
