@@ -4,18 +4,114 @@ const user = JSON.parse(sessionStorage.getItem("utente"));
 const loggato = JSON.parse(sessionStorage.getItem("loggato"));
 const viaggio = JSON.parse(sessionStorage.getItem("viaggio"));
 const addPostDiv = document.getElementById("addPostDiv");
+const updatePost_btn = document.getElementById("updatePost_btn");
+let postsTemplate;
+let postTemplate;
+
 
 if(user.id===loggato.id){
     addPostDiv.classList.remove("invisible");
+    
+postsTemplate = `
+<div class="post-container">
+  <div class="top-post">
+    <p class="titolo-post">%TITOLO</p>
+    <div class="posizione-post">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+      <p>%POSIZIONE</p>
+    </div>
+    <svg type="button" id="%put_btn_id" class="pencilPost" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"/></svg>
+    <div><button type="button" class="del_btn_post" id="%del_btn_id"><i class="fi fi-rr-trash"></i></button></div>
+    <div class="data-div">
+      %DATA<br/>
+      %MODIFICA
+    </div>
+  </div>
+  <div class="middle-post">
+    %MEDIA
+  </div>
+  <div class="bottom-post">
+    <p class="descrizione-post">%DESCRIZIONE</p>
+  </div>
+</div>
+`
+
+postTemplate = `
+  <div class="top-post">
+    <p class="titolo-post">%TITOLO</p>
+    <div class="posizione-post">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+      <p>%POSIZIONE</p>
+    </div>
+    <svg type="button" id="%put_btn_id" class="pencilPost" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"/></svg>
+    <button type="button" class="del_btn_post" id="%del_btn_id"><i class="fi fi-rr-trash"></i></button>
+    <div class="data-div">
+      %DATA<br/>
+      %MODIFICA
+      
+    </div>
+  </div>
+  <div class="middle-post">
+    %MEDIA
+  </div>
+  <div class="bottom-post">
+    <p class="descrizione-post">%DESCRIZIONE</p>
+  </div>
+`
 }else{
-    addPostDiv.classList.add("invisible");
+  
+postsTemplate = `
+<div class="post-container">
+  <div class="top-post">
+    <p class="titolo-post">%TITOLO</p>
+    <div class="posizione-post">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+      <p>%POSIZIONE</p>
+    </div>
+    <div class="data-div">
+      %DATA<br/>
+      %MODIFICA
+    </div>
+  </div>
+  <div class="middle-post">
+    %MEDIA
+  </div>
+  <div class="bottom-post">
+    <p class="descrizione-post">%DESCRIZIONE</p>
+  </div>
+</div>
+`
+
+postTemplate = `
+  <div class="top-post">
+    <p class="titolo-post">%TITOLO</p>
+    <div class="posizione-post">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+      <p>%POSIZIONE</p>
+    </div>
+    <div class="data-div">
+      %DATA<br/>
+      %MODIFICA
+    </div>
+  </div>
+  <div class="middle-post">
+    %MEDIA
+  </div>
+  <div class="bottom-post">
+    <p class="descrizione-post">%DESCRIZIONE</p>
+  </div>
+`
+
+
+  addPostDiv.classList.add("invisible");
 }
 
 
 //modal new viaggio
 const modal = document.getElementById("modalPost");
 const closeButton = document.querySelector(".close-button");
-const openModal_btn = document.getElementById("add-post");
+const addPost_btn = document.getElementById("add-post");
+let postId;
 const close_btn = document.getElementById("close_btn_1");
 
 let isOpened = false;
@@ -29,7 +125,42 @@ const closeModal = () => {
 };
 
 
-openModal_btn.onclick=()=>{
+updatePost_btn.onclick=async()=>{
+  const titolo = document.getElementById("put_titolo_post_input");
+  const descrizione = document.getElementById("put_descrizione_post_input");
+  const media = document.getElementById("put_media_post_input");
+  const posizione = document.getElementById("put_posizione_post_input");
+  if(titolo.value || descrizione.value || posizione.value || media.value){
+    const data = String(Date.now());
+  let post = {
+    id:postId,
+    titolo: titolo.value,
+    descrizione: descrizione.value,
+    posizione: posizione.value,
+    id_viaggio: viaggio.id,
+    ultima_modifica: data
+  }
+  if(media.value){
+    const fileImg = await uploadFile(media); //contiente il path e il link
+    const link = await fileImg.link;
+    post.file = await link;
+    post.mime = media.files[0].type.split("/")[0];
+  }else{
+      post.file="";
+      post.mime = "";
+  }  
+  updatePost(post).then(async(result)=>{
+    document.getElementById("formUpdatePost").reset();
+    const posts = await get_posts(viaggio.id);
+    render(posts.result);
+  });
+  }
+  
+}
+
+addPost_btn.onclick=()=>{
+    document.getElementById("formUpdatePost").style.display="none";
+    document.getElementById("formAddPost").style.display="block";
     openModal();
 }
 close_btn.onclick=()=>{
@@ -54,13 +185,13 @@ const savePost = async (data) => {
 };
 
 const newPost = document.getElementById("newPost_btn");
-const titolo = document.getElementById("titolo_post_input");
-const descrizione = document.getElementById("descrizione_post_input");
-const media = document.getElementById("media_post_input");
-const posizione = document.getElementById("posizione_post_input");
-
 
 newPost.onclick=async()=>{
+  const titolo = document.getElementById("titolo_post_input");
+  const descrizione = document.getElementById("descrizione_post_input");
+  const media = document.getElementById("media_post_input");
+  const posizione = document.getElementById("posizione_post_input");
+
   const data = String(Date.now());
   const fileImg = await uploadFile(media);
   const imgLink = await fileImg.link;
@@ -90,47 +221,62 @@ const get_posts = async(id)=>{
 } 
 }
 
+const updatePost=(post)=>{
+  return new Promise((resolve, reject) => {
+    fetch("/modificaPost", {
+        method: 'PUT',
+        headers: {
+        "Content-Type": "application/json"
+        },
+        body: JSON.stringify(post)
+    })
+    .then((response) => response.json())
+    .then((json) => {
+        resolve(json); //risposta server
+    })
+    .catch((error) => {
+        reject(error);
+    });
+});
+}
 
-const postsTemplate = `
-<div class="post-container">
-  <div class="top-post">
-    <p class="titolo-post">%TITOLO</p>
-    <div class="posizione-post">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
-      <p>%POSIZIONE</p>
-    </div>
-    <div class="data-div">
-      %DATA
-    </div>
-  </div>
-  <div class="middle-post">
-    %MEDIA
-  </div>
-  <div class="bottom-post">
-    <p class="descrizione-post">%DESCRIZIONE</p>
-  </div>
-</div>
-`
+const delPost= async(id)=>{
+  try{
+    const r = await fetch("/del_post/"+id,{
+      method: "DELETE",
+      headers: {
+          "Content-Type": "application/json",
+      }
+  });
+    const json = await r.json();
+    return json;
+} catch (e) {
+    console.log(e);
+} 
+}
 
-const postTemplate = `
-  <div class="top-post">
-    <p class="titolo-post">%TITOLO</p>
-    <div class="posizione-post">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
-      <p>%POSIZIONE</p>
-    </div>
-    <div class="data-div">
-      %DATA
-    </div>
-  </div>
-  <div class="middle-post">
-    %MEDIA
-  </div>
-  <div class="bottom-post">
-    <p class="descrizione-post">%DESCRIZIONE</p>
-  </div>
-`
+const update_btn_event=()=>{
+  const put_btns = document.querySelectorAll(".pencilPost");
+  put_btns.forEach((put_btn)=>{
+    put_btn.onclick=async()=>{
+      postId=put_btn.id;
+      document.getElementById("formUpdatePost").style.display="block";
+      document.getElementById("formAddPost").style.display="none";
+      openModal();
+    }
+  })
+}
 
+const del_btn_event = () =>{
+  const del_btns = document.querySelectorAll(".del_btn_post");
+  del_btns.forEach((del_btn)=>{
+    del_btn.onclick=async()=>{
+      delPost(del_btn.id);
+      const posts = await get_posts(viaggio.id);
+      render(await posts.result);
+    }
+  })
+}
 const postsContentDiv = document.getElementById("post-content");
 
 const render = async(posts) =>{
@@ -139,17 +285,26 @@ const render = async(posts) =>{
   posts.forEach(post => {
     const all_date = new Date(parseInt(post.data));
     const data = all_date.getDay()+"/"+all_date.getMonth()+"/"+all_date.getFullYear()+" - "+all_date.getHours()+":"+all_date.getMinutes()
-    postsContent+=postsTemplate.replace("%POSIZIONE",post.posizione).replace("%TITOLO",post.testo).replace("%DATA",data).replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",post.descrizione);
+
+    if(post.ultima_modifica){
+      const all_modifica_date = new Date(parseInt(post.ultima_modifica));
+      const modifica_data = all_modifica_date.getDay()+"/"+all_modifica_date.getMonth()+"/"+all_modifica_date.getFullYear()+" - "+all_modifica_date.getHours()+":"+all_modifica_date.getMinutes()
+      postsContent+=postsTemplate.replace("%POSIZIONE",post.posizione).replace("%TITOLO",post.testo).replace("%DATA",data).replace("%MODIFICA","modificato: "+modifica_data).replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",post.descrizione).replace("%del_btn_id",post.id).replace("%put_btn_id", post.id);
+    }else{
+      postsContent+=postsTemplate.replace("%POSIZIONE",post.posizione).replace("%TITOLO",post.testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",post.descrizione).replace("%del_btn_id",post.id).replace("%put_btn_id", post.id);
+    }
   });
   postsContentDiv.innerHTML=postsContent;
+  del_btn_event();
+  update_btn_event();
   const postsDivs = document.querySelectorAll(".post-container");
   postsDivs.forEach((postDiv)=>{
     postDiv.addEventListener('click', async function (event) {
-      
     });
   })
   postsContent = "";
   for (let i=0; i<posts.length;i++) {
+    
     const all_date = new Date(parseInt(posts[i].data));
     const data = all_date.getDay()+"/"+all_date.getMonth()+"/"+all_date.getFullYear()+" - "+all_date.getHours()+":"+all_date.getMinutes()
     const srcPost = await downloadFile(posts[i].file);
@@ -163,10 +318,19 @@ const render = async(posts) =>{
     }else{
       console.log("niente");
     }
-    postsContent=postTemplate.replace("%POSIZIONE",posts[i].posizione).replace("%TITOLO",posts[i].testo).replace("%DATA",data).replace("%MEDIA",media).replace("%DESCRIZIONE",posts[i].descrizione);
+    if(posts[i].ultima_modifica){
+      const all_modifica_date = new Date(parseInt(posts[i].ultima_modifica));
+      const modifica_data = all_modifica_date.getDay()+"/"+all_modifica_date.getMonth()+"/"+all_modifica_date.getFullYear()+" - "+all_modifica_date.getHours()+":"+all_modifica_date.getMinutes()
+      postsContent=postTemplate.replace("%POSIZIONE",posts[i].posizione).replace("%TITOLO",posts[i].testo).replace("%DATA",data).replace("%MODIFICA","modificato: "+modifica_data).replace("%MEDIA",media).replace("%DESCRIZIONE",posts[i].descrizione).replace("%del_btn_id",posts[i].id).replace("%put_btn_id", posts[i].id);
+    }else{
+      postsContent=postTemplate.replace("%POSIZIONE",posts[i].posizione).replace("%TITOLO",posts[i].testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",media).replace("%DESCRIZIONE",posts[i].descrizione).replace("%del_btn_id",posts[i].id).replace("%put_btn_id", posts[i].id);
+    }
     postsDivs[i].innerHTML=postsContent;
+    del_btn_event();
+    update_btn_event();
   }
 }
 
 const posts = await get_posts(viaggio.id);
-render(posts.result);
+console.log(posts);
+render(await posts.result);

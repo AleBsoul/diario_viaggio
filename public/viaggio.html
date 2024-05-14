@@ -143,6 +143,45 @@
                             <button type="button" class="input-button" id="newPost_btn">Aggiungi post</button>
                         </div> 
                     </form>
+                    <form id="formUpdatePost">
+                        <h1>Modifica post</h1>
+
+                        <div class="input-block">
+                            <label for="put_titolo_post_input" class="input-label">Titolo</label>
+                            <input type="text" id="put_titolo_post_input">
+                            <div class="error-space">
+                                <p class="invisible" id="titolo_error">Titolo vuoto</p>
+                            </div>
+                        </div>
+                        
+
+                        <div class="textarea-block">
+                            <label for="put_descrizione_post_input" class="input-label">Descrizione</label>
+                            <textarea id="put_descrizione_post_input"></textarea>
+                            <div class="error-space">
+                                <p class="invisible" id="descrizione_error">Descrizione vuota</p>
+                            </div>
+                        </div>
+                        <div class="input-block">
+                            <label for="put_media_post_input" class="input-label">Media (foto/video/audio)</label>
+                            <input type="file" id="put_media_post_input">
+                            <div class="error-space">
+                                <p class="invisible" id="media_error">Inserisci un file</p>
+                            </div>
+                        </div>
+                        <div class="input-block">
+                            <label for="put_posizione_post_input" class="input-label">Posizione</label>
+                            <input type="text" id="put_posizione_post_input">
+                            <div class="error-space">
+                                <p class="invisible" id="posizione_error">Inserisci la posizione</p>
+                            </div>
+                            
+                        </div>
+
+                        <div class="modal-buttons">
+                            <button type="button" class="input-button" id="updatePost_btn">Save changes</button>
+                        </div> 
+                    </form>
                 </div>
                 <div class="modal-right" id="modal-right">
                   <img src="assets/images/logo_sfondo.png" alt="">

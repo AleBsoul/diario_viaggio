@@ -160,16 +160,25 @@ app.post("/addpost", (req, res)=>{
 app.put("/modificaPost",(req, res)=>{
   const id =req.body.id;
   const file = req.body.file;
-  const testo = req.body.testo;
+  const testo = req.body.titolo;
   const descrizione = req.body.descrizione;
   const posizione = req.body.posizione;
-  const sql = `
-  UPDATE post
-  SET file = '${file}', testo = '${testo}', descrizione = '${descrizione}', posizione = '${posizione}'
-  WHERE id = '${id}'`;
+  const mime = req.body.mime;
+  const ultima_modifica = req.body.ultima_modifica
+  let sql = `UPDATE post SET`;
+
+  const updates = [];
+  if (file) updates.push(` file = '${file}'`);
+  if (testo) updates.push(` testo = '${testo}'`);
+  if (descrizione) updates.push(` descrizione = '${descrizione}'`);
+  if (posizione) updates.push(` posizione = '${posizione}'`);
+  if (mime) updates.push(` mime = '${mime}'`);
+  updates.push(` ultima_modifica = '${ultima_modifica}'`);
+
+  sql += updates.join(',') + ` WHERE id = '${id}'`;
   executeQuery(sql).then((result)=>{
-    res.json({result: "post modificato"});
-  })
+      res.json({result: "post modificato"});
+    })
 
 })
 
@@ -183,6 +192,7 @@ app.get("/get_post/:id",(req, res)=>{
     res.json({result: result});
   })
 })
+
 
 app.delete("/del_post/:id",(req,res)=>{
   const id = req.params.id;
