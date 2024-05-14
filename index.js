@@ -77,6 +77,8 @@ const executeQuery = (sql) => {
   });
 };
 
+
+
 const select_viaggi = () =>{
   return executeQuery(`
   SELECT viaggio.id as idViaggio, viaggio.titolo, viaggio.descrizione, viaggio.immagine, utente.username, utente.id AS idUser, utente.foto AS fotoProfilo
@@ -162,6 +164,26 @@ app.delete("/del_viaggio/:id",(req,res)=>{
 })
 
 
+const addPosition = (pos) => {
+  return executeQuery(`
+  INSERT INTO posizione (nome, latitudine, longitudine)
+  VALUES ('${pos.nome}','${pos.latitudine}','${pos.longitudine}')
+  `)
+}
+
+const selectPositions = () => {
+  return executeQuery(`
+  SELECT * FROM posizione 
+  `)
+}
+
+const selectPosition = (nome) => {
+  return executeQuery(`
+  SELECT id FROM posizione
+  WHERE nome = '${nome}'
+  `)
+}
+
 app.post("/addpost", (req, res)=>{
   const file = req.body.file;
   const testo = req.body.titolo;
@@ -171,16 +193,28 @@ app.post("/addpost", (req, res)=>{
   const mime = req.body.mime;
   const data = req.body.data
 
-  select_viaggi().then((result_viaggi)=>{
-    const sql = `
-      INSERT INTO post (file, testo, descrizione, posizione, id_viaggio, data, mime)
-      VALUES('${file}', '${testo}',  '${descrizione}', '${posizione}', '${id_viaggio}', '${data}', '${mime}')
+  let find = false;
+  selectPositions().then((r)=>{
+    r.forEach((pos)=>{
+      if(pos.nome==posizione.nome){
+        find=true
+      }
+    })
+    if(!find){
+      addPosition(posizione);
+    };
+    selectPosition(posizione.nome).then((id_pos)=>{
+      const sql = `
+      INSERT INTO post (file, testo, descrizione, id_posizione, id_viaggio, data, mime)
+      VALUES('${file}', '${testo}',  '${descrizione}', '${id_pos[0].id}', '${id_viaggio}', '${data}', '${mime}')
       `
-
-    executeQuery(sql).then((result)=>{
-      res.json({result: "post aggiunto"});
+      executeQuery(sql).then((result)=>{
+        res.json({result: "post aggiunto"});
+      })
     })
   })
+
+  
 
 })
 
@@ -212,8 +246,11 @@ app.put("/modificaPost",(req, res)=>{
 app.get("/get_post/:id",(req, res)=>{
   const id_viaggio = req.params.id;
   const sql = `
-  SELECT * FROM post
+  SELECT post.file, post.testo, post.descrizione, post.mime, post.data, post.ultima_modifica, post.id_posizione, posizione.nome, posizione.latitudine, posizione.longitudine
+  FROM post, posizione
   WHERE post.id_viaggio = '${id_viaggio}'
+  AND post.id_posizione = posizione.id
+
   `;
   executeQuery(sql).then((result)=>{
     res.json({result: result});

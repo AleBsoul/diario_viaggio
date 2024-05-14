@@ -9,6 +9,45 @@ let postsTemplate;
 let postTemplate;
 
 
+
+let place;
+
+//api maps
+function initializeAutocomplete(id) {
+  var element = document.getElementById(id);
+  if (element) {
+    const autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'] });
+    google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
+  }
+}
+
+function onPlaceChanged() {
+  place = this.getPlace();
+
+  // console.log(place);  // Uncomment this line to view the full object returned by Google API.
+
+  for (var i in place.address_components) {
+    let component = place.address_components[i];
+    for (var j in component.types) {  // Some types are ["country", "political"]
+      //var type_element = document.getElementById(component.types[j]);
+      //if (type_element) {
+        //type_element.value = component.long_name;
+        let geocoder = new google.maps.Geocoder();
+        geocoder.geocode({
+            "address": component.long_name
+        }, function(results) {
+          //console.log("latittudine: ",results[0].geometry.location.lat()); 
+          //console.log("longitudine:",results[0].geometry.location.lng()); 
+        });
+    }
+  }
+}
+
+google.maps.event.addDomListener(window, 'load', function() {
+  initializeAutocomplete('posizione_post_input');
+});
+
+
 if(user.id===loggato.id){
     addPostDiv.classList.remove("invisible");
     
@@ -184,7 +223,23 @@ const savePost = async (data) => {
   } catch (e) {
       console.log(e);
   }
-};
+}
+
+const savePosition = async (data) => {
+  try{
+    const r = await fetch("/addPosition", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({data})
+    });
+    const result = await r.json();
+    return result;
+  } catch (e) {
+      console.log(e);
+}
+}
 
 const newPost = document.getElementById("newPost_btn");
 
@@ -192,20 +247,27 @@ newPost.onclick=async()=>{
   const titolo = document.getElementById("titolo_post_input");
   const descrizione = document.getElementById("descrizione_post_input");
   const media = document.getElementById("media_post_input");
-  const posizione = document.getElementById("posizione_post_input");
-
   const data = String(Date.now());
+  
+  const position = {
+    nome: place.formatted_address,
+    latitudine: place.geometry.location.lat(),
+    longitudine: place.geometry.location.lng()
+  };
+  
   const fileImg = await uploadFile(media);
   const imgLink = await fileImg.link;
   const post = {
     titolo: titolo.value,
     descrizione: descrizione.value,
     file: await imgLink,
-    posizione: posizione.value,
+    posizione: position,
     id_viaggio: viaggio.id,
     mime: media.files[0].type.split("/")[0],
     data: data
   }
+  
+  
   savePost(post).then(async(result)=>{
     document.getElementById("formAddPost").reset();
     const posts = await get_posts(viaggio.id);
@@ -285,15 +347,16 @@ const render = async(posts) =>{
   const loadingPost = `<iframe id='loadingPost' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`;
   let postsContent = "";
   posts.forEach(post => {
+    console.log(post);
     const all_date = new Date(parseInt(post.data));
     const data = all_date.getDay()+"/"+all_date.getMonth()+"/"+all_date.getFullYear()+" - "+all_date.getHours()+":"+all_date.getMinutes()
 
     if(post.ultima_modifica){
       const all_modifica_date = new Date(parseInt(post.ultima_modifica));
       const modifica_data = all_modifica_date.getDay()+"/"+all_modifica_date.getMonth()+"/"+all_modifica_date.getFullYear()+" - "+all_modifica_date.getHours()+":"+all_modifica_date.getMinutes()
-      postsContent+=postsTemplate.replace("%POSIZIONE",post.posizione).replace("%TITOLO",post.testo).replace("%DATA",data).replace("%MODIFICA","modificato: "+modifica_data).replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",post.descrizione).replace("%del_btn_id",post.id).replace("%put_btn_id", post.id);
+      postsContent+=postsTemplate.replace("%POSIZIONE",post.nome).replace("%TITOLO",post.testo).replace("%DATA",data).replace("%MODIFICA","modificato: "+modifica_data).replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",post.descrizione).replace("%del_btn_id",post.id).replace("%put_btn_id", post.id);
     }else{
-      postsContent+=postsTemplate.replace("%POSIZIONE",post.posizione).replace("%TITOLO",post.testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",post.descrizione).replace("%del_btn_id",post.id).replace("%put_btn_id", post.id);
+      postsContent+=postsTemplate.replace("%POSIZIONE",post.nome).replace("%TITOLO",post.testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",post.descrizione).replace("%del_btn_id",post.id).replace("%put_btn_id", post.id);
     }
   });
   postsContentDiv.innerHTML=postsContent;
@@ -323,9 +386,9 @@ const render = async(posts) =>{
     if(posts[i].ultima_modifica){
       const all_modifica_date = new Date(parseInt(posts[i].ultima_modifica));
       const modifica_data = all_modifica_date.getDay()+"/"+all_modifica_date.getMonth()+"/"+all_modifica_date.getFullYear()+" - "+all_modifica_date.getHours()+":"+all_modifica_date.getMinutes()
-      postsContent=postTemplate.replace("%POSIZIONE",posts[i].posizione).replace("%TITOLO",posts[i].testo).replace("%DATA",data).replace("%MODIFICA","modificato: "+modifica_data).replace("%MEDIA",media).replace("%DESCRIZIONE",posts[i].descrizione).replace("%del_btn_id",posts[i].id).replace("%put_btn_id", posts[i].id);
+      postsContent=postTemplate.replace("%POSIZIONE",posts[i].nome).replace("%TITOLO",posts[i].testo).replace("%DATA",data).replace("%MODIFICA","modificato: "+modifica_data).replace("%MEDIA",media).replace("%DESCRIZIONE",posts[i].descrizione).replace("%del_btn_id",posts[i].id).replace("%put_btn_id", posts[i].id);
     }else{
-      postsContent=postTemplate.replace("%POSIZIONE",posts[i].posizione).replace("%TITOLO",posts[i].testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",media).replace("%DESCRIZIONE",posts[i].descrizione).replace("%del_btn_id",posts[i].id).replace("%put_btn_id", posts[i].id);
+      postsContent=postTemplate.replace("%POSIZIONE",posts[i].nome).replace("%TITOLO",posts[i].testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",media).replace("%DESCRIZIONE",posts[i].descrizione).replace("%del_btn_id",posts[i].id).replace("%put_btn_id", posts[i].id);
     }
     postsDivs[i].innerHTML=postsContent;
     del_btn_event();
