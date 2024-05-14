@@ -131,3 +131,4 @@ dist
 conf.js
 ca.pem
 mega.json
+mailconf.json

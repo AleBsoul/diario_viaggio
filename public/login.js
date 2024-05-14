@@ -66,10 +66,12 @@ const addUser = (user) => {
           headers: {
           "Content-Type": "application/json"
           },
+          
           body: JSON.stringify(user)
       })
       .then((response) => response.json())
       .then((json) => {
+          console.log(json);
           resolve(json); //risposta server
       })
       .catch((error) => {
@@ -127,8 +129,21 @@ sign_submit.onclick=async()=>{
   const link = fileImg.link;
   const user = {username: username, password: pass, email:email, nome:nome, cognome:cognome, bio:bio, foto:link}
   addUser(user);
-    
+  mail(email);
   document.getElementById("signUp_form").reset();
-
-  
+}
+const mail=async(mail)=>{
+  try{
+    const r = await fetch("/mail", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({mail: mail})
+    });
+    const result = await r.json();
+    return result;
+} catch (e) {
+    console.log(e);
+}
 }

@@ -16,6 +16,7 @@ const bodyParser = require("body-parser");
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -33,10 +34,36 @@ server.listen(80, () => {
   console.log("- server running");
 });
 
-const mysql = require("mysql2");
+const mailconf = JSON.parse(fs.readFileSync(path.join(__dirname, './mailconf.json'), 'utf8'));
 
+const nodemailer = require('nodemailer');
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 587,
+  auth: mailconf,
+});
+
+const mysql = require("mysql2");
 const connection = mysql.createConnection(conf);
 
+
+let utente_da_creare;
+app.get('/verify-email', (req, res) => {
+    executeQuery(utente_da_creare);
+    res.redirect('/verified.html');  
+});
+
+app.post("/mail", (req,res)=>{
+  const mail=req.body.mail
+  console.log(mail);
+  transporter.sendMail({
+    from: '<tpsnodemailer@gmail.com>',
+    to: mail,
+    subject: "verifica la mail",
+    html: '<a href="http://localhost/verify-email"><button style="background-color: #4CAF50; /* Green */border: none;color: white;padding: 15px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;margin: 4px 2px;cursor: pointer;border-radius: 8px">Verifica</button></a>',
+  }).then((result)=>{res.json("Message sent")})
+  .catch(console.error);  
+});
 
 const executeQuery = (sql) => {
   return new Promise((resolve, reject) => {
@@ -212,13 +239,12 @@ app.post("/add_user",(req, res)=>{
   const cognome = req.body.cognome;
   const bio = req.body.bio;
   const foto = req.body.foto
-  const sql = `
+  utente_da_creare = `
   INSERT INTO utente (username, password, email, nome, cognome, bio, foto)
   VALUES('${username}', '${password}', '${email}', '${nome}', '${cognome}', '${bio}', '${foto}')
   `
-  executeQuery(sql).then((result)=>{
-    res.json({result: "user aggiunto"});
-  })
+  res.json("in attesa di verifica");
+  // la query verrà eseguita nel servizio verifymail dopo che la mail è stata verificata 
 })
 
 

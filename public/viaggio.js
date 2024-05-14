@@ -116,6 +116,8 @@ const close_btn = document.getElementById("close_btn_1");
 
 let isOpened = false;
 
+
+
 const openModal = () => {
   modal.classList.add("is-open");
 };
