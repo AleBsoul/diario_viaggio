@@ -373,7 +373,7 @@ body{
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 80px;
-  row-gap: 50px;
+  row-gap: 80px;
   justify-content: space-between;
   width: 60%;
   margin: auto;

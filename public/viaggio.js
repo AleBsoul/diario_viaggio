@@ -53,7 +53,7 @@ let map;
 const myMap = (lat, lng) => {
   const mapProp = {
     center: new google.maps.LatLng(lat, lng),
-    zoom: 4
+    zoom: 1
   };
   map = new google.maps.Map(document.getElementById("map_posts"),mapProp);
 }
@@ -66,7 +66,7 @@ if(user.id===loggato.id){
     addPostDiv.classList.remove("invisible");
     
 postsTemplate = `
-<div class="post-container">
+<div class="post-container" id="%id">
   <div class="top-post">
     <p class="titolo-post">%TITOLO</p>
     <div class="posizione-post">
@@ -114,7 +114,7 @@ postTemplate = `
 }else{
   
 postsTemplate = `
-<div class="post-container">
+<div class="post-container" id="%id">
   <div class="top-post">
     <p class="titolo-post">%TITOLO</p>
     <div class="posizione-post">
@@ -377,10 +377,14 @@ const render = async(posts) =>{
   
   myMap(posts[0].latitudine, posts[0].longitudine);
   posts.forEach((post)=>{
-    new google.maps.Marker({
+    const marker = new google.maps.Marker({
       position: new google.maps.LatLng(post.latitudine, post.longitudine),
-      map: map
+      map: map,
+      id: post.id
     })
+    google.maps.event.addDomListener(marker, 'click', function() {
+      document.getElementById(marker.id).scrollIntoView({behavior: "smooth"});
+  });
   })
 
 
@@ -395,9 +399,9 @@ const render = async(posts) =>{
     if(post.ultima_modifica){
       const all_modifica_date = new Date(parseInt(post.ultima_modifica));
       const modifica_data = all_modifica_date.getDay()+"/"+all_modifica_date.getMonth()+"/"+all_modifica_date.getFullYear()+" - "+all_modifica_date.getHours()+":"+all_modifica_date.getMinutes()
-      postsContent+=postsTemplate.replace("%POSIZIONE",post.nome).replace("%TITOLO",post.testo).replace("%DATA",data).replace("%MODIFICA","modificato: "+modifica_data).replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",post.descrizione).replace("%del_btn_id",post.id).replace("%put_btn_id", post.id);
+      postsContent+=postsTemplate.replace("%POSIZIONE",post.nome).replace("%TITOLO",post.testo).replace("%DATA",data).replace("%MODIFICA","modificato: "+modifica_data).replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",post.descrizione).replace("%del_btn_id",post.id).replace("%put_btn_id", post.id).replace("%id",post.id);
     }else{
-      postsContent+=postsTemplate.replace("%POSIZIONE",post.nome).replace("%TITOLO",post.testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",post.descrizione).replace("%del_btn_id",post.id).replace("%put_btn_id", post.id);
+      postsContent+=postsTemplate.replace("%POSIZIONE",post.nome).replace("%TITOLO",post.testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",post.descrizione).replace("%del_btn_id",post.id).replace("%put_btn_id", post.id).replace("%id",post.id);
     }
   });
   postsContentDiv.innerHTML=postsContent;
@@ -427,9 +431,9 @@ const render = async(posts) =>{
     if(posts[i].ultima_modifica){
       const all_modifica_date = new Date(parseInt(posts[i].ultima_modifica));
       const modifica_data = all_modifica_date.getDay()+"/"+all_modifica_date.getMonth()+"/"+all_modifica_date.getFullYear()+" - "+all_modifica_date.getHours()+":"+all_modifica_date.getMinutes()
-      postsContent=postTemplate.replace("%POSIZIONE",posts[i].nome).replace("%TITOLO",posts[i].testo).replace("%DATA",data).replace("%MODIFICA","modificato: "+modifica_data).replace("%MEDIA",media).replace("%DESCRIZIONE",posts[i].descrizione).replace("%del_btn_id",posts[i].id).replace("%put_btn_id", posts[i].id);
+      postsContent=postTemplate.replace("%POSIZIONE",posts[i].nome).replace("%TITOLO",posts[i].testo).replace("%DATA",data).replace("%MODIFICA","modificato: "+modifica_data).replace("%MEDIA",media).replace("%DESCRIZIONE",posts[i].descrizione).replace("%del_btn_id",posts[i].id).replace("%put_btn_id", posts[i].id).replace("%id",posts[i].id);
     }else{
-      postsContent=postTemplate.replace("%POSIZIONE",posts[i].nome).replace("%TITOLO",posts[i].testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",media).replace("%DESCRIZIONE",posts[i].descrizione).replace("%del_btn_id",posts[i].id).replace("%put_btn_id", posts[i].id);
+      postsContent=postTemplate.replace("%POSIZIONE",posts[i].nome).replace("%TITOLO",posts[i].testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",media).replace("%DESCRIZIONE",posts[i].descrizione).replace("%del_btn_id",posts[i].id).replace("%put_btn_id", posts[i].id).replace("%id",posts[i].id);
     }
     postsDivs[i].innerHTML=postsContent;
     del_btn_event();
