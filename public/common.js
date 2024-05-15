@@ -36,6 +36,66 @@ window.addEventListener("resize", function(){
 check_size();
 
 
+const newViaggio = document.getElementById("newViaggio_btn");
+//add viaggio
+const titoloInput = document.getElementById("titolo_viaggio_input");
+const descrInput = document.getElementById("descrizione_viaggio_input");
+const immInput = document.getElementById("immagine_viaggio_input");
+
+const titoloErr = document.getElementById("titolo_error");
+const descrErr = document.getElementById("descrizione_error");
+const immErr = document.getElementById("immagine_error");
+
+const time = 3000;
+
+const formAdd = document.getElementById("formAdd");
+
+newViaggio.onclick= async()=>{
+    const titolo = titoloInput.value;
+    if(!titolo){
+        titoloErr.classList.remove("invisible");
+        setTimeout(()=>{
+            titoloErr.classList.add("invisible");
+        },time)
+    }
+
+    const descrizione = descrInput.value;
+    if(!descrizione){
+        descrErr.classList.remove("invisible");
+        setTimeout(()=>{
+            descrErr.classList.add("invisible");
+        },time)
+    }
+
+    const immagine = immInput.value;
+    if(!immagine){
+        immErr.classList.remove("invisible");
+        setTimeout(()=>{
+            immErr.classList.add("invisible");
+        },time)
+    };
+    
+    if(titolo && descrizione && immagine){
+    // aggiunta dell'immagine
+        const fileImg = await uploadFile(immInput); //contiente il path e il link
+        const link = fileImg.link;
+  
+        const id_utente = user.id;
+        const viaggio = {
+            titolo: titolo,
+            descrizione: descrizione,
+            immagine: link,
+            id_utente: id_utente
+        }
+    
+        saveViaggio(viaggio).then(async()=>{
+            formAdd.reset();
+            const viaggi = await getViaggi();
+            preRender(viaggi);
+        })
+    }
+}
+
 
 const homeBtn = document.getElementById("nav-home");
 homeBtn.onclick=()=>{
@@ -73,6 +133,11 @@ const openModal = () => {
 };
 
 const closeModal = () => {
+  const forms = document.getElementsByTagName("form");
+  for(let i=0; i<forms.length; i++){
+    forms[i].style.display="none";
+  }
+  formAdd.style.display="block";
   modal.classList.remove("is-open");
 };
 
@@ -85,5 +150,25 @@ close_btn.onclick=()=>{
     closeModal();
 }
 
- 
-export { openModal };
+const getUser = async (id) => {
+    try{
+        const r = await fetch("/get_singleUser/"+id);
+        const json = await r.json();
+        return json;
+    } catch (e) {
+        console.log(e);
+    } 
+}
+
+const getSingleViaggio = async (id) => {
+    try{
+        const r = await fetch("/getSingleViaggio/"+id);
+        const json = await r.json();
+        return json;
+    } catch (e) {
+        console.log(e);
+    } 
+}
+
+
+export { openModal, getUser, getSingleViaggio};

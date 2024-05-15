@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- icona mail -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <title>Login Page</title>
 </head>
 <body>
@@ -22,10 +24,16 @@
                     <div class="input-block">
                         <label for="username_log" class="input-label">Username</label>
                         <input type="text" id="username_log" >
+                        <div class="error-space">
+                          <p class="invisible" id="log_username_error">Inserisci username</p>
+                        </div>
                     </div>
                     <div class="input-block">
                         <label for="password_log" class="input-label">Password</label>
                         <input type="password" id="password_log">
+                        <div class="error-space">
+                          <p class="invisible" id="log_password_error">Inserisci password</p>
+                        </div>
                     </div>
                     <div class="modal-buttons">
                         <button type="button" class="input-button" id="log_submit">Login</button>
@@ -37,29 +45,50 @@
                   <div class="input-block">
                     <label for="imgProfilo" class="input-label">Foto profilo</label>
                     <input type="file" id="imgProfilo">
+                    <div class="error-space">
+                      <p class="invisible" id="profilo_error">Inserisci foto profilo</p>
+                    </div>
                   </div>
                   <div class="input-block">
                     <label for="nome_input" class="input-label">Nome</label>
-                    <input type="text" id="nome" required>
+                    <input type="text" id="nome">
+                    <div class="error-space">
+                      <p class="invisible" id="nome_error">Inserisci nome</p>
+                    </div>
                   </div><div class="input-block">
                     <label for="cognome_input" class="input-label">Cognome</label>
-                    <input type="text" id="cognome"required>
+                    <input type="text" id="cognome">
+                    <div class="error-space">
+                      <p class="invisible" id="cognome_error">Inserisci cognome</p>
+                    </div>
                   </div>
                   <div class="input-block">
                     <label for="email_input" class="input-label">Email</label>
-                    <input type="text" id="email"required>
+                    <input type="text" id="email">
+                    <div class="error-space">
+                      <p class="invisible" id="email_error">Inserisci email</p>
+                    </div>
                   </div>
                   <div class="input-block">
                       <label for="username_sign" class="input-label">Username</label>
-                      <input type="text" id="username_sign"required>
+                      <input type="text" id="username_sign">
+                      <div class="error-space">
+                        <p class="invisible" id="sign_username_error">Inserisci username</p>
+                      </div>
                   </div>
                   <div class="input-block">
                       <label for="password_sign" class="input-label">Password</label>
-                      <input type="password" id="password_sign"required>
+                      <input type="password" id="password_sign">
+                      <div class="error-space">
+                        <p class="invisible" id="sign_password_error">Inserisci password</p>
+                      </div>
                   </div>
                   <div class="textarea-block">
                     <label for="message" class="input-label">Bio</label>
                     <textarea id="bio" rows="4"></textarea>
+                    <div class="error-space">
+                      <p class="invisible" id="bio_error">Inserisci bio</p>
+                    </div>
                 </div>
 
                   <div class="modal-buttons">
@@ -78,6 +107,12 @@
             </button>
         </div>
     </div>
+    <div class="popup" id="popup">
+      <div class="icon-container">
+          <i class="fa fa-envelope"></i>
+      </div>
+      <p class="message">Controlla la mail</p>
+  </div>
   <script type="module" src="login.js"></script>
 </body>
 </html>

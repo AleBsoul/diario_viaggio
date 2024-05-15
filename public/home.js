@@ -1,17 +1,6 @@
 import { uploadFile, downloadFile} from "./mega.js"
+import { getUser, getSingleViaggio} from "./common.js"
 
-
-//add viaggio
-const newViaggio = document.getElementById("newViaggio_btn");
-const titoloInput = document.getElementById("titolo_viaggio_input");
-const descrInput = document.getElementById("descrizione_viaggio_input");
-const immInput = document.getElementById("immagine_viaggio_input");
-
-const titoloErr = document.getElementById("titolo_error");
-const descrErr = document.getElementById("descrizione_error");
-const immErr = document.getElementById("immagine_error");
-
-const time = 3000;
 
 const travelContentDiv = document.getElementById("travel-content");
 
@@ -44,6 +33,8 @@ const travelTemplate =
         </div>
 </div>
 `
+
+//render delle immagini
 const render = async (viaggi,travels) => {
     for(let i=0;i<travels.length;i++){
         const imgViaggio = `<img src="${await downloadFile(viaggi[i].immagine)}">`;
@@ -51,6 +42,8 @@ const render = async (viaggi,travels) => {
         travels[i].innerHTML=travelTemplate.replace("%nome", viaggi[i].titolo).replace("%utente", viaggi[i].username).replace("%id_utente", viaggi[i].idUser).replace("%id", viaggi[i].idViaggio).replace("%IMGVIAGGIO",imgViaggio).replace("%IMGPROFILO",imgProfilo);
     }
 }
+
+//caricamento dei div dei viaggi con la rotella di caricamento
 const preRender=async(viaggi)=>{
     const loadingViaggio = `<iframe id='loadingViaggio' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`
     const loadingProfilo = `<iframe id='loadingProfilo' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`
@@ -83,15 +76,6 @@ const preRender=async(viaggi)=>{
     });
 }
 
-const getUser = async (id) => {
-    try{
-        const r = await fetch("/get_singleUser/"+id);
-        const json = await r.json();
-        return json;
-    } catch (e) {
-        console.log(e);
-    } 
-}
 
 const getViaggi = async () => {
     try{
@@ -102,83 +86,6 @@ const getViaggi = async () => {
         console.log(e);
     } 
 }
-
-const getSingleViaggio = async (id) => {
-    try{
-        const r = await fetch("/getSingleViaggio/"+id);
-        const json = await r.json();
-        return json;
-    } catch (e) {
-        console.log(e);
-    } 
-}
-
-const saveViaggio = async (data) => {
-    try{
-        const r = await fetch("/addViaggio", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({data})
-        });
-        const result = await r.json();
-        return result;
-    } catch (e) {
-        console.log(e);
-    }
-};
-
-const formAdd = document.getElementById("formAdd");
-
-newViaggio.onclick= async()=>{
-    const titolo = titoloInput.value;
-
-    if(!titolo){
-        titoloErr.classList.remove("invisible");
-        setTimeout(()=>{
-            titoloErr.classList.add("invisible");
-        },time)
-    }
-
-    const descrizione = descrInput.value;
-    if(!descrizione){
-        descrErr.classList.remove("invisible");
-        setTimeout(()=>{
-            descrErr.classList.add("invisible");
-        },time)
-    }
-
-    const immagine = immInput.value;
-    // aggiunta dell'immagine
-    const fileImg = await uploadFile(immInput); //contiente il path e il link
-    const link = fileImg.link;
-  
-    if(!immagine){
-        immErr.classList.remove("invisible");
-        setTimeout(()=>{
-            immErr.classList.add("invisible");
-        },time)
-    };
-    
-    if(titolo && descrizione && immagine){
-        const id_utente = user.id;
-        const viaggio = {
-            titolo: titolo,
-            descrizione: descrizione,
-            immagine: link,
-            id_utente: id_utente
-        }
-    
-        saveViaggio(viaggio).then(async()=>{
-            formAdd.reset();
-            const viaggi = await getViaggi();
-            preRender(viaggi);
-        })
-    }
-}
-
-
 
 // const viaggi = await getViaggi();
 preRender(await getViaggi());
