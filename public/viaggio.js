@@ -48,6 +48,17 @@ google.maps.event.addDomListener(window, 'load', function() {
   initializeAutocomplete('put_posizione_post_input');
 });
 
+//map
+let map;
+const myMap = (lat, lng) => {
+  const mapProp = {
+    center: new google.maps.LatLng(lat, lng),
+    zoom: 4
+  };
+  map = new google.maps.Map(document.getElementById("map_posts"),mapProp);
+}
+
+
 
 
 
@@ -360,7 +371,20 @@ const del_btn_event = () =>{
 }
 const postsContentDiv = document.getElementById("post-content");
 
+
 const render = async(posts) =>{
+  //map
+  
+  myMap(posts[0].latitudine, posts[0].longitudine);
+  posts.forEach((post)=>{
+    new google.maps.Marker({
+      position: new google.maps.LatLng(post.latitudine, post.longitudine),
+      map: map
+    })
+  })
+
+
+
   const loadingPost = `<iframe id='loadingPost' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`;
   let postsContent = "";
   posts.forEach(post => {
@@ -410,7 +434,8 @@ const render = async(posts) =>{
     postsDivs[i].innerHTML=postsContent;
     del_btn_event();
     update_btn_event(posts);
-  }
+  };
+  
 }
 
 const posts = await get_posts(viaggio.id);
