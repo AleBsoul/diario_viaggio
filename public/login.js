@@ -130,6 +130,18 @@ loginNow.onclick=()=>{
 }
 
 sign_submit.onclick=async()=>{
+  const popup = document.getElementById('popup');
+  popup.classList.add('drop');
+      setTimeout(() => {
+        popup.classList.add('expand');
+      }, 1200);
+
+      setTimeout(() => {
+        popup.classList.remove('expand');
+        setTimeout(() => {
+          popup.classList.remove('drop');
+          }, 2000);
+        }, 3200); 
   const time = 3000;
   const file = document.getElementById("imgProfilo");
   const username = document.getElementById("username_sign").value;
@@ -138,7 +150,7 @@ sign_submit.onclick=async()=>{
   const nome = document.getElementById("nome").value;
   const cognome = document.getElementById("cognome").value;
   const bio = document.getElementById("bio").value;
-  const popup = document.getElementById('popup');
+  // const popup = document.getElementById('popup');
   
   if(!file.value){
       document.getElementById("profilo_error").classList.remove("invisible");

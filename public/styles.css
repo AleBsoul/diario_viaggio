@@ -668,6 +668,32 @@ body{
       transform: translateY(20px);
   }
 }
+
+@keyframes bounce {
+  0%{
+  top: 10px;
+    
+  }
+  20% {
+    top: 40px;
+    
+  }
+  40% {
+    top: 20px;
+    
+  }
+  60%{
+    top: 40px;
+  }
+  80% {
+    top: 30px;
+    
+  }
+  100%{
+    top: 40px;
+  }
+}
+
 .popup {
   position: fixed;
   top: -50%;
@@ -691,6 +717,7 @@ body{
   top: 40px;
   left: 50%;
   transform: translate(-50%, -50%);
+  animation: bounce 1s ease-out;
 }
 
 .icon-container {
