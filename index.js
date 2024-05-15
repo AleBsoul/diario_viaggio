@@ -232,25 +232,47 @@ app.put("/modificaPost",(req, res)=>{
   if (file) updates.push(` file = '${file}'`);
   if (testo) updates.push(` testo = '${testo}'`);
   if (descrizione) updates.push(` descrizione = '${descrizione}'`);
-  if (posizione) updates.push(` posizione = '${posizione}'`);
+  
   if (mime) updates.push(` mime = '${mime}'`);
-  updates.push(` ultima_modifica = '${ultima_modifica}'`);
+      updates.push(` ultima_modifica = '${ultima_modifica}'`);
 
-  sql += updates.join(',') + ` WHERE id = '${id}'`;
-  executeQuery(sql).then((result)=>{
-      res.json({result: "post modificato"});
+      
+  let find = false;
+  selectPositions().then((r)=>{
+    r.forEach((pos)=>{
+      if(pos.nome==posizione.nome){
+        find=true
+      }
     })
+    if(!find){
+      addPosition(posizione);
+    };
+    selectPosition(posizione.nome).then((id_pos)=>{
+      console.log(id_pos);
+      updates.push(` id_posizione = '${id_pos[0].id}'`);
+      sql += updates.join(',') + ` WHERE id = '${id}'`;
+      console.log(sql);
+      executeQuery(sql).then((result)=>{
+          res.json({result: "post modificato"});
+        })
+    });
+
+    
+  });
+  
+  
+  
 
 })
 
 app.get("/get_post/:id",(req, res)=>{
   const id_viaggio = req.params.id;
   const sql = `
-  SELECT post.file, post.testo, post.descrizione, post.mime, post.data, post.ultima_modifica, post.id_posizione, posizione.nome, posizione.latitudine, posizione.longitudine
+  SELECT post.file, post.testo, post.descrizione, post.mime, post.data, post.ultima_modifica, post.id_posizione, posizione.nome, posizione.latitudine, posizione.longitudine, post.id
   FROM post, posizione
   WHERE post.id_viaggio = '${id_viaggio}'
   AND post.id_posizione = posizione.id
-
+  ORDER BY post.data DESC
   `;
   executeQuery(sql).then((result)=>{
     res.json({result: result});

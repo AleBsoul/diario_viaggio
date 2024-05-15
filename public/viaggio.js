@@ -45,7 +45,10 @@ function onPlaceChanged() {
 
 google.maps.event.addDomListener(window, 'load', function() {
   initializeAutocomplete('posizione_post_input');
+  initializeAutocomplete('put_posizione_post_input');
 });
+
+
 
 
 if(user.id===loggato.id){
@@ -170,14 +173,18 @@ updatePost_btn.onclick=async()=>{
   const titolo = document.getElementById("put_titolo_post_input");
   const descrizione = document.getElementById("put_descrizione_post_input");
   const media = document.getElementById("put_media_post_input");
-  const posizione = document.getElementById("put_posizione_post_input");
-  if(titolo.value || descrizione.value || posizione.value || media.value){
+  const position = {
+    nome: place.formatted_address,
+    latitudine: place.geometry.location.lat(),
+    longitudine: place.geometry.location.lng()
+  };
+  if(titolo.value || descrizione.value || position || media.value){
     const data = String(Date.now());
   let post = {
     id:postId,
     titolo: titolo.value,
     descrizione: descrizione.value,
-    posizione: posizione.value,
+    posizione: position,
     id_viaggio: viaggio.id,
     ultima_modifica: data
   }
@@ -275,6 +282,8 @@ newPost.onclick=async()=>{
   })
 }
 
+
+
 const get_posts = async(id)=>{
   try{
     const r = await fetch("/get_post/"+id);
@@ -319,14 +328,22 @@ const delPost= async(id)=>{
 } 
 }
 
-const update_btn_event=()=>{
+const update_btn_event=(posts)=>{
   const put_btns = document.querySelectorAll(".pencilPost");
   put_btns.forEach((put_btn)=>{
-    put_btn.onclick=async()=>{
+    put_btn.onclick=()=>{
       postId=put_btn.id;
       document.getElementById("formUpdatePost").style.display="block";
       document.getElementById("formAddPost").style.display="none";
       openModal();
+      posts.forEach((post)=>{
+        if(post.id==put_btn.id){
+          console.log(post)
+          document.getElementById("put_titolo_post_input").value=post.testo;
+          document.getElementById("put_descrizione_post_input").value=post.descrizione;
+          document.getElementById("put_posizione_post_input").value=post.nome;
+        }
+      })
     }
   })
 }
@@ -350,7 +367,7 @@ const render = async(posts) =>{
     console.log(post);
     const all_date = new Date(parseInt(post.data));
     const data = all_date.getDay()+"/"+all_date.getMonth()+"/"+all_date.getFullYear()+" - "+all_date.getHours()+":"+all_date.getMinutes()
-
+    
     if(post.ultima_modifica){
       const all_modifica_date = new Date(parseInt(post.ultima_modifica));
       const modifica_data = all_modifica_date.getDay()+"/"+all_modifica_date.getMonth()+"/"+all_modifica_date.getFullYear()+" - "+all_modifica_date.getHours()+":"+all_modifica_date.getMinutes()
@@ -361,7 +378,7 @@ const render = async(posts) =>{
   });
   postsContentDiv.innerHTML=postsContent;
   del_btn_event();
-  update_btn_event();
+  update_btn_event(posts);
   const postsDivs = document.querySelectorAll(".post-container");
   postsDivs.forEach((postDiv)=>{
     postDiv.addEventListener('click', async function (event) {
@@ -392,7 +409,7 @@ const render = async(posts) =>{
     }
     postsDivs[i].innerHTML=postsContent;
     del_btn_event();
-    update_btn_event();
+    update_btn_event(posts);
   }
 }
 
