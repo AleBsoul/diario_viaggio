@@ -656,3 +656,97 @@ body{
   top:2px;
   right:0;
 }
+
+
+/* ======icona mail======= */
+
+@keyframes drop {
+  0% {
+      transform: translateY(-400px);
+  }
+  100% {
+      transform: translateY(20px);
+  }
+}
+
+
+@keyframes bounce {
+  0%{
+  top: 10px;
+
+  }
+  20% {
+    top: 40px;
+
+  }
+  40% {
+    top: 20px;
+
+  }
+  60%{
+    top: 40px;
+  }
+  80% {
+    top: 30px;
+
+  }
+  100%{
+    top: 40px;
+  }
+}
+.popup {
+  position: fixed;
+  top: -50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  background-color: #1a87ae;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+  transition: 0.5s ease-in-out;
+  overflow: hidden;
+  z-index: 999;
+}
+
+.drop {
+  top: 40px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: bounce 1s ease-out;
+}
+
+.icon-container {
+  position: absolute;
+  top: 50%;
+  left: 25px;
+  transform: translate(-50%, -50%);
+  transition: all 0.5s ease-in-out;
+}
+
+.message {
+  position: absolute;
+  opacity: 0;
+  font-size: 16px;
+  white-space: nowrap;
+  transition: all 0.5s ease-in-out;
+}
+
+.expand {
+  top: 40px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 165px;
+  height: 50px;
+  border-radius: 25px;
+  padding-left: 10px;
+}
+
+.expand .message {
+  opacity: 1;
+  left: 50px;
+}
