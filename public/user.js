@@ -1,8 +1,6 @@
 import { uploadFile, downloadFile} from "./mega.js"
-import { openModal } from "./common.js"
+import { openModal, getUser, getSingleViaggio} from "./common.js"
 
-let travelsTemplate;
-let travelTemplate;
 
 let user = JSON.parse(sessionStorage.getItem("utente"));
 let loggato = JSON.parse(sessionStorage.getItem("loggato"));
@@ -17,7 +15,6 @@ const travelsTemplateLogged =`
         <p class="nome">%nome</p>
         <div class="utente" id="%id_utente">
             <button type="button" class="del_btn_viaggio" id="%IDViaggioDel"><i class="fi fi-rr-trash"></i></button>
-
         </div>
     </div>
 </div>
@@ -64,7 +61,7 @@ const travelTemplateNot = `
 
 
 const userTemp = `
-<div class="profile-picture">
+<div class="profile-picture" id="profile-picture">
     %IMMAGINE
 </div>
 <div class="profile-details">
@@ -77,18 +74,6 @@ const userTemp = `
     </div>
 </div>
 `
-//add viaggio
-const newViaggio = document.getElementById("newViaggio_btn");
-const titoloInput = document.getElementById("titolo_viaggio_input");
-const descrInput = document.getElementById("descrizione_viaggio_input");
-const immInput = document.getElementById("immagine_viaggio_input");
-
-const titoloErr = document.getElementById("titolo_error");
-const descrErr = document.getElementById("descrizione_error");
-const immErr = document.getElementById("immagine_error");
-
-const time = 3000;
-
 const travelContentDiv = document.getElementById("travel-content");
 const userContentDiv = document.getElementById("user-content");
 
@@ -105,33 +90,8 @@ if(user.id===loggato.id){
 }
 
 
-const getSingleViaggio = async (id) => {
-    try{
-        const r = await fetch("/getSingleViaggio/"+id);
-        const json = await r.json();
-        return json;
-    } catch (e) {
-        console.log(e);
-    } 
-}
-
-const getUser = async (id) => {
-    try{
-        const r = await fetch("/get_singleUser/"+id);
-        const json = await r.json();
-        return json;
-    } catch (e) {
-        console.log(e);
-    } 
-}
-
-
+//render delle immagini
 const render = async (data,travels) => {
-    document.getElementById("pencilViaggio").onclick=()=>{
-        formAdd.style.display="none";
-        document.getElementById("formUpdate").style.display="block";
-        openModal();
-    }
     for(let i=0;i<travels.length;i++){
         const imgViaggio = `<img src="${await downloadFile(data[i].immagine)}">`;
         const imgProfilo = `<img src="${await downloadFile(data[i].fotoProfilo)}" class="user-foto">`;  
@@ -139,6 +99,8 @@ const render = async (data,travels) => {
     }
 }
 
+
+//caricamento dei div dei viaggi con la rotella di caricamento
 const preRender = async (data) => {
     renderProfilo();
     const loading = `<iframe id='loadingViaggio' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`
@@ -170,19 +132,21 @@ const preRender = async (data) => {
 }
 
 
+
 const renderProfilo=async()=>{
     const loading = `<iframe id='loadingViaggio' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`
     userContentDiv.innerHTML = userTemp.replace("%IMMAGINE",loading).replace("%nome", user.nome).replace("%cognome",user.cognome).replace("%username",user.username).replace("%bio",user.bio).replace("%email",user.email);
     
     document.getElementById("pencilViaggio").onclick=()=>{
-        formAdd.style.display="none";
+        document.getElementById("formAdd").style.display="none";
         document.getElementById("formUpdate").style.display="block";
         openModal();
     }
     const imgProfilo = `<img src="${await downloadFile(user.foto)}"></img>`;
     userContentDiv.innerHTML = userTemp.replace("%IMMAGINE",imgProfilo).replace("%nome", user.nome).replace("%cognome",user.cognome).replace("%username",user.username).replace("%bio",user.bio).replace("%email",user.email);
+    
     document.getElementById("pencilViaggio").onclick=()=>{
-        formAdd.style.display="none";
+        document.getElementById("formAdd").style.display="none";
         document.getElementById("formUpdate").style.display="block";
         openModal();
     }
@@ -211,70 +175,6 @@ const delViaggio = async(id) =>{
         return result;
     } catch (e) {
         console.log(e);
-    }
-}
-
-const saveViaggio = async (data) => {
-    try{
-        const r = await fetch("/addViaggio", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({data})
-        });
-        const result = await r.json();
-        return result;
-    } catch (e) {
-        console.log(e);
-    }
-};
-
-const formAdd = document.getElementById("formAdd");
-
-newViaggio.onclick= async()=>{
-    const titolo = titoloInput.value;
-
-    if(!titolo){
-        titoloErr.classList.remove("invisible");
-        setTimeout(()=>{
-            titoloErr.classList.add("invisible");
-        },time)
-    }
-
-    const descrizione = descrInput.value;
-    if(!descrizione){
-        descrErr.classList.remove("invisible");
-        setTimeout(()=>{
-            descrErr.classList.add("invisible");
-        },time)
-    }
-
-    const immagine = immInput.value;
-    // aggiunta dell'immagine
-    const link = await uploadFile(immInput); //contiente il path e il link
-    if(!immagine){
-        immErr.classList.remove("invisible");
-        setTimeout(()=>{
-            immErr.classList.add("invisible");
-        },time)
-    };
-    
-    if(titolo && descrizione && immagine){
-        const id_utente = user.id;
-        const viaggio = {
-            titolo: titolo,
-            descrizione: descrizione,
-            immagine: link.link,
-            id_utente: id_utente
-        }
-    
-        saveViaggio(viaggio).then(()=>{
-            formAdd.reset();
-            getViaggi().then((result)=>{
-                preRender(result.result);
-            })
-        })
     }
 }
 
@@ -326,8 +226,6 @@ update_submit.onclick=async()=>{
     });
     document.getElementById("formUpdate").reset();
 }
-
-
 
 getViaggi().then((result)=>{
     preRender(result.result);

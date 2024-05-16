@@ -212,7 +212,6 @@ sign_submit.onclick=async()=>{
 
   document.getElementById("signUp_form").reset();
   }
-
 }
 const mail=async(mail)=>{
   try{
