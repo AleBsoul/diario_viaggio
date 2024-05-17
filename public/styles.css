@@ -16,7 +16,6 @@ body{
   margin-right: 60px;
 }
 
-
 .nav-element{
   z-index: 1000;
   border: none;
@@ -55,7 +54,18 @@ body{
   display: flex;
   align-items: right;
   justify-content: flex-end;
-  position: relative;
+}
+
+
+#bar-btn{
+  background: none;
+  border: none;
+  z-index: 2000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+#bar-btn:hover{
+  opacity: 0.7;
 }
 
 
@@ -63,9 +73,9 @@ body{
 .collapsed{
   display: flex;
   flex-direction: column;
-  position: absolute;
   height: 260px;
-  right: 40px;
+  flex-wrap: wrap;
+  align-items: flex-end;
 }
 
 #btn-logout{
@@ -373,6 +383,7 @@ body{
   width: 60%;
   margin: auto;
   margin-top: 70px;
+  padding-bottom: 30px;
 }
 
 @media(max-width: 900px) {
@@ -606,16 +617,31 @@ body{
 }
 
 .top-post{
-  height: 85px;
   border-bottom: 1px solid lightgrey;
   padding-left: 20px;
   position: relative;
+  padding-bottom: 20px;
 }
+
 
 .data-div{
   position: absolute;
   right: 15px;
   bottom: 5px;
+}
+@media(max-width: 1300px) {
+  .data-div{
+    position: static;
+    
+  }
+}
+
+@media(min-width: 1301px) {
+  .data-div{
+    position: absolute;
+    right: 15px;
+    bottom: 5px;
+  }
 }
 
 .titolo-post{
