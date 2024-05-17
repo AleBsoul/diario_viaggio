@@ -1,5 +1,5 @@
 import { uploadFile, downloadFile} from "./mega.js"
-import { openModal, getUser, getSingleViaggio} from "./common.js"
+import { openModal, getUser, getSingleViaggio, newViaggioClick, getUserViaggi} from "./common.js"
 
 
 let user = JSON.parse(sessionStorage.getItem("utente"));
@@ -89,6 +89,15 @@ if(user.id===loggato.id){
     travelsTemp = travelsTemplateNot;
 }
 
+const newViaggio = document.getElementById("newViaggio_btn");
+newViaggio.onclick=async()=>{
+    const check = await newViaggioClick();
+    if(check){
+        getUserViaggi(user.id).then((result)=>{
+            preRender(result.result);
+        })
+    }
+}
 
 //render delle immagini
 const render = async (data,travels) => {
@@ -106,14 +115,14 @@ const preRender = async (data) => {
     const loading = `<iframe id='loadingViaggio' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`
     const loadingProfilo = `<iframe id='loadingProfilo' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`    
     travelContentDiv.innerHTML = "";
-
+    console.log(data);
     for (const travel of data) {
         travelContentDiv.innerHTML += travelsTemp.replace("%nome", travel.titolo).replace("%utente", travel.username).replace("%id_utente", travel.idUser).replace("%id", travel.idViaggio).replace("%IMGVIAGGIO",loading).replace("%IMGPROFILO",loadingProfilo).replace("%IDViaggioDel",travel.idViaggio);;
     }
 
     const travels = document.querySelectorAll(".travel");
 
-    render(data,travels);
+    
 
     travels.forEach((travel) => {
         travel.addEventListener('click', async function (event) {
@@ -125,10 +134,16 @@ const preRender = async (data) => {
     const del_btns = document.querySelectorAll(".del_btn_viaggio");
     del_btns.forEach((del_btn)=>{
         del_btn.onclick=async()=>{
+            console.log("del")
+            window.location.href='user.html';
             await delViaggio(del_btn.id);
-            preRender(await(getViaggi()).result);
+            getUserViaggi(user.id).then((result)=>{
+                preRender(result.result);
+            })
         }
     })
+
+    render(data,travels);
 }
 
 
@@ -153,15 +168,6 @@ const renderProfilo=async()=>{
 }
 
 
-const getViaggi = async () => {
-    try{
-        const r = await fetch("/getViaggiUser/"+user.id);
-        const json = await r.json();
-        return json;
-    } catch (e) {
-        console.log(e);
-    }  
-}
 
 const delViaggio = async(id) =>{
     try{
@@ -227,6 +233,6 @@ update_submit.onclick=async()=>{
     document.getElementById("formUpdate").reset();
 }
 
-getViaggi().then((result)=>{
+getUserViaggi(user.id).then((result)=>{
     preRender(result.result);
 })

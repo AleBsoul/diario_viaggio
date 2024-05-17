@@ -95,18 +95,7 @@ loginForm.addEventListener("keypress", function(event) {
     const password_value = document.getElementById("password_log").value;
     const user = {username:username_value, password:password_value};
 
-    if(!username_value){
-      document.getElementById("log_username_error").classList.remove("invisible");
-      setTimeout(()=>{
-        document.getElementById("log_username_error").classList.add("invisible");
-      },time)
-  }
-  if(!password_value){
-    document.getElementById("log_password_error").classList.remove("invisible");
-      setTimeout(()=>{
-        document.getElementById("log_password_error").classList.add("invisible");
-      },time)
-  };
+    
     if(username_value && password_value){
       login(user).then((result)=>{
         if(result.result){

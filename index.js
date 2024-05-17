@@ -153,6 +153,7 @@ WHERE viaggio.id = '${id}'
     res.json({result: result[0]});
   })
 })
+
 app.delete("/del_viaggio/:id",(req,res)=>{
   const id = req.params.id 
   const sql = `
@@ -259,10 +260,6 @@ app.put("/modificaPost",(req, res)=>{
 
     
   });
-  
-  
-  
-
 })
 
 app.get("/get_post/:id",(req, res)=>{

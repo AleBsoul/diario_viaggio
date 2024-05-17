@@ -7,6 +7,13 @@ if(!user){
     window.location.href="login.html";
 }
 
+const checkNull = (element) => {
+    element.parentElement.classList.remove("null")
+    if(!element.value){
+      element.parentElement.classList.add("null");
+    }
+}
+  
 //navbar
 const rightNavContent = document.getElementById("right-nav-content");
 const bar = document.getElementById("bar");
@@ -35,6 +42,32 @@ window.addEventListener("resize", function(){
 })
 check_size();
 
+const getUserViaggi = async () => {
+    try{
+        const r = await fetch("/getViaggiUser/"+user.id);
+        const json = await r.json();
+        return json;
+    } catch (e) {
+        console.log(e);
+    }  
+}
+
+
+const saveViaggio = async (data) => {
+    try{
+        const r = await fetch("/addViaggio", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({data})
+        });
+        const result = await r.json();
+        return result;
+    } catch (e) {
+        console.log(e);
+    }
+};
 
 const newViaggio = document.getElementById("newViaggio_btn");
 //add viaggio
@@ -42,57 +75,33 @@ const titoloInput = document.getElementById("titolo_viaggio_input");
 const descrInput = document.getElementById("descrizione_viaggio_input");
 const immInput = document.getElementById("immagine_viaggio_input");
 
-const titoloErr = document.getElementById("titolo_error");
-const descrErr = document.getElementById("descrizione_error");
-const immErr = document.getElementById("immagine_error");
-
-const time = 3000;
 
 const formAdd = document.getElementById("formAdd");
 
-newViaggio.onclick= async()=>{
-    const titolo = titoloInput.value;
-    if(!titolo){
-        titoloErr.classList.remove("invisible");
-        setTimeout(()=>{
-            titoloErr.classList.add("invisible");
-        },time)
-    }
-
-    const descrizione = descrInput.value;
-    if(!descrizione){
-        descrErr.classList.remove("invisible");
-        setTimeout(()=>{
-            descrErr.classList.add("invisible");
-        },time)
-    }
-
-    const immagine = immInput.value;
-    if(!immagine){
-        immErr.classList.remove("invisible");
-        setTimeout(()=>{
-            immErr.classList.add("invisible");
-        },time)
-    };
+const newViaggioClick=async()=>{
     
-    if(titolo && descrizione && immagine){
+    checkNull(titoloInput);
+    checkNull(descrInput);
+    checkNull(immInput);
+    
+    if(titoloInput.value && descrInput.value && immInput.value){
     // aggiunta dell'immagine
         const fileImg = await uploadFile(immInput); //contiente il path e il link
         const link = fileImg.link;
   
         const id_utente = user.id;
         const viaggio = {
-            titolo: titolo,
-            descrizione: descrizione,
+            titolo: titoloInput.value,
+            descrizione: descrInput.value,
             immagine: link,
             id_utente: id_utente
         }
     
-        saveViaggio(viaggio).then(async()=>{
-            formAdd.reset();
-            const viaggi = await getViaggi();
-            preRender(viaggi);
-        })
+        await saveViaggio(viaggio);
+        formAdd.reset();
+        return true
+    }else{
+        return false;
     }
 }
 
@@ -160,6 +169,16 @@ const getUser = async (id) => {
     } 
 }
 
+const getViaggi=async()=>{
+    try{
+        const r = await fetch("/getViaggi");
+        const json = await r.json();
+        return json;
+    } catch (e) {
+        console.log(e);
+    } 
+}
+
 const getSingleViaggio = async (id) => {
     try{
         const r = await fetch("/getSingleViaggio/"+id);
@@ -171,4 +190,4 @@ const getSingleViaggio = async (id) => {
 }
 
 
-export { openModal, getUser, getSingleViaggio};
+export { openModal, getUser, getSingleViaggio, getUserViaggi, getViaggi, newViaggioClick, checkNull};

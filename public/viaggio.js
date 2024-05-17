@@ -1,4 +1,6 @@
 import { uploadFile, downloadFile} from "./mega.js"
+import { newViaggioClick, checkNull } from "./common.js"
+
 
 const user = JSON.parse(sessionStorage.getItem("utente"));
 const loggato = JSON.parse(sessionStorage.getItem("loggato"));
@@ -8,6 +10,11 @@ const updatePost_btn = document.getElementById("updatePost_btn");
 let postsTemplate;
 let postTemplate;
 
+
+const newViaggio = document.getElementById("newViaggio_btn");
+newViaggio.onclick=async()=>{
+    newViaggioClick();
+}
 
 
 let place;
@@ -260,39 +267,45 @@ const savePosition = async (data) => {
 }
 
 const newPost = document.getElementById("newPost_btn");
-
 newPost.onclick=async()=>{
   const titolo = document.getElementById("titolo_post_input");
   const descrizione = document.getElementById("descrizione_post_input");
   const media = document.getElementById("media_post_input");
+  const posizione = document.getElementById("posizione_post_input")
   const data = String(Date.now());
   
-  const position = {
-    nome: place.formatted_address,
-    latitudine: place.geometry.location.lat(),
-    longitudine: place.geometry.location.lng()
-  };
-  
-  const fileImg = await uploadFile(media);
-  const imgLink = await fileImg.link;
-  const post = {
-    titolo: titolo.value,
-    descrizione: descrizione.value,
-    file: await imgLink,
-    posizione: position,
-    id_viaggio: viaggio.id,
-    mime: media.files[0].type.split("/")[0],
-    data: data
-  }
-  
-  
-  savePost(post).then(async(result)=>{
-    document.getElementById("formAddPost").reset();
-    const posts = await get_posts(viaggio.id);
-    render(posts.result);
-  })
-}
+  checkNull(titolo);
+  checkNull(descrizione);
+  checkNull(media);
+  checkNull(posizione);
 
+  if(titolo.value && descrizione.value && media.value && posizione.value){
+    const position = {
+      nome: place.formatted_address,
+      latitudine: place.geometry.location.lat(),
+      longitudine: place.geometry.location.lng()
+    };
+    
+    const fileImg = await uploadFile(media);
+    const imgLink = await fileImg.link;
+    const post = {
+      titolo: titolo.value,
+      descrizione: descrizione.value,
+      file: await imgLink,
+      posizione: position,
+      id_viaggio: viaggio.id,
+      mime: media.files[0].type.split("/")[0],
+      data: data
+    }
+    
+    
+    savePost(post).then(async(result)=>{
+      document.getElementById("formAddPost").reset();
+      const posts = await get_posts(viaggio.id);
+      render(posts.result);
+    })
+  }
+  }
 
 
 const get_posts = async(id)=>{
@@ -444,4 +457,6 @@ const render = async(posts) =>{
 
 const posts = await get_posts(viaggio.id);
 console.log(posts);
-render(await posts.result);
+if(posts.result.length){ //se è maggiore di 0
+  render(await posts.result);
+}

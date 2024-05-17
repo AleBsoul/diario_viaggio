@@ -91,15 +91,6 @@ body{
   background-color: #55311c;
 } */
 
-.error-space{
-  height: 20px;
-  position: relative;
-}
-.error-space p{
-  position: absolute;
-  top: -10px;
-  color: #8c7569;
-}
 
 
 .login_form{
@@ -305,6 +296,10 @@ body{
     transition: 0.3s;
 }
 
+.null{
+  border: 2px solid rgb(136, 0, 0);
+}
+
 .textarea-block textarea{
   height:10vh;
   resize: none;
@@ -482,7 +477,48 @@ body{
   column-gap: 10px;
 }
 
-.addPostDiv {
+.addPostDiv{
+  position: fixed;
+  cursor: pointer;
+  position: absolute;
+  right: 30px;
+  top: 110px;
+}
+
+#add-post{
+  width: 150px;
+  height:60px;
+  border: none;
+  display: flex;
+  padding: 0.75rem 1.5rem;
+  background-color: #488aec;
+  color: #ffffff;
+  font-size: 0.90rem;
+  line-height: 1rem;
+  font-weight: 700;
+  text-align: center;
+  vertical-align: middle;
+  align-items: center;
+  border-radius: 0.5rem;
+  gap: 0.75rem;
+  box-shadow: 0 4px 6px -1px #488aec31, 0 2px 4px -1px #488aec17;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  
+}
+#add-post:hover {
+  box-shadow: 0 10px 15px -3px #488aec4f, 0 4px 6px -2px #488aec17;
+}
+
+#add-post:focus,#add-post:active {
+  opacity: .85;
+  box-shadow: none;
+}
+
+#add-post p{
+  font-size: 18px;
+} 
+/* .addPostDiv {
   width: 100%;
   position: relative;
   transition: all 0.3s ease;
@@ -507,9 +543,8 @@ body{
   padding-right: 20px;
   cursor: pointer;
 }
-#add-post p{
-  font-size: 18px;
-}
+*/
+
 
 .profile-picture,.profile-picture img {
   width: 120px;

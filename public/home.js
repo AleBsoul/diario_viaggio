@@ -1,5 +1,5 @@
 import { uploadFile, downloadFile} from "./mega.js"
-import { getUser, getSingleViaggio} from "./common.js"
+import { getUser, getSingleViaggio, newViaggioClick, getViaggi} from "./common.js"
 
 
 const travelContentDiv = document.getElementById("travel-content");
@@ -33,6 +33,14 @@ const travelTemplate =
         </div>
 </div>
 `
+const newViaggio = document.getElementById("newViaggio_btn");
+newViaggio.onclick=async()=>{
+    const check = await newViaggioClick();
+    if(check){
+        const viaggi = await getViaggi();
+        preRender(await viaggi);
+    }
+}
 
 //render delle immagini
 const render = async (viaggi,travels) => {
@@ -77,15 +85,6 @@ const preRender=async(viaggi)=>{
 }
 
 
-const getViaggi = async () => {
-    try{
-        const r = await fetch("/getViaggi");
-        const json = await r.json();
-        return json;
-    } catch (e) {
-        console.log(e);
-    } 
-}
 
 // const viaggi = await getViaggi();
 preRender(await getViaggi());
