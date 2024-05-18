@@ -4,6 +4,8 @@ import {dirname} from 'path';
 import { conf } from "./conf.js";
 import {megaFunction} from "./server/mega.js";
 import multer from 'multer';
+import { v4 as uuidv4 } from "uuid";
+
 const require = createRequire(import.meta.url);
 
 const express = require("express");
@@ -46,26 +48,31 @@ const transporter = nodemailer.createTransport({
 
 const mysql = require("mysql2");
 const connection = mysql.createConnection(conf);
-let utente_da_creare;
 
-app.get('/verify-email', (req, res) => {
-    executeQuery(utente_da_creare);
+let utenti_da_creare=[];//si aggiungono tutti gli account da verificare
+
+app.get('/verify-email/:token', (req, res) => {
+    const token = req.params.token;
+    const utente_da_creare = utenti_da_creare.find((utente) => utente.token === token)[0];
+    const index = utenti_da_creare.indexOf(utente_da_creare);
+    const query = utente_da_creare.query;
+    utenti_da_creare.splice(index, 1);
+    executeQuery(query);
     res.redirect('/verified.html');  
 });
 
 app.post("/mail", (req,res)=>{
-  const mail=req.body.mail
+  const email = req.body.email;
+  const token = req.body.token;
   const hostname = req.hostname; 
   const protocol = req.protocol; 
   const port = req.socket.localPort; 
-
   const serverUrl = `${protocol}://${hostname}:${port}`;
-  console.log(mail);
   transporter.sendMail({
     from: '<tpsnodemailer@gmail.com>',
-    to: mail,
+    to: email,
     subject: "verifica la mail",
-    html: `<a href="${serverUrl}/verify-email"><button style="background-color: #4CAF50; /* Green */border: none;color: white;padding: 15px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;margin: 4px 2px;cursor: pointer;border-radius: 8px">Verifica</button></a>`,
+    html: `<a href="${serverUrl}/verify-email/${token}"><button style="background-color: #4CAF50; /* Green */border: none;color: white;padding: 15px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;margin: 4px 2px;cursor: pointer;border-radius: 8px">Verifica</button></a>`,
   }).then((result)=>{res.json("Message sent")})
   .catch(console.error);  
 });
@@ -219,9 +226,6 @@ app.post("/addpost", (req, res)=>{
       })
     })
   })
-
-  
-
 })
 
 app.put("/modificaPost",(req, res)=>{
@@ -300,13 +304,22 @@ app.post("/add_user",(req, res)=>{
   const cognome = req.body.cognome;
   const bio = req.body.bio;
   const foto = req.body.foto
-  utente_da_creare = `
-  INSERT INTO utente (username, password, email, nome, cognome, bio, foto)
-  VALUES('${username}', '${password}', '${email}', '${nome}', '${cognome}', '${bio}', '${foto}')
-  `
-  res.json("in attesa di verifica");
-  // la query verrà eseguita nel servizio verifymail dopo che la mail è stata verificata 
-})
+  select_utenti().then((result)=>{
+    const existingUser = result.find((utente) => utente.username === username);
+    if(existingUser){//controllo se esiste gia lo username
+      res.json(false);
+    }else{
+      const query = `
+      INSERT INTO utente (username, password, email, nome, cognome, bio, foto)
+      VALUES('${username}', '${password}', '${email}', '${nome}', '${cognome}', '${bio}', '${foto}')
+      `
+      const token = uuidv4()//token univoco per ogni account da verificare
+      utenti_da_creare.push({token:token,query:query});
+      res.json(token);// la query verrà eseguita nel servizio verifymail dopo che la mail è stata verificata 
+    
+    }
+  })
+  })
 
 
 app.get("/get_users",(req, res)=>{

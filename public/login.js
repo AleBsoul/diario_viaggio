@@ -156,40 +156,50 @@ sign_submit.onclick=async()=>{
   const bio = bio_input.value;
   const popup = document.getElementById('popup');
 
-  if( username && pass && email && nome && cognome && bio){
+  const userr = {username: username, password: pass, email:email, nome:nome, cognome:cognome, bio:bio, foto:"link"}
+  addUser(userr)
+  let mail_request={email:email}
+
+  if(file.value && username && pass && email && nome && cognome && bio){
   // aggiunta dell'immagine
   const fileImg = await uploadFile(file); //contiente il path e il link
   const link = fileImg.link;
   const user = {username: username, password: pass, email:email, nome:nome, cognome:cognome, bio:bio, foto:link}
   addUser(user).then((result)=>{
-    // manda la mail di verifica 
-    mail(email).then((result)=>{
-      // compare il pop-up di controllare la mail
-      popup.classList.add('drop');
-      setTimeout(() => {
-        popup.classList.add('expand');
-      }, 1200);
-
-      setTimeout(() => {
-        popup.classList.remove('expand');
+    console.log(result);
+    if(!result){//controllo che non esista lo username
+      username_input.parentElement.classList.remove("null")
+      username_input.parentElement.classList.add("null");
+    }else{
+      document.getElementById("signUp_form").reset();
+      mail_request.token = result; //assegno il token
+      // manda la mail di verifica 
+      sendmail(mail_request).then((result)=>{
+        // compare il pop-up di controllare la mail
+        popup.classList.add('drop');
         setTimeout(() => {
-          popup.classList.remove('drop');
-          }, 2000);
-        }, 3200); 
-      });
+          popup.classList.add('expand');
+        }, 1200);
+  
+        setTimeout(() => {
+          popup.classList.remove('expand');
+          setTimeout(() => {
+            popup.classList.remove('drop');
+            }, 2000);
+          }, 3200); 
+        });
+    }
   });
-
-  document.getElementById("signUp_form").reset();
-  }
 }
-const mail=async(mail)=>{
+}
+const sendmail=async(mail_request)=>{
   try{
     const r = await fetch("/mail", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({mail: mail})
+        body: JSON.stringify(mail_request)
     });
     const result = await r.json();
     return result;

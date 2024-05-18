@@ -112,8 +112,8 @@ const render = async (data,travels) => {
 //caricamento dei div dei viaggi con la rotella di caricamento
 const preRender = async (data) => {
     renderProfilo();
-    const loading = `<iframe id='loadingViaggio' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`
-    const loadingProfilo = `<iframe id='loadingProfilo' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`    
+    const loading = `<iframe class='loadingViaggio' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`
+    const loadingProfilo = `<iframe class='loadingProfilo' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`    
     travelContentDiv.innerHTML = "";
     console.log(data);
     for (const travel of data) {
@@ -149,7 +149,7 @@ const preRender = async (data) => {
 
 
 const renderProfilo=async()=>{
-    const loading = `<iframe id='loadingViaggio' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`
+    const loading = `<iframe class='loadingViaggio' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`
     userContentDiv.innerHTML = userTemp.replace("%IMMAGINE",loading).replace("%nome", user.nome).replace("%cognome",user.cognome).replace("%username",user.username).replace("%bio",user.bio).replace("%email",user.email);
     
     document.getElementById("pencilViaggio").onclick=()=>{

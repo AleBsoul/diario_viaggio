@@ -399,15 +399,18 @@ const render = async(posts) =>{
   });
   })
 
-
-
-  const loadingPost = `<iframe id='loadingPost' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`;
+  const loadingPost = `<iframe class='loadingPost' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`;
   let postsContent = "";
   //caricamento dei div dei post con la rotella di caricamento
   posts.forEach(post => {
     console.log(post);
     const all_date = new Date(parseInt(post.data));
-    const data = all_date.getDay()+"/"+all_date.getMonth()+"/"+all_date.getFullYear()+" - "+all_date.getHours()+":"+all_date.getMinutes()
+    let mins = String(all_date.getMinutes());
+    console.log(mins.length)
+    if(mins.length===1){
+      mins="0"+mins
+    }
+    const data = all_date.getDay()+"/"+all_date.getMonth()+"/"+all_date.getFullYear()+" - "+all_date.getHours()+":"+mins
     
     if(post.ultima_modifica){
       const all_modifica_date = new Date(parseInt(post.ultima_modifica));
@@ -429,7 +432,11 @@ const render = async(posts) =>{
   postsContent = "";
   for (let i=0; i<posts.length;i++) {
     const all_date = new Date(parseInt(posts[i].data));
-    const data = all_date.getDay()+"/"+all_date.getMonth()+"/"+all_date.getFullYear()+" - "+all_date.getHours()+":"+all_date.getMinutes()
+    let mins = String(all_date.getMinutes());
+    if(mins.length===1){
+      mins="0"+mins
+    }
+    const data = all_date.getDay()+"/"+all_date.getMonth()+"/"+all_date.getFullYear()+" - "+all_date.getHours()+":"+mins
     const srcPost = await downloadFile(posts[i].file);
     let media;
     if (posts[i].mime==="image"){

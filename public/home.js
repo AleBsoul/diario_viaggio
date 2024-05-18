@@ -23,14 +23,13 @@ const travelTemplate =
 `
 <div class="image-space">
     %IMGVIAGGIO
+</div>
+<div class="bottom-travel">
+    <p class="nome">%nome</p>
+    <div class="utente" id="%id_utente">
+        %IMGPROFILO
+        <p>%utente</p>
     </div>
-
-    <div class="bottom-travel">
-        <p class="nome">%nome</p>
-        <div class="utente" id="%id_utente">
-            %IMGPROFILO
-            <p>%utente</p>
-        </div>
 </div>
 `
 const newViaggio = document.getElementById("newViaggio_btn");
@@ -53,8 +52,8 @@ const render = async (viaggi,travels) => {
 
 //caricamento dei div dei viaggi con la rotella di caricamento
 const preRender=async(viaggi)=>{
-    const loadingViaggio = `<iframe id='loadingViaggio' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`
-    const loadingProfilo = `<iframe id='loadingProfilo' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`
+    const loadingViaggio = `<iframe class='loadingViaggio' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`
+    const loadingProfilo = `<iframe class='loadingProfilo' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`
 
     travelContentDiv.innerHTML = "";
 
