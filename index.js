@@ -30,9 +30,10 @@ app.use("/", express.static(path.join(__dirname, "public")));
 app.use(express.json());
 
 const server = http.createServer(app);
-server.listen(80, () => {
-  console.log("- server running");
+server.listen(1080, () => {
+  console.log("- server running on port 1080 ");
 });
+
 
 const mailconf = JSON.parse(fs.readFileSync(path.join(__dirname, './mailconf.json'), 'utf8'));
 
@@ -44,23 +45,25 @@ const transporter = nodemailer.createTransport({
 });
 
 const mysql = require("mysql2");
-const connection = mysql.createConnection(conf);
 
-
-let utente_da_creare;
 app.get('/verify-email', (req, res) => {
-    executeQuery(utente_da_creare);
+    // executeQuery(utente_da_creare);
     res.redirect('/verified.html');  
 });
 
 app.post("/mail", (req,res)=>{
   const mail=req.body.mail
+  const hostname = req.hostname; 
+  const protocol = req.protocol; 
+  const port = req.socket.localPort; 
+
+  const serverUrl = `${protocol}://${hostname}:${port}`;
   console.log(mail);
   transporter.sendMail({
     from: '<tpsnodemailer@gmail.com>',
     to: mail,
     subject: "verifica la mail",
-    html: '<a href="http://localhost/verify-email"><button style="background-color: #4CAF50; /* Green */border: none;color: white;padding: 15px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;margin: 4px 2px;cursor: pointer;border-radius: 8px">Verifica</button></a>',
+    html: `<a href="${serverUrl}/verify-email"><button style="background-color: #4CAF50; /* Green */border: none;color: white;padding: 15px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;margin: 4px 2px;cursor: pointer;border-radius: 8px">Verifica</button></a>`,
   }).then((result)=>{res.json("Message sent")})
   .catch(console.error);  
 });

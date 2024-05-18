@@ -18,6 +18,13 @@ const log_submit = document.getElementById("log_submit");
 
 let isOpened = false;
 
+const checkNull = (element) => {
+  element.parentElement.classList.remove("null")
+  if(!element.value){
+    element.parentElement.classList.add("null");
+  }
+}
+
 const openModal = () => {
   modal.classList.add("is-open");
 };
@@ -91,11 +98,15 @@ loginForm.addEventListener("keypress", function(event) {
 
   log_submit.onclick=()=>{
     const time = 3000;
-    const username_value = document.getElementById("username_log").value;
-    const password_value = document.getElementById("password_log").value;
-    const user = {username:username_value, password:password_value};
+    const username_input = document.getElementById("username_log");
+    const password_input = document.getElementById("password_log");
 
-    
+    checkNull(username_input);
+    checkNull(password_input);
+
+    const username_value = username_input.value;
+    const password_value = password_input.value;
+    const user = {username:username_value, password:password_value};
     if(username_value && password_value){
       login(user).then((result)=>{
         if(result.result){
@@ -121,66 +132,35 @@ loginNow.onclick=()=>{
 sign_submit.onclick=async()=>{
   const time = 3000;
   const file = document.getElementById("imgProfilo");
-  const username = document.getElementById("username_sign").value;
-  const pass = document.getElementById("password_sign").value;
-  const email = document.getElementById("email").value;
-  const nome = document.getElementById("nome").value;
-  const cognome = document.getElementById("cognome").value;
-  const bio = document.getElementById("bio").value;
+  const username_input = document.getElementById("username_sign");
+  const pass_input = document.getElementById("password_sign");
+  const email_input = document.getElementById("email");
+  const nome_input = document.getElementById("nome");
+  const cognome_input = document.getElementById("cognome");
+  const bio_input = document.getElementById("bio");
+  
+  checkNull(username_input);
+  checkNull(pass_input);
+  checkNull(email_input);
+  checkNull(nome_input);
+  checkNull(cognome_input);
+  checkNull(bio_input);
+  checkNull(file);
+
+
+  const username = username_input.value;
+  const pass = pass_input.value;
+  const email = email_input.value;
+  const nome = nome_input.value;
+  const cognome = cognome_input.value;
+  const bio = bio_input.value;
   const popup = document.getElementById('popup');
 
-  if(!file.value){
-      document.getElementById("profilo_error").classList.remove("invisible");
-      setTimeout(()=>{
-          document.getElementById("profilo_error").classList.add("invisible");
-      },time)
-  }
-
-  if(!username){
-      document.getElementById("sign_username_error").classList.remove("invisible");
-      setTimeout(()=>{
-        document.getElementById("sign_username_error").classList.add("invisible");
-      },time)
-  }
-
-  if(!pass){
-    document.getElementById("sign_password_error").classList.remove("invisible");
-      setTimeout(()=>{
-        document.getElementById("sign_password_error").classList.add("invisible");
-      },time)
-  };
-  if(!email){
-    document.getElementById("email_error").classList.remove("invisible");
-    setTimeout(()=>{
-      document.getElementById("email_error").classList.add("invisible");
-    },time)
-  }
-
-  if(!nome){
-    document.getElementById("nome_error").classList.remove("invisible");
-    setTimeout(()=>{
-      document.getElementById("nome_error").classList.add("invisible");
-    },time)
-  }
-
-  if(!cognome){
-    document.getElementById("cognome_error").classList.remove("invisible");
-    setTimeout(()=>{
-      document.getElementById("cognome_error").classList.add("invisible");
-    },time)
-  };
-  if(!bio){
-    document.getElementById("bio_error").classList.remove("invisible");
-    setTimeout(()=>{
-      document.getElementById("bio_error").classList.add("invisible");
-    },time)
-  }
-
-  if(file.value && username && pass && email && nome && cognome && bio){
+  if( username && pass && email && nome && cognome && bio){
   // aggiunta dell'immagine
-  const fileImg = await uploadFile(file); //contiente il path e il link
-  const link = fileImg.link;
-  const user = {username: username, password: pass, email:email, nome:nome, cognome:cognome, bio:bio, foto:link}
+  // const fileImg = await uploadFile(file); //contiente il path e il link
+  // const link = fileImg.link;
+  const user = {username: username, password: pass, email:email, nome:nome, cognome:cognome, bio:bio, foto:"link"}
   addUser(user).then((result)=>{
     // manda la mail di verifica 
     mail(email).then((result)=>{
