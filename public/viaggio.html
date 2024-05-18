@@ -6,6 +6,8 @@
         <link rel="stylesheet" href="styles.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+        <!-- print icon -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <title>Home</title>
       </head>
     <body>
@@ -100,6 +102,13 @@
                 <p>New post</p>
             </button>
         </div>
+        <div class="printTravelDiv">
+            <button id="print-post">
+                <i class="fa fa-print"></i>
+                <p>Stampa</p>
+            </button>
+        </div>
+        
 
         <div class="modal" id="modalPost">
             <div class="modal-container">
@@ -194,20 +203,15 @@
             </div>
         </div>
 
-        <!-- <div id="travel-content" class="travel-content"> dati viaggio, utente che lo ha pubblicato</div>
-
+        <div id="export">
+            <div id="travel_div"></div>
+            <div id="map_posts" style="width:40%;height: 350px;margin: auto; margin-top: 50px;"></div>
+            <div class="post-content" id="post-content"></div>
+        </div>
         
 
-        <div id="post-content" class="post-content">post del viaggio</div> -->
-        <div id="map_posts" style="width:40%;height: 350px;margin: auto; margin-top: 50px;"></div>
-
-        <div class="post-content" id="post-content"></div>
-
         
-
-        <script type="text/javascript"
-            src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;key=AIzaSyCxv9j86w7iiuRA9VOIayp_FYGUUC_UMXQ"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs" crossorigin="anonymous"></script>        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;key=AIzaSyCxv9j86w7iiuRA9VOIayp_FYGUUC_UMXQ"></script>
         <script type="module" src="common.js"></script>
         <script type="module" src="viaggio.js"></script>
     </body>

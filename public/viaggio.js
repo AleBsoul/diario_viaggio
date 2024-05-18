@@ -10,12 +10,33 @@ const updatePost_btn = document.getElementById("updatePost_btn");
 let postsTemplate;
 let postTemplate;
 
+const travel_div = document.getElementById("travel_div");
+
+const travel_temp = `
+<h2 id="viaggio-title">%TITLE</h2>
+<div id="viaggio-image">
+  %IMAGE
+</div>
+`
+
+const generatePDF=async()=>{
+  const doc = new jsPDF();
+  // Aggiungi il contenuto HTML al PDF
+  const to_export = document.getElementById('export');
+  const options = { background: 'white' };
+
+}
+
 
 const newViaggio = document.getElementById("newViaggio_btn");
 newViaggio.onclick=async()=>{
     newViaggioClick();
 }
 
+const print_btn = document.getElementById("print-post");
+print_btn.onclick=()=>{
+  generatePDF();
+}
 
 let place;
 
@@ -362,7 +383,6 @@ const update_btn_event=(posts)=>{
       openModal();
       posts.forEach((post)=>{
         if(post.id==put_btn.id){
-          console.log(post)
           document.getElementById("put_titolo_post_input").value=post.testo;
           document.getElementById("put_descrizione_post_input").value=post.descrizione;
           document.getElementById("put_posizione_post_input").value=post.nome;
@@ -384,8 +404,17 @@ const del_btn_event = () =>{
 }
 const postsContentDiv = document.getElementById("post-content");
 
+const renderTravel=async()=>{
+  const loading_travel_img =`<iframe class='loadingPost' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`;
+  travel_div.innerHTML = travel_temp.replace("%TITLE",viaggio.titolo).replace("%IMAGE",loading_travel_img);
+  const travel_img = `<img src="${await downloadFile(viaggio.immagine)}" class="post_media" width="320" height="240">`;
+  travel_div.innerHTML = travel_temp.replace("%TITLE",viaggio.titolo).replace("%IMAGE", travel_img);
+
+}
 
 const render = async(posts) =>{
+  // travel
+  renderTravel();
   //map
   myMap(posts[0].latitudine, posts[0].longitudine);
   posts.forEach((post)=>{
@@ -398,15 +427,12 @@ const render = async(posts) =>{
       document.getElementById(marker.id).scrollIntoView({behavior: "smooth"});
   });
   })
-
   const loadingPost = `<iframe class='loadingPost' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`;
   let postsContent = "";
   //caricamento dei div dei post con la rotella di caricamento
   posts.forEach(post => {
-    console.log(post);
     const all_date = new Date(parseInt(post.data));
     let mins = String(all_date.getMinutes());
-    console.log(mins.length)
     if(mins.length===1){
       mins="0"+mins
     }

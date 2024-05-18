@@ -499,7 +499,14 @@ body{
   top: 110px;
 }
 
-#add-post{
+.printTravelDiv{
+  position: fixed;
+  cursor: pointer;
+  position: absolute;
+  right: 30px;
+  top: 80px;
+}
+#add-post,#print-post{
   width: 150px;
   height:60px;
   border: none;
@@ -518,18 +525,19 @@ body{
   box-shadow: 0 4px 6px -1px #488aec31, 0 2px 4px -1px #488aec17;
   transition: all 0.3s ease;
   cursor: pointer;
+  margin-top: 10px;
   
 }
-#add-post:hover {
+#add-post:hover, #print-post:hover {
   box-shadow: 0 10px 15px -3px #488aec4f, 0 4px 6px -2px #488aec17;
 }
 
-#add-post:focus,#add-post:active {
+#add-post:focus,#add-post:active,#print-post:focus, #print-post:active {
   opacity: .85;
   box-shadow: none;
 }
 
-#add-post p{
+#add-post p, #print-post p{
   font-size: 18px;
 } 
 /* .addPostDiv {
@@ -591,6 +599,7 @@ body{
   width: 45px;
   border: none;
   position: absolute;
+  left:40%;
 }
 
 .loadingProfilo {
@@ -674,7 +683,7 @@ body{
   overflow: hidden; 
   position: relative; 
 }
-.middle-post *:not(audio) {
+.middle-post *:not(audio, iframe) {
   width: 100%;
   height: 100%;
   object-fit: cover; 
@@ -812,4 +821,40 @@ body{
 .expand .message {
   opacity: 1;
   left: 50px;
+}
+
+
+/* =========viaggio========= */
+* {
+  page-break-inside: avoid;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#travel_div {
+  width: 400px; 
+  height: 400px; 
+  margin: 20px auto; 
+  border: 1px solid #ccc;
+  border-radius: 8px; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  position:relative;
+}
+
+#viaggio-title {
+  text-align: center;
+  font-size: 24px; 
+  margin-top:10px;
+}
+
+#viaggio-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; 
+  height:100%;
+  object-fit: cover;
+  border-radius: 8px; 
+  position:absolute;
 }
