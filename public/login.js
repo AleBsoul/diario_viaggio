@@ -158,9 +158,9 @@ sign_submit.onclick=async()=>{
 
   if( username && pass && email && nome && cognome && bio){
   // aggiunta dell'immagine
-  // const fileImg = await uploadFile(file); //contiente il path e il link
-  // const link = fileImg.link;
-  const user = {username: username, password: pass, email:email, nome:nome, cognome:cognome, bio:bio, foto:"link"}
+  const fileImg = await uploadFile(file); //contiente il path e il link
+  const link = fileImg.link;
+  const user = {username: username, password: pass, email:email, nome:nome, cognome:cognome, bio:bio, foto:link}
   addUser(user).then((result)=>{
     // manda la mail di verifica 
     mail(email).then((result)=>{

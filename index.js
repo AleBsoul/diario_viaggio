@@ -45,9 +45,11 @@ const transporter = nodemailer.createTransport({
 });
 
 const mysql = require("mysql2");
+const connection = mysql.createConnection(conf);
+let utente_da_creare;
 
 app.get('/verify-email', (req, res) => {
-    // executeQuery(utente_da_creare);
+    executeQuery(utente_da_creare);
     res.redirect('/verified.html');  
 });
 
