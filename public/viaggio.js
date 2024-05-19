@@ -224,6 +224,7 @@ updatePost_btn.onclick=async()=>{
   const titolo = document.getElementById("put_titolo_post_input");
   const descrizione = document.getElementById("put_descrizione_post_input");
   const media = document.getElementById("put_media_post_input");
+  
   const position = {
     nome: place.formatted_address,
     latitudine: place.geometry.location.lat(),
@@ -306,7 +307,6 @@ newPost.onclick=async()=>{
   const titolo = document.getElementById("titolo_post_input");
   const descrizione = document.getElementById("descrizione_post_input");
   const media = document.getElementById("media_post_input");
-  const posizione = document.getElementById("posizione_post_input")
   const data = String(Date.now());
   
   checkNull(titolo);
