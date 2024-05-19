@@ -307,6 +307,7 @@ newPost.onclick=async()=>{
   const titolo = document.getElementById("titolo_post_input");
   const descrizione = document.getElementById("descrizione_post_input");
   const media = document.getElementById("media_post_input");
+  const posizione = document.getElementById("posizione_post_input");
   const data = String(Date.now());
   
   checkNull(titolo);
@@ -431,19 +432,23 @@ const renderTravel=async()=>{
 
 const render = async(posts) =>{
   // travel
-  renderTravel();
   //map
-  myMap(posts[0].latitudine, posts[0].longitudine);
-  posts.forEach((post)=>{
-    const marker = new google.maps.Marker({
-      position: new google.maps.LatLng(post.latitudine, post.longitudine),
-      map: map,
-      id: post.id
+  if(posts.length){ 
+    myMap(posts[0].latitudine, posts[0].longitudine);
+    posts.forEach((post)=>{
+      const marker = new google.maps.Marker({
+        position: new google.maps.LatLng(post.latitudine, post.longitudine),
+        map: map,
+        id: post.id
+      })
+      google.maps.event.addDomListener(marker, 'click', function() {
+        document.getElementById(marker.id).scrollIntoView({behavior: "smooth"});
+    });
     })
-    google.maps.event.addDomListener(marker, 'click', function() {
-      document.getElementById(marker.id).scrollIntoView({behavior: "smooth"});
-  });
-  })
+    document.getElementById("map_posts").style.display="block"
+  }else{
+    document.getElementById("map_posts").style.display="none"
+  }
   const loadingPost = `<iframe class='loadingPost' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`;
   let postsContent = "";
   //caricamento dei div dei post con la rotella di caricamento
@@ -505,8 +510,6 @@ const render = async(posts) =>{
 }
 
 const posts = await get_posts(viaggio.id);
-console.log(posts);
-if(posts.result.length){ //se è maggiore di 0
-  await render(await posts.result);
-  print_btn.disabled = false;
-}
+await renderTravel();
+await render(await posts.result);
+print_btn.disabled = false;
