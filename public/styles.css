@@ -496,7 +496,7 @@ body{
   cursor: pointer;
   position: absolute;
   right: 30px;
-  top: 110px;
+  top: 150px;
 }
 
 .printTravelDiv{
@@ -832,7 +832,7 @@ body{
   box-sizing: border-box;
 }
 
-#travel_div {
+.travel_div {
   width: 400px; 
   height: 400px; 
   margin: 20px auto; 
@@ -857,4 +857,10 @@ body{
   object-fit: cover;
   border-radius: 8px; 
   position:absolute;
+}
+
+
+.no-border {
+  border: none;
+  box-shadow: none;
 }

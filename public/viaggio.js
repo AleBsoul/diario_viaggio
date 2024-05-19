@@ -10,7 +10,7 @@ const updatePost_btn = document.getElementById("updatePost_btn");
 let postsTemplate;
 let postTemplate;
 
-const travel_div = document.getElementById("travel_div");
+const travel_div = document.querySelector(".travel_div");
 
 const travel_temp = `
 <h2 id="viaggio-title">%TITLE</h2>
@@ -19,23 +19,34 @@ const travel_temp = `
 </div>
 `
 
-const generatePDF=async()=>{
-  const doc = new jsPDF();
-  // Aggiungi il contenuto HTML al PDF
-  const to_export = document.getElementById('export');
-  const options = { background: 'white' };
+const exportTravel=async()=>{
+  //tolgo i bordi ai post 
+  const noBorderElements = document.querySelectorAll(".post-container");
+  noBorderElements.forEach(el => el.classList.add("no-border"));
+  travel_div.classList.add("no-border");
 
+  //tolgo tutti gli elementi che non vanno esportati: nav, bottoni, ecc...
+  const noExportElements = document.querySelectorAll(".no_export");
+
+  noExportElements.forEach(el => el.classList.add("invisible"));
+
+  window.print();
+
+  //tutto come prima dopo aver stampato
+  noExportElements.forEach(el => el.classList.remove("invisible"));
+  noBorderElements.forEach(el => el.classList.remove("no-border"));
+  travel_div.classList.remove("no-border");
 }
 
 
 const newViaggio = document.getElementById("newViaggio_btn");
-newViaggio.onclick=async()=>{
+newViaggio.onclick=()=>{
     newViaggioClick();
 }
 
 const print_btn = document.getElementById("print-post");
 print_btn.onclick=()=>{
-  generatePDF();
+  exportTravel();
 }
 
 let place;
@@ -95,14 +106,14 @@ if(user.id===loggato.id){
     
 postsTemplate = `
 <div class="post-container" id="%id">
-  <div class="top-post">
+  <div class="top-post no_export">
     <p class="titolo-post">%TITOLO</p>
     <div class="posizione-post">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
       <p>%POSIZIONE</p>
     </div>
-    <svg type="button" id="%put_btn_id" class="pencilPost" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"/></svg>
-    <div><button type="button" class="del_btn_post" id="%del_btn_id"><i class="fi fi-rr-trash"></i></button></div>
+    <svg type="button" id="%put_btn_id" class="pencilPost no_export" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"/></svg>
+    <div><button type="button" class="del_btn_post no_export" id="%del_btn_id"><i class="fi fi-rr-trash"></i></button></div>
     <div class="data-div">
       %DATA<br/>
       %MODIFICA
@@ -111,21 +122,21 @@ postsTemplate = `
   <div class="middle-post">
     %MEDIA
   </div>
-  <div class="bottom-post">
+  <div class="bottom-post no_export">
     <p class="descrizione-post">%DESCRIZIONE</p>
   </div>
 </div>
 `
 
 postTemplate = `
-  <div class="top-post">
+  <div class="top-post no_export">
     <p class="titolo-post">%TITOLO</p>
     <div class="posizione-post">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
       <p>%POSIZIONE</p>
     </div>
-    <svg type="button" id="%put_btn_id" class="pencilPost" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"/></svg>
-    <button type="button" class="del_btn_post" id="%del_btn_id"><i class="fi fi-rr-trash"></i></button>
+    <svg type="button" id="%put_btn_id" class="pencilPost no_export" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"/></svg>
+    <button type="button" class="del_btn_post no_export" id="%del_btn_id"><i class="fi fi-rr-trash"></i></button>
     <div class="data-div">
       %DATA<br/>
       %MODIFICA
@@ -135,7 +146,7 @@ postTemplate = `
   <div class="middle-post">
     %MEDIA
   </div>
-  <div class="bottom-post">
+  <div class="bottom-post no_export">
     <p class="descrizione-post">%DESCRIZIONE</p>
   </div>
 `
@@ -143,7 +154,7 @@ postTemplate = `
   
 postsTemplate = `
 <div class="post-container" id="%id">
-  <div class="top-post">
+  <div class="top-post no_export">
     <p class="titolo-post">%TITOLO</p>
     <div class="posizione-post">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
@@ -157,14 +168,14 @@ postsTemplate = `
   <div class="middle-post">
     %MEDIA
   </div>
-  <div class="bottom-post">
+  <div class="bottom-post no_export">
     <p class="descrizione-post">%DESCRIZIONE</p>
   </div>
 </div>
 `
 
 postTemplate = `
-  <div class="top-post">
+  <div class="top-post no_export">
     <p class="titolo-post">%TITOLO</p>
     <div class="posizione-post">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
@@ -178,7 +189,7 @@ postTemplate = `
   <div class="middle-post">
     %MEDIA
   </div>
-  <div class="bottom-post">
+  <div class="bottom-post no_export">
     <p class="descrizione-post">%DESCRIZIONE</p>
   </div>
 `
@@ -209,6 +220,7 @@ const closeModal = () => {
 
 
 updatePost_btn.onclick=async()=>{
+  print_btn.disabled = true;
   const titolo = document.getElementById("put_titolo_post_input");
   const descrizione = document.getElementById("put_descrizione_post_input");
   const media = document.getElementById("put_media_post_input");
@@ -239,7 +251,8 @@ updatePost_btn.onclick=async()=>{
   updatePost(post).then(async(result)=>{
     document.getElementById("formUpdatePost").reset();
     const posts = await get_posts(viaggio.id);
-    render(posts.result);
+    await render(posts.result);
+    print_btn.disabled = false;
   });
   }
   
@@ -289,6 +302,7 @@ const savePosition = async (data) => {
 
 const newPost = document.getElementById("newPost_btn");
 newPost.onclick=async()=>{
+  print_btn.disabled = true;
   const titolo = document.getElementById("titolo_post_input");
   const descrizione = document.getElementById("descrizione_post_input");
   const media = document.getElementById("media_post_input");
@@ -323,7 +337,8 @@ newPost.onclick=async()=>{
     savePost(post).then(async(result)=>{
       document.getElementById("formAddPost").reset();
       const posts = await get_posts(viaggio.id);
-      render(posts.result);
+      await render(posts.result);
+      print_btn.disabled = false;
     })
   }
   }
@@ -396,9 +411,11 @@ const del_btn_event = () =>{
   const del_btns = document.querySelectorAll(".del_btn_post");
   del_btns.forEach((del_btn)=>{
     del_btn.onclick=async()=>{
+      print_btn.disabled = true;
       delPost(del_btn.id);
       const posts = await get_posts(viaggio.id);
-      render(await posts.result);
+      await render(await posts.result);
+      print_btn.disabled = false;
     }
   })
 }
@@ -485,11 +502,11 @@ const render = async(posts) =>{
     del_btn_event();
     update_btn_event(posts);
   };
-  
 }
 
 const posts = await get_posts(viaggio.id);
 console.log(posts);
 if(posts.result.length){ //se è maggiore di 0
-  render(await posts.result);
+  await render(await posts.result);
+  print_btn.disabled = false;
 }

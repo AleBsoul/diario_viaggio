@@ -7,11 +7,11 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
         <!-- print icon -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <title>Home</title>
       </head>
     <body>
-        <div class="navbar">
+        <div class="navbar no_export">
             <div class="left-nav">
                 <img src="assets/images/logo.png" alt="" class="logo">
             </div>
@@ -96,16 +96,16 @@
             </div>
         </div>
 
-        <div class="addPostDiv invisible" id="addPostDiv">
+        <div class="addPostDiv invisible no_export" id="addPostDiv">
             <button id="add-post">
                 <i class="fa fa-plus"></i>
                 <p>New post</p>
             </button>
         </div>
-        <div class="printTravelDiv">
-            <button id="print-post">
-                <i class="fa fa-print"></i>
-                <p>Stampa</p>
+        <div class="printTravelDiv no_export">
+            <button id="print-post" disabled>
+                <i class="fa-solid fa-download"></i>
+                <p>esporta</p>
             </button>
         </div>
         
@@ -204,13 +204,15 @@
         </div>
 
         <div id="export">
-            <div id="travel_div"></div>
+            <div class="travel_div"></div>
             <div id="map_posts" style="width:40%;height: 350px;margin: auto; margin-top: 50px;"></div>
             <div class="post-content" id="post-content"></div>
         </div>
         
 
         
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs" crossorigin="anonymous"></script>        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;key=AIzaSyCxv9j86w7iiuRA9VOIayp_FYGUUC_UMXQ"></script>
         <script type="module" src="common.js"></script>
         <script type="module" src="viaggio.js"></script>
