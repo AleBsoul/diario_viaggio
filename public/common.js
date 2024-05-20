@@ -42,9 +42,9 @@ window.addEventListener("resize", function(){
 })
 check_size();
 
-const getUserViaggi = async () => {
+const getUserViaggi = async (id) => {
     try{
-        const r = await fetch("/getViaggiUser/"+user.id);
+        const r = await fetch("/getViaggiUser/"+id);
         const json = await r.json();
         return json;
     } catch (e) {
@@ -138,7 +138,7 @@ const close_btn = document.getElementById("close_btn");
 let isOpened = false;
 
 const openModal = () => {
-  modal.classList.add("is-open");
+    modal.classList.add("is-open");
 };
 
 const closeModal = () => {
@@ -153,6 +153,11 @@ const closeModal = () => {
 
 
 openModal_btn.onclick=()=>{
+    const forms = document.getElementsByTagName("form");
+    for(let i=0; i<forms.length; i++){
+        forms[i].style.display="none";
+    }
+    formAdd.style.display="block";
     openModal();
 }
 close_btn.onclick=()=>{

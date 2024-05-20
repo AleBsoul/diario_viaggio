@@ -54,9 +54,7 @@
                         <div class="input-block">
                             <label for="titolo_viaggio_input" class="input-label">Titolo</label>
                             <input type="text" id="titolo_viaggio_input">
-                            <div class="error-space">
-                                <p class="invisible" id="titolo_error">Titolo vuoto</p>
-                            </div>
+
                             
                         </div>
                         
@@ -64,24 +62,46 @@
                         <div class="textarea-block">
                             <label for="descrizione_viaggio_input" class="input-label">Descrizione</label>
                             <textarea id="descrizione_viaggio_input"></textarea>
-                            <div class="error-space">
-                                <p class="invisible" id="descrizione_error">Descrizione vuota</p>
-                            </div>
-                            
+   
                         </div>
                         
 
                         <div class="input-block">
                             <label for="immagine_viaggio_input" class="input-label">Immagine</label>
                             <input type="file" id="immagine_viaggio_input">
-                            <div class="error-space">
-                                <p class="invisible" id="immagine_error">Inserisci l'immagine</p>
-                            </div>
-                            
+     
                         </div>
 
                         <div class="modal-buttons">
                             <button type="button" class="input-button" id="newViaggio_btn">Aggiungi viaggio</button>
+                        </div> 
+                    </form>
+                    <form id="formPut">
+                        <h1>Modifica viaggio</h1>
+
+                        <div class="input-block">
+                            <label for="put_titolo_viaggio_input" class="input-label">Titolo</label>
+                            <input type="text" id="put_titolo_viaggio_input">
+
+                        </div>
+                        
+
+                        <div class="textarea-block">
+                            <label for="put_descrizione_viaggio_input" class="input-label">Descrizione</label>
+                            <textarea id="put_descrizione_viaggio_input"></textarea>
+  
+                        </div>
+                        
+
+                        <div class="input-block">
+                            <label for="put_immagine_viaggio_input" class="input-label">Immagine</label>
+                            <input type="file" id="put_immagine_viaggio_input">
+
+                            
+                        </div>
+
+                        <div class="modal-buttons">
+                            <button type="button" class="input-button" id="putViaggio_btn">Save changes</button>
                         </div> 
                     </form>
                 </div>
@@ -112,7 +132,6 @@
         </div>
         
         
-
         <div class="modal" id="modalPost">
             <div class="modal-container">
                 <div class="modal-left">

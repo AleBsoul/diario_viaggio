@@ -122,13 +122,19 @@ app.post("/addViaggio", (req,res)=>{
 });
  
 app.put("/modificaViaggio",(req, res)=>{
+  let sql = `
+  UPDATE viaggio
+  SET `;
   const id = req.body.id;
   const titolo = req.body.titolo;
   const descrizione = req.body.descrizione
-  const sql = `
-  UPDATE viaggio
-  SET titolo = '${titolo}', descrizione = '${descrizione}'
-  WHERE id = '${id}'`;
+  const img = req.body.immagine;
+  let updates = [];
+  if (titolo) updates.push(` titolo = '${titolo}'`);
+  if (descrizione) updates.push(` descrizione = '${descrizione}'`);
+  if (img) updates.push(` immagine = '${img}'`);
+
+  sql += updates.join(',') + ` WHERE viaggio.id = '${id}'`;
   executeQuery(sql).then((result)=>{
     res.json({result: "viaggio modificato"});
   })
