@@ -108,7 +108,9 @@ loginForm.addEventListener("keypress", function(event) {
     const password_value = password_input.value;
     const user = {username:username_value, password:password_value};
     if(username_value && password_value){
+      document.getElementById("loading-login").style.opacity=1;
       login(user).then((result)=>{
+        document.getElementById("loading-login").style.opacity=0;
         if(result.result){
           window.location.href="home.html";
           sessionStorage.setItem("loggato", JSON.stringify(result.utente));
@@ -161,6 +163,7 @@ sign_submit.onclick=async()=>{
   let mail_request={email:email}
 
   if(file.value && username && pass && email && nome && cognome && bio){
+    document.getElementById("loading-signup").style.opacity=1;
   // aggiunta dell'immagine
   const fileImg = await uploadFile(file); //contiente il path e il link
   const link = fileImg.link;
@@ -171,6 +174,7 @@ sign_submit.onclick=async()=>{
       username_input.parentElement.classList.remove("null")
       username_input.parentElement.classList.add("null");
     }else{
+      document.getElementById("loading-signup").style.opacity=0;
       document.getElementById("signUp_form").reset();
       mail_request.token = result; //assegno il token
       // manda la mail di verifica 
@@ -192,6 +196,7 @@ sign_submit.onclick=async()=>{
   });
 }
 }
+
 const sendmail=async(mail_request)=>{
   try{
     const r = await fetch("/mail", {

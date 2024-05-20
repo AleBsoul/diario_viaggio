@@ -147,23 +147,36 @@ const preRender = async (data) => {
 }
 
 
+const update_user_event=()=>{
+    document.getElementById("formAdd").style.display="none";
+    document.getElementById("formUpdate").style.display="block";
+    const username = document.getElementById("username_sign");
+    const pass = document.getElementById("password_sign");
+    const email = document.getElementById("email");
+    const nome = document.getElementById("nome");
+    const cognome = document.getElementById("cognome");
+    const bio = document.getElementById("bio");
+    username.value = user.username;
+    pass.value = user.password;
+    email.value = user.email;
+    nome.value = user.nome;
+    cognome.value = user.cognome;
+    bio.value = user.bio;
+    openModal();
+}
 
 const renderProfilo=async()=>{
     const loading = `<iframe class='loadingViaggio' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`
     userContentDiv.innerHTML = userTemp.replace("%IMMAGINE",loading).replace("%nome", user.nome).replace("%cognome",user.cognome).replace("%username",user.username).replace("%bio",user.bio).replace("%email",user.email);
     
     document.getElementById("pencilViaggio").onclick=()=>{
-        document.getElementById("formAdd").style.display="none";
-        document.getElementById("formUpdate").style.display="block";
-        openModal();
+        update_user_event();
     }
     const imgProfilo = `<img src="${await downloadFile(user.foto)}"></img>`;
     userContentDiv.innerHTML = userTemp.replace("%IMMAGINE",imgProfilo).replace("%nome", user.nome).replace("%cognome",user.cognome).replace("%username",user.username).replace("%bio",user.bio).replace("%email",user.email);
     
     document.getElementById("pencilViaggio").onclick=()=>{
-        document.getElementById("formAdd").style.display="none";
-        document.getElementById("formUpdate").style.display="block";
-        openModal();
+        update_user_event()
     }
 }
 
@@ -213,24 +226,36 @@ update_submit.onclick=async()=>{
     const nome = document.getElementById("nome").value;
     const cognome = document.getElementById("cognome").value;
     const bio = document.getElementById("bio").value;
-    let utente = {username: username, password: pass, email:email, nome:nome, cognome:cognome, bio:bio, id: id}
+
+    let utente = {username: null, password: null, email:null, nome:null, cognome:null, bio:null, id: id}
+    if(username!==user.username || pass!==user.password || email!==user.email || nome!==user.nome ||cognome!==user.cognome ||bio!==user.bio){
+        document.getElementById("loading-put-user").style.opacity=1;
+        if(file.value){
+            const fileImg = await uploadFile(file); //contiente il path e il link
+            const link = await fileImg.link;
+            utente.foto = await link
+        }else{
+            utente.foto="";
+        }
+        if (username!==user.username) utente.username = username;
+        if (pass!==user.password) utente.password = pass;
+        if (email!==user.email) utente.email = email;
+        if (nome!==user.nome) utente.nome = nome;
+        if (cognome!==user.cognome) utente.cognome = cognome;
+        if (bio!==user.bio) utente.bio = bio;
+
+        console.log(utente);
+        await updateUser(utente);
+        await getUser(id).then((result)=>{
+            document.getElementById("loading-put-user").style.opacity=0;
+            loggato = result.result;
+            user = result.result;
+            sessionStorage.setItem("utente",JSON.stringify(user));
+            sessionStorage.setItem("loggato",JSON.stringify(loggato));
+            renderProfilo();
+        });
+}
     
-    if(file.value){
-        const fileImg = await uploadFile(file); //contiente il path e il link
-        const link = await fileImg.link;
-        utente.foto = await link
-    }else{
-        utente.foto="";
-    }
-    await updateUser(utente);
-    getUser(id).then((result)=>{
-        loggato = result.result;
-        user = result.result;
-        sessionStorage.setItem("utente",JSON.stringify(user));
-        sessionStorage.setItem("loggato",JSON.stringify(loggato));
-        renderProfilo();
-    });
-    document.getElementById("formUpdate").reset();
 }
 
 getUserViaggi(user.id).then((result)=>{

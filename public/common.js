@@ -85,6 +85,7 @@ const newViaggioClick=async()=>{
     checkNull(immInput);
     
     if(titoloInput.value && descrInput.value && immInput.value){
+        document.getElementById("loading-add-travel").style.opacity=1;
     // aggiunta dell'immagine
         const fileImg = await uploadFile(immInput); //contiente il path e il link
         const link = fileImg.link;
@@ -98,6 +99,7 @@ const newViaggioClick=async()=>{
         }
     
         await saveViaggio(viaggio);
+        document.getElementById("loading-add-travel").style.opacity=0;
         formAdd.reset();
         return true
     }else{

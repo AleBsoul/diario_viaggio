@@ -276,6 +276,8 @@ updatePost_btn.onclick=async()=>{
     position = null
   }
   if(titolo.value || descrizione.value || position || media.value){
+    document.getElementById("loading-put-post").style.opacity=1;
+
     const data = String(Date.now());
   let post = {
     id:postId,
@@ -298,6 +300,7 @@ updatePost_btn.onclick=async()=>{
     document.getElementById("formUpdatePost").reset();
     const posts = await get_posts(viaggio.id);
     await render(posts.result);
+    document.getElementById("loading-put-post").style.opacity=0;
     print_btn.disabled = false;
   });
   }
@@ -360,6 +363,8 @@ newPost.onclick=async()=>{
   checkNull(posizione);
 
   if(titolo.value && descrizione.value && media.value && posizione.value){
+    document.getElementById("loading-add-post").style.opacity=1;
+  
     const position = {
       nome: place.formatted_address,
       latitudine: place.geometry.location.lat(),
@@ -382,6 +387,8 @@ newPost.onclick=async()=>{
       document.getElementById("formAddPost").reset();
       const posts = await get_posts(viaggio.id);
       await render(posts.result);
+      document.getElementById("loading-add-post").style.opacity=0;
+
       print_btn.disabled = false;
     })
   }
@@ -503,6 +510,8 @@ updateTravelBtn.onclick=async()=>{
   const immInput = document.getElementById("put_immagine_viaggio_input");
   let cambiamenti = { id:viaggio.id,titolo: null, descrizione:null, immagine: null };
   if(titoloInput.value!==viaggio.titolo || descrInput.value!==viaggio.descrizione || immInput.value){
+    document.getElementById("loading-put-travel").style.opacity=1;
+
     if(immInput.value){
       const fileImg = await uploadFile(immInput); //contiente il path e il link
       const link = await fileImg.link;
@@ -520,6 +529,7 @@ updateTravelBtn.onclick=async()=>{
     viaggio = await viaggio.result;
     sessionStorage.setItem("viaggio",JSON.stringify(await viaggio));
     renderTravel();
+    document.getElementById("loading-put-travel").style.opacity=0;
   }
 }
 

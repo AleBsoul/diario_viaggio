@@ -599,6 +599,13 @@ body{
   position: absolute;
   left:40%;
 }
+/* loading generale: per la login, la sign up e per le modali... */
+.loading{
+  height: 45px;
+  width: 45px;
+  border: none;
+  opacity:0;  
+}
 
 .loadingProfilo {
   height: 20px;

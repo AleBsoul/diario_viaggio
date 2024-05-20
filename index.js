@@ -359,8 +359,9 @@ app.put("/updateUser",(req, res)=>{
   if (email) updates.push(` email = '${email}'`);
   if (nome) updates.push(` nome = '${nome}'`);
   if (cognome) updates.push(` cognome = '${cognome}'`);
+  if (bio) updates.push(` bio = '${bio}'`);
 
-  sql += updates.join(',') + ` WHERE id = '${id}'`;
+  sql += updates.join(',') + ` WHERE utente.id = '${id}' `;
   executeQuery(sql).then((result)=>{
       res.json({result: "user modificato"});
     })
