@@ -491,32 +491,31 @@ body{
   column-gap: 10px;
 }
 
-.addPostDiv{
-  position: fixed;
-  cursor: pointer;
+.buttons-right{
   position: absolute;
+  top: 80px;
   right: 30px;
-  top: 150px;
+}
+
+
+.addPostDiv{
+  cursor: pointer;
 }
 
 .printTravelDiv{
-  position: fixed;
   cursor: pointer;
-  position: absolute;
-  right: 30px;
-  top: 80px;
 }
+
+
 #add-post,#print-post{
-  width: 150px;
-  height:60px;
+  width: 130px;
+  height:40px;
   border: none;
   display: flex;
   padding: 0.75rem 1.5rem;
   background-color: #488aec;
   color: #ffffff;
-  font-size: 0.90rem;
-  line-height: 1rem;
-  font-weight: 700;
+  font-size: 12px;
   text-align: center;
   vertical-align: middle;
   align-items: center;
@@ -526,7 +525,6 @@ body{
   transition: all 0.3s ease;
   cursor: pointer;
   margin-top: 10px;
-  
 }
 #add-post:hover, #print-post:hover {
   box-shadow: 0 10px 15px -3px #488aec4f, 0 4px 6px -2px #488aec17;
@@ -538,7 +536,7 @@ body{
 }
 
 #add-post p, #print-post p{
-  font-size: 18px;
+  font-size: 14px;
 } 
 /* .addPostDiv {
   width: 100%;
@@ -631,7 +629,7 @@ body{
   border-bottom: 1px solid lightgrey;
   padding-left: 20px;
   position: relative;
-  padding-bottom: 20px;
+  padding-bottom: 30px;
 }
 
 
@@ -639,11 +637,12 @@ body{
   position: absolute;
   right: 15px;
   bottom: 5px;
+  font-size: 14px;
 }
 @media(max-width: 1300px) {
   .data-div{
     position: static;
-    
+    margin-top: 10px;
   }
 }
 
@@ -658,20 +657,42 @@ body{
 .titolo-post{
   margin-bottom: 0;
   margin-top: 10px;
-  font-size: 20px;
+  font-size: 24px;
 }
 .posizione-post{
   margin: 0;
-  font-size: 12px;
+  font-size: 14px;
   display: flex;
   flex-direction: row;
   column-gap: 7px;
+  margin-top: 5px;
 }
 
 .posizione-post svg{
   padding-top: 0;
   width: 10px;
 }
+
+.buttons-post{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 60px;
+}
+.buttons-post button{
+  width: 18px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: all 0.15s ease;
+}
+.buttons-post button:hover{
+  opacity: 0.6;
+  transform: scale(1.04);
+}
+
 
 
 .middle-post{
@@ -710,24 +731,10 @@ body{
   margin-left:90%;
   cursor: pointer;
 }
-.pencilPost{
-  position:absolute;
-  height:20px;
-  top:10px;
-  left:80%;
-  cursor: pointer;
-}
 
-.del_btn_post{
-  color: rgb(176, 21, 4);
-  font-size: 30px;
-  border:none;
-  background-color:white;
-  cursor: pointer;
-  position:absolute;
-  top:2px;
-  right:0;
-}
+
+
+
 
 
 /* ======icona mail======= */
@@ -833,15 +840,16 @@ body{
 }
 
 .travel_div {
-  width: fit-content; 
-  max-width: 600px;
-  height: 400px; 
+  width: 50%; 
   margin: 20px auto; 
   border: 1px solid #ccc;
   border-radius: 8px; 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
   position:relative;
+  padding-left:20px;
+  padding-right: 20px;
 }
+
 
 #viaggio-title {
   text-align: center;
@@ -856,18 +864,41 @@ body{
 }
 
 #viaggio-image {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%; 
-  height:100%;
-  object-fit: cover;
-  border-radius: 8px; 
-  position:absolute;
+  text-align: center;
+  width: 80%;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
+#viaggio-image img{
+  object-fit: cover;
+  width: inherit;
+}
+
 
 
 .no-border {
   border: none;
   box-shadow: none;
+}
+
+
+#map_posts{
+  width:40%;
+  height: 350px;
+  margin: auto; 
+  margin-top: 50px;
+}
+@media(max-width: 1300px) {
+  .buttons-right{
+    left: calc(50% - 65px);
+    top: 100px;
+  }
+  .travel_div{
+    margin-top: 150px;
+    width: 80%;
+  }
+  #map_posts{
+    width: 80%;
+  }
 }
