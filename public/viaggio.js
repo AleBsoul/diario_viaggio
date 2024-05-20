@@ -17,14 +17,11 @@ const travel_temp = `
 <div id="viaggio-image">
   %IMAGE
 </div>
+<p id="viaggio-desc">%DESC</p>
 `
 
 const exportTravel=async()=>{
-  //tolgo i bordi ai post 
-  const noBorderElements = document.querySelectorAll(".post-container");
-  noBorderElements.forEach(el => el.classList.add("no-border"));
-  travel_div.classList.add("no-border");
-
+  document.getElementById("map_posts").style.display="none";
   //tolgo tutti gli elementi che non vanno esportati: nav, bottoni, ecc...
   const noExportElements = document.querySelectorAll(".no_export");
 
@@ -33,8 +30,9 @@ const exportTravel=async()=>{
   window.print();
 
   //tutto come prima dopo aver stampato
+  document.getElementById("map_posts").style.display="block";
   noExportElements.forEach(el => el.classList.remove("invisible"));
-  noBorderElements.forEach(el => el.classList.remove("no-border"));
+  // noBorderElements.forEach(el => el.classList.remove("no-border"));
   travel_div.classList.remove("no-border");
 }
 
@@ -55,9 +53,10 @@ let place;
 function initializeAutocomplete(id) {
   var element = document.getElementById(id);
   if (element) {
-    const autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'] });
-    google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
-  }
+      console.log("ciao")
+      const autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'] });
+      google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);  
+    }
 }
 
 function onPlaceChanged() {
@@ -106,7 +105,7 @@ if(user.id===loggato.id){
     
 postsTemplate = `
 <div class="post-container" id="%id">
-  <div class="top-post no_export">
+  <div class="top-post">
     <p class="titolo-post">%TITOLO</p>
     <div class="posizione-post">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
@@ -122,14 +121,14 @@ postsTemplate = `
   <div class="middle-post">
     %MEDIA
   </div>
-  <div class="bottom-post no_export">
+  <div class="bottom-post">
     <p class="descrizione-post">%DESCRIZIONE</p>
   </div>
 </div>
 `
 
 postTemplate = `
-  <div class="top-post no_export">
+  <div class="top-post">
     <p class="titolo-post">%TITOLO</p>
     <div class="posizione-post">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
@@ -146,7 +145,7 @@ postTemplate = `
   <div class="middle-post">
     %MEDIA
   </div>
-  <div class="bottom-post no_export">
+  <div class="bottom-post">
     <p class="descrizione-post">%DESCRIZIONE</p>
   </div>
 `
@@ -154,7 +153,7 @@ postTemplate = `
   
 postsTemplate = `
 <div class="post-container" id="%id">
-  <div class="top-post no_export">
+  <div class="top-post">
     <p class="titolo-post">%TITOLO</p>
     <div class="posizione-post">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
@@ -168,14 +167,14 @@ postsTemplate = `
   <div class="middle-post">
     %MEDIA
   </div>
-  <div class="bottom-post no_export">
+  <div class="bottom-post">
     <p class="descrizione-post">%DESCRIZIONE</p>
   </div>
 </div>
 `
 
 postTemplate = `
-  <div class="top-post no_export">
+  <div class="top-post">
     <p class="titolo-post">%TITOLO</p>
     <div class="posizione-post">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
@@ -189,7 +188,7 @@ postTemplate = `
   <div class="middle-post">
     %MEDIA
   </div>
-  <div class="bottom-post no_export">
+  <div class="bottom-post">
     <p class="descrizione-post">%DESCRIZIONE</p>
   </div>
 `
@@ -224,12 +223,17 @@ updatePost_btn.onclick=async()=>{
   const titolo = document.getElementById("put_titolo_post_input");
   const descrizione = document.getElementById("put_descrizione_post_input");
   const media = document.getElementById("put_media_post_input");
-  
-  const position = {
-    nome: place.formatted_address,
-    latitudine: place.geometry.location.lat(),
-    longitudine: place.geometry.location.lng()
-  };
+  let position
+  if(place){
+    console.log("place")
+    position = {
+      nome: place.formatted_address,
+      latitudine: place.geometry.location.lat(),
+      longitudine: place.geometry.location.lng()
+    }
+  }else{
+    position = null
+  }
   if(titolo.value || descrizione.value || position || media.value){
     const data = String(Date.now());
   let post = {
@@ -423,10 +427,11 @@ const del_btn_event = () =>{
 const postsContentDiv = document.getElementById("post-content");
 
 const renderTravel=async()=>{
+  console.log(viaggio.descrizione);
   const loading_travel_img =`<iframe class='loadingPost' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`;
-  travel_div.innerHTML = travel_temp.replace("%TITLE",viaggio.titolo).replace("%IMAGE",loading_travel_img);
+  travel_div.innerHTML = travel_temp.replace("%TITLE",viaggio.titolo).replace("%DESC",viaggio.descrizione).replace("%IMAGE",loading_travel_img);
   const travel_img = `<img src="${await downloadFile(viaggio.immagine)}" class="post_media" width="320" height="240">`;
-  travel_div.innerHTML = travel_temp.replace("%TITLE",viaggio.titolo).replace("%IMAGE", travel_img);
+  travel_div.innerHTML = travel_temp.replace("%TITLE",viaggio.titolo).replace("%DESC",viaggio.descrizione).replace("%IMAGE", travel_img);
 
 }
 
@@ -510,6 +515,6 @@ const render = async(posts) =>{
 }
 
 const posts = await get_posts(viaggio.id);
-await renderTravel();
+renderTravel();
 await render(await posts.result);
 print_btn.disabled = false;

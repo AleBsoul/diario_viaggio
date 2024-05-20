@@ -246,29 +246,34 @@ app.put("/modificaPost",(req, res)=>{
   if (mime) updates.push(` mime = '${mime}'`);
       updates.push(` ultima_modifica = '${ultima_modifica}'`);
 
-      
-  let find = false;
-  selectPositions().then((r)=>{
-    r.forEach((pos)=>{
-      if(pos.nome==posizione.nome){
-        find=true
-      }
-    })
-    if(!find){
-      addPosition(posizione);
-    };
-    selectPosition(posizione.nome).then((id_pos)=>{
-      console.log(id_pos);
-      updates.push(` id_posizione = '${id_pos[0].id}'`);
-      sql += updates.join(',') + ` WHERE id = '${id}'`;
-      console.log(sql);
-      executeQuery(sql).then((result)=>{
-          res.json({result: "post modificato"});
-        })
+  if(posizione){
+    let find = false;
+    selectPositions().then((r)=>{
+      r.forEach((pos)=>{
+        if(pos.nome==posizione.nome){
+          find=true
+        }
+      })
+      if(!find){
+        addPosition(posizione);
+      };
+      selectPosition(posizione.nome).then((id_pos)=>{
+        console.log(id_pos);
+        updates.push(` id_posizione = '${id_pos[0].id}'`);
+        sql += updates.join(',') + ` WHERE id = '${id}'`;
+        console.log(sql);
+        executeQuery(sql).then((result)=>{
+            res.json({result: "post modificato"});
+          })
+      }); 
     });
-
-    
-  });
+  }else{
+    sql += updates.join(',') + ` WHERE id = '${id}'`;
+    executeQuery(sql).then((result)=>{
+      res.json({result: "post modificato"});
+    })
+  }
+  
 })
 
 app.get("/get_post/:id",(req, res)=>{
