@@ -265,7 +265,6 @@ updatePost_btn.onclick=async()=>{
   const media = document.getElementById("put_media_post_input");
   let position
   if(place){
-    console.log("place")
     position = {
       nome: place.formatted_address,
       latitudine: place.geometry.location.lat(),
@@ -361,14 +360,14 @@ newPost.onclick=async()=>{
   checkNull(media);
   checkNull(posizione);
 
-  if(titolo.value.replaceAll("'", " ") && descrizione.value.replaceAll("'", " ") && media.value.replaceAll("'", " ") && posizione.value.replaceAll("'", " ")){
+  if(titolo.value && descrizione.value && media.value && posizione.value){
     document.getElementById("loading-add-post").style.opacity=1;
-  
     const position = {
-      nome: place.formatted_address,
-      latitudine: place.geometry.location.lat(),
-      longitudine: place.geometry.location.lng()
+        nome: place.formatted_address,
+        latitudine: place.geometry.location.lat(),
+        longitudine: place.geometry.location.lng()
     };
+    
     
     const fileImg = await uploadFile(media);
     const imgLink = await fileImg.link;
