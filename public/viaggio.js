@@ -297,9 +297,9 @@ updatePost_btn.onclick=async()=>{
   }  
   updatePost(post).then(async(result)=>{
     document.getElementById("formUpdatePost").reset();
+    document.getElementById("loading-put-post").style.opacity=0;
     const posts = await get_posts(viaggio.id);
     await render(posts.result);
-    document.getElementById("loading-put-post").style.opacity=0;
     print_btn.disabled = false;
   });
   }
@@ -384,8 +384,8 @@ newPost.onclick=async()=>{
     
     savePost(post).then(async(result)=>{
       document.getElementById("formAddPost").reset();
-      const posts = await get_posts(viaggio.id);
       document.getElementById("loading-add-post").style.opacity=0;
+      const posts = await get_posts(viaggio.id);
       await render(posts.result);
       print_btn.disabled = false;
     })
@@ -522,11 +522,11 @@ updateTravelBtn.onclick=async()=>{
       cambiamenti.descrizione = descrInput.value.replaceAll("'", " ");
     }
     await updateTravel(cambiamenti);
+    document.getElementById("loading-put-travel").style.opacity=0;
     viaggio = await getSingleViaggio(viaggio.id);
     viaggio = await viaggio.result;
     sessionStorage.setItem("viaggio",JSON.stringify(await viaggio));
     renderTravel();
-    document.getElementById("loading-put-travel").style.opacity=0;
   }
 }
 
@@ -581,7 +581,11 @@ const render = async(posts) =>{
     
     if(post.ultima_modifica){
       const all_modifica_date = new Date(parseInt(post.ultima_modifica));
-      const modifica_data = all_modifica_date.getDay()+"/"+all_modifica_date.getMonth()+"/"+all_modifica_date.getFullYear()+" - "+all_modifica_date.getHours()+":"+all_modifica_date.getMinutes()
+      let mins_modifica = String(all_modifica_date.getMinutes());
+      if(mins_modifica.length===1){
+        mins_modifica="0"+mins_modifica;
+      }
+      const modifica_data = all_modifica_date.getDay()+"/"+all_modifica_date.getMonth()+"/"+all_modifica_date.getFullYear()+" - "+all_modifica_date.getHours()+":"+mins_modifica;
       postsContent+=postsTemplate.replace("%POSIZIONE",post.nome).replace("%TITOLO",post.testo).replace("%DATA",data).replace("%MODIFICA","modificato: "+modifica_data).replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",post.descrizione).replace("%del_btn_id",post.id).replace("%put_btn_id", post.id).replace("%id",post.id);
     }else{
       postsContent+=postsTemplate.replace("%POSIZIONE",post.nome).replace("%TITOLO",post.testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",post.descrizione).replace("%del_btn_id",post.id).replace("%put_btn_id", post.id).replace("%id",post.id);
@@ -616,8 +620,13 @@ const render = async(posts) =>{
       console.log("niente");
     }
     if(posts[i].ultima_modifica){
+      
       const all_modifica_date = new Date(parseInt(posts[i].ultima_modifica));
-      const modifica_data = all_modifica_date.getDay()+"/"+all_modifica_date.getMonth()+"/"+all_modifica_date.getFullYear()+" - "+all_modifica_date.getHours()+":"+all_modifica_date.getMinutes()
+      let minsModifica = String(all_modifica_date.getMinutes());
+      if(minsModifica.length===1){
+        minsModifica="0"+minsModifica;
+      }
+      const modifica_data = all_modifica_date.getDay()+"/"+all_modifica_date.getMonth()+"/"+all_modifica_date.getFullYear()+" - "+all_modifica_date.getHours()+":"+minsModifica;
       postsContent=postTemplate.replace("%POSIZIONE",posts[i].nome).replace("%TITOLO",posts[i].testo).replace("%DATA",data).replace("%MODIFICA","modificato: "+modifica_data).replace("%MEDIA",media).replace("%DESCRIZIONE",posts[i].descrizione).replace("%del_btn_id",posts[i].id).replace("%put_btn_id", posts[i].id).replace("%id",posts[i].id);
     }else{
       postsContent=postTemplate.replace("%POSIZIONE",posts[i].nome).replace("%TITOLO",posts[i].testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",media).replace("%DESCRIZIONE",posts[i].descrizione).replace("%del_btn_id",posts[i].id).replace("%put_btn_id", posts[i].id).replace("%id",posts[i].id);
