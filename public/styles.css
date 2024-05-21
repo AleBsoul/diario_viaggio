@@ -939,6 +939,12 @@ body{
   .logo{
     width: 70px;
 }
+.nome{
+  font-size: 18px;
+}
+.utente{
+  font-size: 14px;
+}
   
 }
 
