@@ -50,7 +50,6 @@ let place;
 function initializeAutocomplete(id) {
   var element = document.getElementById(id);
   if (element) {
-      console.log("ciao")
       const autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'] });
       google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);  
     }
@@ -536,15 +535,19 @@ updateTravelBtn.onclick=async()=>{
 const postsContentDiv = document.getElementById("post-content");
 
 const renderTravel=async()=>{
-  const loading_travel_img =`<iframe class='loadingPost' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`;
+  const loading_travel_img =`<iframe class='loadingTravel' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`;
   travel_div.innerHTML = travel_temp.replace("%TITLE",viaggio.titolo).replace("%DESC",viaggio.descrizione).replace("%IMAGE",loading_travel_img);
-  document.getElementById("pencilTravel").onclick=()=>{
-    updateTravelEvent();
-  };
+  if(user.id===loggato.id){
+    document.getElementById("pencilTravel").onclick=()=>{
+      updateTravelEvent();
+    };
+  }
   const travel_img = `<img src="${await downloadFile(viaggio.immagine)}" class="post_media" width="320" height="240">`;
   travel_div.innerHTML = travel_temp.replace("%TITLE",viaggio.titolo).replace("%DESC",viaggio.descrizione).replace("%IMAGE", travel_img);
-  document.getElementById("pencilTravel").onclick=()=>{
-  updateTravelEvent();
+  if(user.id===loggato.id){
+    document.getElementById("pencilTravel").onclick=()=>{
+      updateTravelEvent();
+    };
   }
 }
 
