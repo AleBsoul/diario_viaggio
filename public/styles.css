@@ -651,7 +651,7 @@ body{
   position: absolute;
   right: 15px;
   bottom: 5px;
-  font-size: 14px;
+  font-size: 13px;
 }
 @media(max-width: 1300px) {
   .data-div{
@@ -682,6 +682,7 @@ body{
   flex-direction: row;
   column-gap: 7px;
   margin-top: 5px;
+  width: 55%;
 }
 
 .posizione-post svg{
@@ -948,3 +949,7 @@ body{
   
 }
 
+
+.modal-left h1{
+  margin-bottom:20px;
+}
