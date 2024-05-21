@@ -9,7 +9,7 @@ if(!user){
 
 const checkNull = (element) => {
     element.parentElement.classList.remove("null")
-    if(!element.value){
+    if(!element.value.replace("'", " ")){
       element.parentElement.classList.add("null");
     }
 }
@@ -84,7 +84,7 @@ const newViaggioClick=async()=>{
     checkNull(descrInput);
     checkNull(immInput);
     
-    if(titoloInput.value && descrInput.value && immInput.value){
+    if(titoloInput.value.replace("'", " ") && descrInput.value.replace("'", " ") && immInput.value.replace("'", " ")){
         document.getElementById("loading-add-travel").style.opacity=1;
     // aggiunta dell'immagine
         const fileImg = await uploadFile(immInput); //contiente il path e il link
@@ -92,8 +92,8 @@ const newViaggioClick=async()=>{
   
         const id_utente = user.id;
         const viaggio = {
-            titolo: titoloInput.value,
-            descrizione: descrInput.value,
+            titolo: titoloInput.value.replace("'", " "),
+            descrizione: descrInput.value.replace("'", " "),
             immagine: link,
             id_utente: id_utente
         }

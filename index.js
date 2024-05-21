@@ -78,6 +78,13 @@ app.post("/mail", (req,res)=>{
 });
 
 const executeQuery = (sql) => {
+  // const sqlLista =sql.split(' ')
+  // sqlLista.forEach((el, index) => {
+  //   sqlLista[index] = el.replace(/'/g, ' '); // Rimuove tutti gli apici singoli
+  // });
+  // const correct_sql = sqlLista.join(' ');
+
+  // console.log(correct_sql);
   return new Promise((resolve, reject) => {
     connection.query(sql, function (err, result) {
       if (err) {

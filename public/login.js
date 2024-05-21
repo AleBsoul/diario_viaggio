@@ -104,8 +104,8 @@ loginForm.addEventListener("keypress", function(event) {
     checkNull(username_input);
     checkNull(password_input);
 
-    const username_value = username_input.value;
-    const password_value = password_input.value;
+    const username_value = username_input.value.replace("'", " ");
+    const password_value = password_input.value.replace("'", " ");
     const user = {username:username_value, password:password_value};
     if(username_value && password_value){
       document.getElementById("loading-login").style.opacity=1;
@@ -150,12 +150,12 @@ sign_submit.onclick=async()=>{
   checkNull(file);
 
 
-  const username = username_input.value;
-  const pass = pass_input.value;
-  const email = email_input.value;
-  const nome = nome_input.value;
-  const cognome = cognome_input.value;
-  const bio = bio_input.value;
+  const username = username_input.value.replace("'", " ");
+  const pass = pass_input.value.replace("'", " ");
+  const email = email_input.value.replace("'", " ");
+  const nome = nome_input.value.replace("'", " ");
+  const cognome = cognome_input.value.replace("'", " ");
+  const bio = bio_input.value.replace("'", " ");
   const popup = document.getElementById('popup');
 
   const userr = {username: username, password: pass, email:email, nome:nome, cognome:cognome, bio:bio, foto:"link"}
