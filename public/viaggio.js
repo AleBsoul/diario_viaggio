@@ -385,8 +385,8 @@ newPost.onclick=async()=>{
     savePost(post).then(async(result)=>{
       document.getElementById("formAddPost").reset();
       const posts = await get_posts(viaggio.id);
-      await render(posts.result);
       document.getElementById("loading-add-post").style.opacity=0;
+      await render(posts.result);
       print_btn.disabled = false;
     })
   }

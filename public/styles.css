@@ -583,6 +583,13 @@ body{
 
 .profile-details{
   position: relative;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  padding-bottom: 20px;
+}
+.bio{
+  width: 80%;
 }
 .del_btn_viaggio{
   color: rgb(176, 21, 4);
@@ -920,4 +927,17 @@ body{
   #map_posts{
     width: 80%;
   }
+  
 }
+
+@media(max-width: 700px) {
+  .modal-button{
+    top: 25vh;
+    font-size: 18px;
+  }
+  .logo{
+    width: 70px;
+}
+  
+}
+
