@@ -274,19 +274,19 @@ updatePost_btn.onclick=async()=>{
   }else{
     position = null
   }
-  if(titolo.value.replace("'", " ") || descrizione.value.replace("'", " ") || position || media.value.replace("'", " ")){
+  if(titolo.value.replaceAll("'", " ") || descrizione.value.replaceAll("'", " ") || position || media.value.replaceAll("'", " ")){
     document.getElementById("loading-put-post").style.opacity=1;
 
     const data = String(Date.now());
   let post = {
     id:postId,
-    titolo: titolo.value.replace("'", " "),
-    descrizione: descrizione.value.replace("'", " "),
+    titolo: titolo.value.replaceAll("'", " "),
+    descrizione: descrizione.value.replaceAll("'", " "),
     posizione: position,
     id_viaggio: viaggio.id,
     ultima_modifica: data
   }
-  if(media.value.replace("'", " ")){
+  if(media.value.replaceAll("'", " ")){
     const fileImg = await uploadFile(media); //contiente il path e il link
     const link = await fileImg.link;
     post.file = await link;
@@ -361,7 +361,7 @@ newPost.onclick=async()=>{
   checkNull(media);
   checkNull(posizione);
 
-  if(titolo.value.replace("'", " ") && descrizione.value.replace("'", " ") && media.value.replace("'", " ") && posizione.value.replace("'", " ")){
+  if(titolo.value.replaceAll("'", " ") && descrizione.value.replaceAll("'", " ") && media.value.replaceAll("'", " ") && posizione.value.replaceAll("'", " ")){
     document.getElementById("loading-add-post").style.opacity=1;
   
     const position = {
@@ -373,8 +373,8 @@ newPost.onclick=async()=>{
     const fileImg = await uploadFile(media);
     const imgLink = await fileImg.link;
     const post = {
-      titolo: titolo.value.replace("'", " "),
-      descrizione: descrizione.value.replace("'", " "),
+      titolo: titolo.value.replaceAll("'", " "),
+      descrizione: descrizione.value.replaceAll("'", " "),
       file: await imgLink,
       posizione: position,
       id_viaggio: viaggio.id,
@@ -507,19 +507,19 @@ updateTravelBtn.onclick=async()=>{
   const descrInput = document.getElementById("put_descrizione_viaggio_input");
   const immInput = document.getElementById("put_immagine_viaggio_input");
   let cambiamenti = { id:viaggio.id,titolo: null, descrizione:null, immagine: null };
-  if(titoloInput.value.replace("'", " ")!==viaggio.titolo || descrInput.value.replace("'", " ")!==viaggio.descrizione || immInput.value.replace("'", " ")){
+  if(titoloInput.value.replaceAll("'", " ")!==viaggio.titolo || descrInput.value.replaceAll("'", " ")!==viaggio.descrizione || immInput.value.replaceAll("'", " ")){
     document.getElementById("loading-put-travel").style.opacity=1;
 
-    if(immInput.value.replace("'", " ")){
+    if(immInput.value.replaceAll("'", " ")){
       const fileImg = await uploadFile(immInput); //contiente il path e il link
       const link = await fileImg.link;
       cambiamenti.immagine = await link;
     }
-    if(titoloInput.value.replace("'", " ")!==viaggio.titolo){
-      cambiamenti.titolo = titoloInput.value.replace("'", " ");
+    if(titoloInput.value.replaceAll("'", " ")!==viaggio.titolo){
+      cambiamenti.titolo = titoloInput.value.replaceAll("'", " ");
     }
-    if(descrInput.value.replace("'", " ")!==viaggio.descrizione){
-      cambiamenti.descrizione = descrInput.value.replace("'", " ");
+    if(descrInput.value.replaceAll("'", " ")!==viaggio.descrizione){
+      cambiamenti.descrizione = descrInput.value.replaceAll("'", " ");
     }
     await updateTravel(cambiamenti);
     viaggio = await getSingleViaggio(viaggio.id);

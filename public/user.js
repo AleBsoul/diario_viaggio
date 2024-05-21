@@ -226,12 +226,12 @@ const update_submit = document.getElementById("saveChanges");
 update_submit.onclick=async()=>{
     const file = document.getElementById("imgProfilo");
     const id = JSON.parse(sessionStorage.getItem("loggato")).id;
-    const username = document.getElementById("username_sign").value.replace("'", " ");
-    const pass = document.getElementById("password_sign").value.replace("'", " ");
-    const email = document.getElementById("email").value.replace("'", " ");
-    const nome = document.getElementById("nome").value.replace("'", " ");
-    const cognome = document.getElementById("cognome").value.replace("'", " ");
-    const bio = document.getElementById("bio").value.replace("'", " ");
+    const username = document.getElementById("username_sign").value.replaceAll("'", " ");
+    const pass = document.getElementById("password_sign").value.replaceAll("'", " ");
+    const email = document.getElementById("email").value.replaceAll("'", " ");
+    const nome = document.getElementById("nome").value.replaceAll("'", " ");
+    const cognome = document.getElementById("cognome").value.replaceAll("'", " ");
+    const bio = document.getElementById("bio").value.replaceAll("'", " ");
 
     let utente = {username: null, password: null, email:null, nome:null, cognome:null, bio:null, id: id}
     if(username!==user.username || pass!==user.password || email!==user.email || nome!==user.nome ||cognome!==user.cognome ||bio!==user.bio){
