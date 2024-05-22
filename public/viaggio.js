@@ -306,7 +306,6 @@ const closeModal = () => {
 
 
 updatePost_btn.onclick=async()=>{
-  print_btn.disabled = true;
   const titolo = document.getElementById("put_titolo_post_input");
   const descrizione = document.getElementById("put_descrizione_post_input");
   const media = document.getElementById("put_media_post_input");
@@ -343,10 +342,15 @@ updatePost_btn.onclick=async()=>{
   }  
   updatePost(post).then(async(result)=>{
     document.getElementById("formUpdatePost").reset();
+    posts = await get_posts(viaggio.id);
     document.getElementById("loading-put-post").style.opacity=0;
-    const posts = await get_posts(viaggio.id);
-    await render(posts.result);
-    print_btn.disabled = false;
+    if(check_export){
+      await render(posts.result);
+    }else{
+      const current_id_post = posts.result[index].id;
+      index = await posts.result.findIndex((e)=>e.id === current_id_post);
+      renderSingle(await posts.result, index);
+    }
   });
   }
   
@@ -395,7 +399,6 @@ const savePosition = async (data) => {
 
 const newPost = document.getElementById("newPost_btn");
 newPost.onclick=async()=>{
-  print_btn.disabled = true;
   const titolo = document.getElementById("titolo_post_input");
   const descrizione = document.getElementById("descrizione_post_input");
   const media = document.getElementById("media_post_input");
@@ -431,9 +434,8 @@ newPost.onclick=async()=>{
     savePost(post).then(async(result)=>{
       document.getElementById("formAddPost").reset();
       document.getElementById("loading-add-post").style.opacity=0;
-      const posts = await get_posts(viaggio.id);
+      posts = await get_posts(viaggio.id);
       await render(posts.result);
-      print_btn.disabled = false;
     })
   }
   }
@@ -491,13 +493,21 @@ const update_btn_event=(posts)=>{
       document.getElementById("formUpdatePost").style.display="block";
       document.getElementById("formAddPost").style.display="none";
       openModal(postModal);
-      posts.forEach((post)=>{
+      if(check_export){
+        posts.forEach((post)=>{
         if(post.id==put_btn.id){
           document.getElementById("put_titolo_post_input").value=post.testo;
           document.getElementById("put_descrizione_post_input").value=post.descrizione;
           document.getElementById("put_posizione_post_input").value=post.nome;
         }
       })
+      }else{
+        console.log(posts);
+        document.getElementById("put_titolo_post_input").value=posts[index].testo;
+        document.getElementById("put_descrizione_post_input").value=posts[index].descrizione;
+        document.getElementById("put_posizione_post_input").value=posts[index].nome;
+      }
+      
     }
   })
 }
@@ -506,11 +516,15 @@ const del_btn_event = () =>{
   const del_btns = document.querySelectorAll(".del_btn_post");
   del_btns.forEach((del_btn)=>{
     del_btn.onclick=async()=>{
-      print_btn.disabled = true;
-      delPost(del_btn.id);
-      const posts = await get_posts(viaggio.id);
-      await render(await posts.result);
-      print_btn.disabled = false;
+      await delPost(del_btn.id);
+      posts = await get_posts(viaggio.id);
+      if(check_export){
+        await render(await posts.result);
+      }else{
+        index = 0
+        renderSingle(posts.result, index);
+      }
+      
     }
   })
 }
@@ -619,15 +633,15 @@ const renderSingle=async(posts, index)=>{
     }
     postsContentDiv.innerHTML=postsContent;
     del_btn_event();
-    update_btn_event(posts[index]);
+    update_btn_event(posts);
     const srcPost = await downloadFile(posts[index].file);
     let media;
     if (posts[index].mime==="image"){
       media = `<img src="${srcPost}" class="post_media" width="320" height="240">`;
     }else if (posts[index].mime==="video"){
-      media = `<video class="post_media"width="320" height="240" controls><source src="${srcPost}" type="video/mp4"></video>`;
+      media = `<video class="post_media" autoplay><source src="${srcPost}" type="video/mp4"><source src="${srcPost}" type="video/ogg"></video>`;
     }else if (posts[index].mime==="audio"){
-      media = `<audio controls class="post_media"><source src="${srcPost}" type="audio/mpeg"></audio>`;
+      media = `<audio class="post_media" autoplay><source src="${srcPost}" type="audio/mpeg"></audio>`;
     }else{
       media=undefined
     }
@@ -638,7 +652,7 @@ const renderSingle=async(posts, index)=>{
     }
     postsContentDiv.innerHTML=postsContent;
     del_btn_event();
-    update_btn_event(posts[index]);
+    update_btn_event(posts);
 }
 
 
@@ -749,7 +763,7 @@ const render = async(posts) =>{
 document.getElementById("left-arrow-div").style.display="none";
 document.getElementById("right-arrow-div").style.display="none";
 
-const posts = await get_posts(viaggio.id);
+let posts = await get_posts(viaggio.id);
 
 
 document.getElementById("left-arrow-div").style.display="flex";
@@ -757,4 +771,3 @@ document.getElementById("right-arrow-div").style.display="flex";
 
 document.getElementById("post-content").classList.add("singleView");
 renderSingle(posts.result,index);
-print_btn.disabled = false;
