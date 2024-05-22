@@ -399,6 +399,9 @@ body{
   }
 }
 
+
+
+
 .travel{
   position:relative;
   width: 100%;
@@ -762,7 +765,7 @@ body{
   display: flex; 
   align-items: center;
   justify-content: center;
-  position:absolute;
+  position: absolute;
   top:50%;
   left:10px;
 }
@@ -1008,6 +1011,9 @@ body{
   margin: auto; 
   margin-top: 50px;
 }
+.main{
+  margin-top: 20px;
+}
 @media(max-width: 1300px) {
   .buttons-right{
     left: calc(50% - 65px);
@@ -1019,6 +1025,9 @@ body{
   }
   #map_posts{
     width: 80%;
+  }
+  .main{
+    margin-top: 200px;
   }
   
 }
