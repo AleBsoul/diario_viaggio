@@ -62,9 +62,12 @@ newViaggio.onclick=()=>{
 }
 
 const print_btn = document.getElementById("print-post");
-print_btn.addEventListener("click", async(event) => {
+print_btn.onclick=async()=>{
   check_export = !check_export;
+  console.log(check_export);
+  
   if(check_export){
+    console.log("ciao");
     print_btn.innerHTML= 
     `
       <i class="fa-solid fa-book-open"></i>
@@ -79,6 +82,8 @@ print_btn.addEventListener("click", async(event) => {
     render(await posts.result);
     // exportTravel();
   }else{
+    console.log("ciao2");
+
     print_btn.innerHTML= 
     `
       <i class="fa fa-download"></i>
@@ -91,8 +96,7 @@ print_btn.addEventListener("click", async(event) => {
     document.getElementById("post-content").classList.add("singleView");
     renderSingle(posts.result,index);
   }
-  
-});
+};
 
 
 let place;
