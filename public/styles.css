@@ -529,8 +529,8 @@ body{
   box-shadow: 0 10px 15px -3px #488aec4f, 0 4px 6px -2px #488aec17;
 }
 
-#add-post:focus,#add-post:active,#print-post:focus, #print-post:active {
-  opacity: .85;
+#add-post:focus,#add-post:active {
+  opacity: .65;
   box-shadow: none;
 }
 
@@ -620,7 +620,29 @@ body{
 }
 
 /* ===============POST=============== */
+@keyframes moveLeft {
+  0% {
+      transform: scale(1) translateX(0);
+  }
+  30% {
+      transform: scale(0.9) translateX(0);
+  }
+  100% {
+      transform: scale(0.9) translateX(-100vw);
+  }
+}
 
+@keyframes moveRight {
+  0% {
+      transform: scale(1) translateX(0);
+  }
+  30% {
+      transform: scale(0.9) translateX(0);
+  }
+  100% {
+      transform: scale(0.9) translateX(100vw);
+  }
+}
 
 .singleView{
   display: grid;

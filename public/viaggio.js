@@ -5,6 +5,8 @@ let index = 0; //per decidere quale post renderizzare
 const right_arrow = document.getElementById("right-arrow");
 const left_arrow = document.getElementById("left-arrow");
 
+let check_export = false;
+
 const user = JSON.parse(sessionStorage.getItem("utente"));
 const loggato = JSON.parse(sessionStorage.getItem("loggato"));
 let viaggio = JSON.parse(sessionStorage.getItem("viaggio"));
@@ -23,6 +25,7 @@ let travel_temp;
 right_arrow.onclick=()=>{
   if(index<posts.result.length){
     index++;
+    // document.querySelector(".post-container").style.animation = 'moveRight 2s forwards';
     renderSingle(posts.result,index);
   }
 }
@@ -30,6 +33,7 @@ right_arrow.onclick=()=>{
 left_arrow.onclick=()=>{
   if(index){
     index--;
+    // document.querySelector(".post-container").style.animation = 'moveLeft 2s forwards';
     renderSingle(posts.result,index);
   }
   
@@ -58,14 +62,38 @@ newViaggio.onclick=()=>{
 }
 
 const print_btn = document.getElementById("print-post");
-print_btn.onclick=async()=>{
-  document.getElementById("map_posts").style.display="block"
-  document.getElementById("travel_div").style.display="block"
-  document.getElementById("post-content").classList.remove("singleView");
-  renderTravel();
-  render(await posts.result);
-  // exportTravel();
-}
+print_btn.addEventListener("click", async(event) => {
+  check_export = !check_export;
+  if(check_export){
+    print_btn.innerHTML= 
+    `
+      <i class="fa-solid fa-book-open"></i>
+      <p>diario</p>
+    `;
+    document.getElementById("left-arrow-div").style.display="none";
+    document.getElementById("right-arrow-div").style.display="none";
+    document.getElementById("map_posts").style.display="block"
+    document.getElementById("travel_div").style.display="block"
+    document.getElementById("post-content").classList.remove("singleView");
+    renderTravel();
+    render(await posts.result);
+    // exportTravel();
+  }else{
+    print_btn.innerHTML= 
+    `
+      <i class="fa fa-download"></i>
+      <p>esporta</p>
+    `;
+    document.getElementById("left-arrow-div").style.display="flex";
+    document.getElementById("right-arrow-div").style.display="flex";
+    document.getElementById("map_posts").style.display="none"
+    document.getElementById("travel_div").style.display="none"
+    document.getElementById("post-content").classList.add("singleView");
+    renderSingle(posts.result,index);
+  }
+  
+});
+
 
 let place;
 
@@ -728,7 +756,5 @@ document.getElementById("left-arrow-div").style.display="flex";
 document.getElementById("right-arrow-div").style.display="flex";
 
 document.getElementById("post-content").classList.add("singleView");
-renderSingle(posts.result,0)
-// renderTravel();
-// await render(await posts.result);
+renderSingle(posts.result,index);
 print_btn.disabled = false;
