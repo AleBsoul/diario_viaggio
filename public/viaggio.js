@@ -1,6 +1,9 @@
 import { uploadFile, downloadFile} from "./mega.js"
 import { newViaggioClick, getSingleViaggio, checkNull } from "./common.js"
 
+let index = 0; //per decidere quale post renderizzare
+const right_arrow = document.getElementById("right-arrow");
+const left_arrow = document.getElementById("left-arrow");
 
 const user = JSON.parse(sessionStorage.getItem("utente"));
 const loggato = JSON.parse(sessionStorage.getItem("loggato"));
@@ -16,6 +19,21 @@ let postTemplate;
 
 const travel_div = document.querySelector(".travel_div");
 let travel_temp;
+
+right_arrow.onclick=()=>{
+  if(index<posts.result.length){
+    index++;
+    renderSingle(posts.result,index);
+  }
+}
+
+left_arrow.onclick=()=>{
+  if(index){
+    index--;
+    renderSingle(posts.result,index);
+  }
+  
+}
 
 const exportTravel=async()=>{
   document.getElementById("map_posts").style.display="none";
@@ -40,8 +58,13 @@ newViaggio.onclick=()=>{
 }
 
 const print_btn = document.getElementById("print-post");
-print_btn.onclick=()=>{
-  exportTravel();
+print_btn.onclick=async()=>{
+  document.getElementById("map_posts").style.display="block"
+  document.getElementById("travel_div").style.display="block"
+  document.getElementById("post-content").classList.remove("singleView");
+  renderTravel();
+  render(await posts.result);
+  // exportTravel();
 }
 
 let place;
@@ -120,8 +143,6 @@ postsTemplate = `
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
       <p>%POSIZIONE</p>
     </div>
-    
-    
     <div class="data-div">
       %DATA<br/>
       %MODIFICA
@@ -173,7 +194,6 @@ postTemplate = `
       <button type="button" class="del_btn_post no_export" id="%del_btn_id">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
       </button>
-      
     </div>
   </div>
 `
@@ -547,6 +567,53 @@ const renderTravel=async()=>{
   }
 }
 
+const renderSingle=async(posts, index)=>{
+    const loadingPost = `<iframe class='loadingPost' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`;
+    const all_date = new Date(parseInt(posts[index].data));
+    let postsContent;
+    let modifica_data;
+    let mins = String(all_date.getMinutes());
+    if(mins.length===1){
+      mins="0"+mins
+    }
+    const data = all_date.getDay()+"/"+all_date.getMonth()+"/"+all_date.getFullYear()+" - "+all_date.getHours()+":"+mins
+    
+    if(posts[index].ultima_modifica){
+      const all_modifica_date = new Date(parseInt(posts[index].ultima_modifica));
+      let mins_modifica = String(all_modifica_date.getMinutes());
+      if(mins_modifica.length===1){
+        mins_modifica="0"+mins_modifica;
+      }
+      modifica_data = all_modifica_date.getDay()+"/"+all_modifica_date.getMonth()+"/"+all_modifica_date.getFullYear()+" - "+all_modifica_date.getHours()+":"+mins_modifica;
+      postsContent=postsTemplate.replace("%POSIZIONE",posts[index].nome).replace("%TITOLO",posts[index].testo).replace("%DATA",data).replace("%MODIFICA","modificato: "+modifica_data).replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",posts[index].descrizione).replace("%del_btn_id",posts[index].id).replace("%put_btn_id", posts[index].id).replace("%id",posts[index].id);
+    }else{
+      postsContent=postsTemplate.replace("%POSIZIONE",posts[index].nome).replace("%TITOLO",posts[index].testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",posts[index].descrizione).replace("%del_btn_id",posts[index].id).replace("%put_btn_id", posts[index].id).replace("%id",posts[index].id);
+    }
+    postsContentDiv.innerHTML=postsContent;
+    del_btn_event();
+    update_btn_event(posts[index]);
+    const srcPost = await downloadFile(posts[index].file);
+    let media;
+    if (posts[index].mime==="image"){
+      media = `<img src="${srcPost}" class="post_media" width="320" height="240">`;
+    }else if (posts[index].mime==="video"){
+      media = `<video class="post_media"width="320" height="240" controls><source src="${srcPost}" type="video/mp4"></video>`;
+    }else if (posts[index].mime==="audio"){
+      media = `<audio controls class="post_media"><source src="${srcPost}" type="audio/mpeg"></audio>`;
+    }else{
+      media=undefined
+    }
+    if(modifica_data){
+      postsContent=postsTemplate.replace("%POSIZIONE",posts[index].nome).replace("%TITOLO",posts[index].testo).replace("%DATA",data).replace("%MODIFICA","modificato: "+modifica_data).replace("%MEDIA",media).replace("%DESCRIZIONE",posts[index].descrizione).replace("%del_btn_id",posts[index].id).replace("%put_btn_id", posts[index].id).replace("%id",posts[index].id);
+    }else{
+      postsContent=postsTemplate.replace("%POSIZIONE",posts[index].nome).replace("%TITOLO",posts[index].testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",media).replace("%DESCRIZIONE",posts[index].descrizione).replace("%del_btn_id",posts[index].id).replace("%put_btn_id", posts[index].id).replace("%id",posts[index].id);
+    }
+    postsContentDiv.innerHTML=postsContent;
+    del_btn_event();
+    update_btn_event(posts[index]);
+}
+
+
 const render = async(posts) =>{
   // travel
   //map
@@ -609,10 +676,10 @@ const render = async(posts) =>{
   del_btn_event();
   update_btn_event(posts);
   const postsDivs = document.querySelectorAll(".post-container");
-  postsDivs.forEach((postDiv)=>{
-    postDiv.addEventListener('click', async function (event) {
-    });
-  })
+  // postsDivs.forEach((postDiv)=>{
+  //   postDiv.addEventListener('click', async function (event) {
+  //   });
+  // })
   //render delle immagini
   postsContent = "";
   for (let i=0; i<posts.length;i++) {
@@ -631,7 +698,7 @@ const render = async(posts) =>{
     }else if (posts[i].mime==="audio"){
       media = `<audio controls class="post_media"><source src="${srcPost}" type="audio/mpeg"></audio>`;
     }else{
-      console.log("niente");
+      media=undefined
     }
     if(posts[i].ultima_modifica){
       
@@ -651,7 +718,17 @@ const render = async(posts) =>{
   };
 }
 
+document.getElementById("left-arrow-div").style.display="none";
+document.getElementById("right-arrow-div").style.display="none";
+
 const posts = await get_posts(viaggio.id);
-renderTravel();
-await render(await posts.result);
+
+
+document.getElementById("left-arrow-div").style.display="flex";
+document.getElementById("right-arrow-div").style.display="flex";
+
+document.getElementById("post-content").classList.add("singleView");
+renderSingle(posts.result,0)
+// renderTravel();
+// await render(await posts.result);
 print_btn.disabled = false;

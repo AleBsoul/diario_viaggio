@@ -386,6 +386,7 @@ body{
   padding-bottom: 30px;
 }
 
+
 @media(max-width: 900px) {
   .travel-content, .post-content {
     grid-template-columns: 1fr;
@@ -407,6 +408,7 @@ body{
   cursor: pointer;
   transition: 0.15s all;
 }
+
 .travel:hover{
   box-shadow: 0px 0px 8px 0px grey;
   transform: scale(1.03)
@@ -464,9 +466,6 @@ body{
   border-radius: 10px;
   object-fit: cover;
 }
-
-
-
 
 
 /*==========user==========*/
@@ -622,6 +621,19 @@ body{
 
 /* ===============POST=============== */
 
+
+.singleView{
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: 1fr;
+  width: 75%;
+  margin-top: 5%;
+  margin-bottom: 50px;
+  /* margin-top: 70px; */
+  /* padding-bottom: 30px; */
+}
+
 .post-container{
   width: 100%;
   /* height: 300px; */
@@ -720,6 +732,37 @@ body{
   transform: scale(1.04);
 }
 
+.arrow_div{
+  width: 70px;
+  height: 70px; 
+  border-radius: 50%;
+  border: 1px solid rgb(171, 168, 168);
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  position:absolute;
+  top:50%;
+  left:10px;
+}
+
+.arrow_div button{
+  width: 50px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: all 0.15s ease;
+}
+
+.arrow_div :hover{
+  opacity: 0.6;
+}
+
+
+#right-arrow-div{
+  transform:translateX(calc(100vw - 150%));
+  /* transform:translateY(calc(100vh - 100%)); */
+
+}
 
 
 .middle-post{
@@ -731,6 +774,7 @@ body{
   overflow: hidden; 
   position: relative; 
 }
+
 .middle-post *:not(audio, iframe) {
   width: 100%;
   height: 100%;
@@ -758,6 +802,21 @@ body{
   grid-template-columns: 1fr 1fr;
 }
 
+
+.singleView .post-container{
+  height:80vh;
+}
+
+
+.singleView .middle-post{
+  display: flex;
+  align-items: center;
+  text-align: center;
+  height: 60vh;
+  border-bottom: 1px solid lightgrey;
+  overflow: hidden; 
+  position: relative; 
+}
 
 #pencilViaggio{
   position:absolute;
@@ -875,6 +934,7 @@ body{
 }
 
 .travel_div {
+  display:none;
   min-height:150px;
   width: 40%; 
   margin: 20px auto; 
@@ -920,6 +980,7 @@ body{
 
 
 #map_posts{
+  display:none;
   width:40%;
   height: 350px;
   margin: auto; 
@@ -957,7 +1018,8 @@ body{
   
 }
 
-
 .modal-left h1{
   margin-bottom:20px;
 }
+
+
