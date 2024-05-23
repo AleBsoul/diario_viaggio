@@ -635,9 +635,12 @@ const renderSingle=async(posts, index)=>{
     }else{
       postsContent=postsTemplate.replace("%POSIZIONE",posts[index].nome).replace("%TITOLO",posts[index].testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",posts[index].descrizione).replace("%del_btn_id",posts[index].id).replace("%put_btn_id", posts[index].id).replace("%id",posts[index].id);
     }
-    postsContentDiv.innerHTML=postsContent;
-    del_btn_event();
-    update_btn_event(posts);
+    if(!check_export){
+      postsContentDiv.innerHTML=postsContent;
+      del_btn_event();
+      update_btn_event(posts);
+    }
+    
     const srcPost = await downloadFile(posts[index].file);
     let media;
     if (posts[index].mime==="image"){
@@ -654,9 +657,12 @@ const renderSingle=async(posts, index)=>{
     }else{
       postsContent=postsTemplate.replace("%POSIZIONE",posts[index].nome).replace("%TITOLO",posts[index].testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",media).replace("%DESCRIZIONE",posts[index].descrizione).replace("%del_btn_id",posts[index].id).replace("%put_btn_id", posts[index].id).replace("%id",posts[index].id);
     }
-    postsContentDiv.innerHTML=postsContent;
-    del_btn_event();
-    update_btn_event(posts);
+    if(!check_export){
+      postsContentDiv.innerHTML=postsContent;
+      del_btn_event();
+      update_btn_event(posts);
+    }
+    
 }
 
 
@@ -718,15 +724,18 @@ const render = async(posts) =>{
       postsContent+=postsTemplate.replace("%POSIZIONE",post.nome).replace("%TITOLO",post.testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",post.descrizione).replace("%del_btn_id",post.id).replace("%put_btn_id", post.id).replace("%id",post.id);
     }
   });
-  postsContentDiv.innerHTML=postsContent;
-  del_btn_event();
-  update_btn_event(posts);
+  if(check_export){
+    postsContentDiv.innerHTML=postsContent;
+    del_btn_event();
+    update_btn_event(posts);
+  }
+  
   const postsDivs = document.querySelectorAll(".post-container");
   // postsDivs.forEach((postDiv)=>{
   //   postDiv.addEventListener('click', async function (event) {
   //   });
   // })
-  //render delle immagini
+  // render delle immagini
   postsContent = "";
   for (let i=0; i<posts.length;i++) {
     const all_date = new Date(parseInt(posts[i].data));
@@ -758,9 +767,12 @@ const render = async(posts) =>{
     }else{
       postsContent=postTemplate.replace("%POSIZIONE",posts[i].nome).replace("%TITOLO",posts[i].testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",media).replace("%DESCRIZIONE",posts[i].descrizione).replace("%del_btn_id",posts[i].id).replace("%put_btn_id", posts[i].id).replace("%id",posts[i].id);
     }
-    postsDivs[i].innerHTML=postsContent;
-    del_btn_event();
-    update_btn_event(posts);
+    if(check_export){
+      postsDivs[i].innerHTML=postsContent;
+      del_btn_event();
+      update_btn_event(posts);
+    }
+
   };
 }
 
