@@ -27,7 +27,7 @@ right_arrow.onclick=()=>{
   if(index<posts.result.length-1){
     index++;
     // document.querySelector(".post-container").style.animation = 'moveRight 2s forwards';
-    renderSingle(posts.result,index);
+    renderSingle();
   }
 }
 
@@ -35,7 +35,7 @@ left_arrow.onclick=()=>{
   if(index){
     index--;
     // document.querySelector(".post-container").style.animation = 'moveLeft 2s forwards';
-    renderSingle(posts.result,index);
+    renderSingle();
   }
   
 }
@@ -78,7 +78,7 @@ print_btn.onclick=async()=>{
     document.getElementById("travel_div").style.display="block"
     renderTravel();
     if(posts.result.length>0){
-      render(await posts.result);
+      render();
     }
     // exportTravel();
   }else{
@@ -91,7 +91,7 @@ print_btn.onclick=async()=>{
     document.getElementById("map_posts").style.display="none"
     document.getElementById("travel_div").style.display="none"
     if(posts.result.length>0){
-      renderSingle(posts.result,index);
+      renderSingle();
     }else{
       document.getElementById("left-arrow-div").style.display="none"
       document.getElementById("right-arrow-div").style.display="none"    
@@ -360,11 +360,11 @@ updatePost_btn.onclick=async()=>{
     document.getElementById("loading-put-post").style.opacity=0;
     if(posts.result.length>0){
       if(check_export){
-        await render(posts.result);
+        await render();
       }else{
         const current_id_post = posts.result[index].id;
         index = await posts.result.findIndex((e)=>e.id === current_id_post);
-        renderSingle(await posts.result, index);
+        renderSingle();
       }
     }else{
       document.getElementById("left-arrow-div").style.display="none"
@@ -457,11 +457,11 @@ newPost.onclick=async()=>{
       posts = await get_posts(viaggio.id);
       if(posts.result.length>0){
         if(check_export){
-          await render(posts.result);
+          await render();
         }else{
           const current_id_post = posts.result[index].id;
           index = await posts.result.findIndex((e)=>e.id === current_id_post);
-          renderSingle(await posts.result, index);
+          renderSingle();
         }
       }else{
         document.getElementById("left-arrow-div").style.display="none"
@@ -518,7 +518,6 @@ const delPost= async(id)=>{
 }
 
 const update_btn_event=()=>{
-  console.log(posts)
   const blurDiv = document.getElementById("blurred-div");
   const post_cont = document.getElementById(posts.result[index].id);
 
@@ -567,10 +566,10 @@ const del_btn_event = () =>{
       posts = await get_posts(viaggio.id);
       if(posts.result.length>0){
         if(check_export){
-          await render(await posts.result);
+          await render();
         }else{
           index = 0
-          renderSingle(posts.result, index);
+          renderSingle();
         }
       }else{
         document.getElementById("left-arrow-div").style.display="none"
@@ -664,8 +663,8 @@ const renderTravel=async()=>{
 }
 
 
-const blur=(posts, index)=>{
-  const post_cont = document.getElementById(posts[index].id);
+const blur=()=>{
+  const post_cont = document.getElementById(posts.result[index].id);
   const blurDiv = document.getElementById("blurred-div");
 
   post_cont.onclick = () =>{
@@ -692,13 +691,13 @@ const blur=(posts, index)=>{
 
 
 
-const renderSingle=async(posts, index)=>{
-  
+const renderSingle=async()=>{
+    const indiceControllo = index //serve a gestire le chiamate asincrone
     if(index===0){
       console.log("si")
       left_arrow.style.opacity = "0.5";
       left_arrow.disabled = true;
-    }else if(index===posts.length-1){
+    }else if(index===posts.result.length-1){
       right_arrow.style.opacity = "0.5";
       right_arrow.disabled = true;
     }else{
@@ -712,7 +711,7 @@ const renderSingle=async(posts, index)=>{
     document.getElementById("left-arrow-div").style.display="flex";
 
     const loadingPost = `<iframe class='loadingPost' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`;
-    const all_date = new Date(parseInt(posts[index].data));
+    const all_date = new Date(parseInt(posts.result[index].data));
     let postsContent;
     let modifica_data;
     let mins = String(all_date.getMinutes());
@@ -721,39 +720,40 @@ const renderSingle=async(posts, index)=>{
     }
     const data = all_date.getDay()+"/"+all_date.getMonth()+"/"+all_date.getFullYear()+" - "+all_date.getHours()+":"+mins
     
-    if(posts[index].ultima_modifica){
-      const all_modifica_date = new Date(parseInt(posts[index].ultima_modifica));
+    if(posts.result[index].ultima_modifica){
+      const all_modifica_date = new Date(parseInt(posts.result[index].ultima_modifica));
       let mins_modifica = String(all_modifica_date.getMinutes());
       if(mins_modifica.length===1){
         mins_modifica="0"+mins_modifica;
       }
       modifica_data = all_modifica_date.getDay()+"/"+all_modifica_date.getMonth()+"/"+all_modifica_date.getFullYear()+" - "+all_modifica_date.getHours()+":"+mins_modifica;
-      postsContent=postsTemplate.replace("%POSIZIONE",posts[index].nome).replace("%TITOLO",posts[index].testo).replace("%DATA",data).replace("%MODIFICA","modificato: "+modifica_data).replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",posts[index].descrizione).replace("%del_btn_id",posts[index].id).replace("%put_btn_id", posts[index].id).replace("%id",posts[index].id);
+      postsContent=postsTemplate.replace("%POSIZIONE",posts.result[index].nome).replace("%TITOLO",posts.result[index].testo).replace("%DATA",data).replace("%MODIFICA","modificato: "+modifica_data).replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",posts.result[index].descrizione).replace("%del_btn_id",posts.result[index].id).replace("%put_btn_id", posts.result[index].id).replace("%id",posts.result[index].id);
     }else{
-      postsContent=postsTemplate.replace("%POSIZIONE",posts[index].nome).replace("%TITOLO",posts[index].testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",posts[index].descrizione).replace("%del_btn_id",posts[index].id).replace("%put_btn_id", posts[index].id).replace("%id",posts[index].id);
+      postsContent=postsTemplate.replace("%POSIZIONE",posts.result[index].nome).replace("%TITOLO",posts.result[index].testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",posts.result[index].descrizione).replace("%del_btn_id",posts.result[index].id).replace("%put_btn_id", posts.result[index].id).replace("%id",posts.result[index].id);
     }
     if(!check_export){
         postsContentDiv.innerHTML=postsContent;
-        blur(posts, index);
+        blur();
         del_btn_event();
         update_btn_event();
     }
-    
 
-    const srcPost = await downloadFile(posts[index].file);
+    const srcPost = await downloadFile(posts.result[index].file);
     let media;
-    if (posts[index].mime==="image"){
+    if (posts.result[index].mime==="image"){
       media = `<img src="${srcPost}" class="post_media" width="320" height="240">`;
-    }else if (posts[index].mime==="video"){
+    }else if (posts.result[index].mime==="video"){
       media = `<video class="post_media" autoplay><source src="${srcPost}" type="video/mp4"><source src="${srcPost}" type="video/ogg"></video>`;
-    }else if (posts[index].mime==="audio"){
+    }else if (posts.result[index].mime==="audio"){
       media = `<audio class="post_media" autoplay><source src="${srcPost}" type="audio/mpeg"></audio>`;
     }else{
       media=undefined
     }
 
     if(!check_export){
-      document.querySelector(".middle-post").innerHTML=media; //quando riceve l'immagine, la renderizza
+      if(indiceControllo === index){
+        document.querySelector(".middle-post").innerHTML=media; //quando riceve l'immagine, la renderizza
+      }
     }
 }
 
@@ -762,9 +762,9 @@ const render = async(posts) =>{
   // travel
   //map
   let tripCoordinates = [];
-  if(posts.length){ 
-    myMap(posts[0].latitudine, posts[0].longitudine);
-    posts.forEach((post)=>{
+  if(posts.result.length){ 
+    myMap(posts.result[0].latitudine, posts.result[0].longitudine);
+    posts.result.forEach((post)=>{
       const marker = new google.maps.Marker({
         position: new google.maps.LatLng(post.latitudine, post.longitudine),
         map: map,
@@ -803,7 +803,7 @@ const render = async(posts) =>{
   const loadingPost = `<iframe class='loadingPost' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`;
   let postsContent = "";
   //caricamento dei div dei post con la rotella di caricamento
-  posts.forEach(post => {
+  posts.result.forEach(post => {
     const all_date = new Date(parseInt(post.data));
     let mins = String(all_date.getMinutes());
     if(mins.length===1){
@@ -833,15 +833,15 @@ const render = async(posts) =>{
   
   // render delle immagini
   
-  for (let i=0; i<posts.length;i++) {
+  for (let i=0; i<posts.result.length;i++) {
     const middlePost = postsDivs[i].querySelector(".middle-post"); // così quando arriva l'img, renderizzo solo quella
-   const srcPost = await downloadFile(posts[i].file);
+   const srcPost = await downloadFile(posts.result[i].file);
     let media;
-    if (posts[i].mime==="image"){
+    if (posts.result[i].mime==="image"){
       media = `<img src="${srcPost}" class="post_media" width="320" height="240">`;
-    }else if (posts[i].mime==="video"){
+    }else if (posts.result[i].mime==="video"){
       media = `<video class="post_media"width="320" height="240" controls><source src="${srcPost}" type="video/mp4"></video>`;
-    }else if (posts[i].mime==="audio"){
+    }else if (posts.result[i].mime==="audio"){
       media = `<audio controls class="post_media"><source src="${srcPost}" type="audio/mpeg"></audio>`;
     }else{
       media=undefined
@@ -865,7 +865,7 @@ console.log(posts.result)
 if(posts.result.length>0){
   
   document.getElementById("right-arrow-div").style.display="flex"
-  renderSingle(posts.result,index);
+  renderSingle();
 }else{
   document.getElementById("left-arrow-div").style.display="none"
   document.getElementById("right-arrow-div").style.display="none"
