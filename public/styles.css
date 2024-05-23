@@ -129,7 +129,7 @@ body{
     align-items: center;
     justify-content: center;
     transition: 0.4s;
-    z-index: 998;;
+    z-index: 50000;
   }
   
   .modal-container {

@@ -5,6 +5,7 @@ let index = 0; //per decidere quale post renderizzare
 const right_arrow = document.getElementById("right-arrow");
 const left_arrow = document.getElementById("left-arrow");
 
+let check_bottom_btn = false;
 let check_export = false;
 
 const user = JSON.parse(sessionStorage.getItem("utente"));
@@ -64,10 +65,8 @@ newViaggio.onclick=()=>{
 const print_btn = document.getElementById("print-post");
 print_btn.onclick=async()=>{
   check_export = !check_export;
-  console.log(check_export);
   
   if(check_export){
-    console.log("ciao");
     print_btn.innerHTML= 
     `
       <i class="fa-solid fa-book-open"></i>
@@ -81,7 +80,6 @@ print_btn.onclick=async()=>{
     render(await posts.result);
     // exportTravel();
   }else{
-    console.log("ciao2");
 
     print_btn.innerHTML= 
     `
@@ -255,7 +253,6 @@ postsTemplate = `
     </div>
     <div class="data-div">
       %DATA<br/>
-      
     </div>
   </div>
   <div class="middle-post">
@@ -312,6 +309,7 @@ const openModal = (modal) => {
 };
 
 const closeModal = () => {
+  check_bottom_btn = false;
   postModal.classList.remove("is-open");
 };
 
@@ -497,10 +495,18 @@ const delPost= async(id)=>{
 } 
 }
 
-const update_btn_event=(posts)=>{
+const update_btn_event=()=>{
+  console.log(posts)
+  const blurDiv = document.getElementById("blurred-div");
+  const post_cont = document.getElementById(posts.result[index].id);
+
   const put_btns = document.querySelectorAll(".pencilPost");
   put_btns.forEach((put_btn)=>{
     put_btn.onclick=()=>{
+      check_bottom_btn = true;
+      blurDiv.classList.remove("blurred");
+      blurDiv.classList.add("inv");
+      post_cont.style.transform = "scale(1)";
       postId=put_btn.id;
       document.getElementById("formUpdatePost").style.display="block";
       document.getElementById("formAddPost").style.display="none";
@@ -514,10 +520,9 @@ const update_btn_event=(posts)=>{
         }
       })
       }else{
-        console.log(posts);
-        document.getElementById("put_titolo_post_input").value=posts[index].testo;
-        document.getElementById("put_descrizione_post_input").value=posts[index].descrizione;
-        document.getElementById("put_posizione_post_input").value=posts[index].nome;
+        document.getElementById("put_titolo_post_input").value=posts.result[index].testo;
+        document.getElementById("put_descrizione_post_input").value=posts.result[index].descrizione;
+        document.getElementById("put_posizione_post_input").value=posts.result[index].nome;
       }
       
     }
@@ -525,9 +530,17 @@ const update_btn_event=(posts)=>{
 }
 
 const del_btn_event = () =>{
+  
   const del_btns = document.querySelectorAll(".del_btn_post");
+  const blurDiv = document.getElementById("blurred-div");
+  const post_cont = document.getElementById(posts.result[index].id);
+
   del_btns.forEach((del_btn)=>{
     del_btn.onclick=async()=>{
+      check_bottom_btn = true;
+      blurDiv.classList.remove("blurred");
+      blurDiv.classList.add("inv");
+      post_cont.style.transform = "scale(1)";
       await delPost(del_btn.id);
       posts = await get_posts(viaggio.id);
       if(check_export){
@@ -622,7 +635,31 @@ const renderTravel=async()=>{
 }
 
 
+const blur=(posts, index)=>{
+  const post_cont = document.getElementById(posts[index].id);
+  const blurDiv = document.getElementById("blurred-div");
 
+  post_cont.onclick = () =>{
+    if(!check_bottom_btn){
+      blurDiv.classList.add("blurred");
+      blurDiv.classList.remove("inv");
+      
+      post_cont.style.transform = "translateY(-50px) scale(1.20)";
+  
+      document.addEventListener("keypress", function(event){
+        if(event.key === "Escape"){
+          event.preventDefault();
+          blurDiv.click();
+        }
+      });
+    }
+    blurDiv.onclick=()=>{
+      blurDiv.classList.remove("blurred");
+      blurDiv.classList.add("inv");
+      post_cont.style.transform = "scale(1)";
+    }
+  }
+}
 
 
 const renderSingle=async(posts, index)=>{
@@ -648,39 +685,13 @@ const renderSingle=async(posts, index)=>{
       postsContent=postsTemplate.replace("%POSIZIONE",posts[index].nome).replace("%TITOLO",posts[index].testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",posts[index].descrizione).replace("%del_btn_id",posts[index].id).replace("%put_btn_id", posts[index].id).replace("%id",posts[index].id);
     }
     if(!check_export){
-      postsContentDiv.innerHTML=postsContent;
-      if(!check_export){
         postsContentDiv.innerHTML=postsContent;
-        const post_cont = document.getElementById(posts[index].id);
-        post_cont.onclick = () =>{
-          const blurDiv = document.getElementById("blurred-div");
-          blurDiv.classList.add("blurred");
-          blurDiv.classList.remove("inv");
-          
-          post_cont.style.transform = "translateY(-50px) scale(1.20)";
-    
-          document.addEventListener("keypress", function(){
-            if(event.key === "Escape"){
-              event.preventDefault();
-              blurDiv.click();
-            }
-          });
-    
-          blurDiv.onclick=()=>{
-            blurDiv.classList.remove("blurred");
-            blurDiv.classList.add("inv");
-            post_cont.style.transform = "scale(1)";
-          }
-        }
+        blur(posts, index);
         del_btn_event();
-        update_btn_event(posts);
-      }
-      del_btn_event();
-      update_btn_event(posts);
+        update_btn_event();
     }
+    
 
-    
-    
     const srcPost = await downloadFile(posts[index].file);
     let media;
     if (posts[index].mime==="image"){
@@ -692,22 +703,10 @@ const renderSingle=async(posts, index)=>{
     }else{
       media=undefined
     }
-    if(modifica_data){
-      postsContent=postsTemplate.replace("%POSIZIONE",posts[index].nome).replace("%TITOLO",posts[index].testo).replace("%DATA",data).replace("%MODIFICA","modificato: "+modifica_data).replace("%MEDIA",media).replace("%DESCRIZIONE",posts[index].descrizione).replace("%del_btn_id",posts[index].id).replace("%put_btn_id", posts[index].id).replace("%id",posts[index].id);
-    }else{
-      postsContent=postsTemplate.replace("%POSIZIONE",posts[index].nome).replace("%TITOLO",posts[index].testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",media).replace("%DESCRIZIONE",posts[index].descrizione).replace("%del_btn_id",posts[index].id).replace("%put_btn_id", posts[index].id).replace("%id",posts[index].id);
-    }
 
     if(!check_export){
-      postsContentDiv.innerHTML=postsContent;
-      
-      del_btn_event();
-      update_btn_event(posts);
+      document.querySelector(".middle-post").innerHTML=media; //quando riceve l'immagine, la renderizza
     }
-
-    
-    
-    
 }
 
 
@@ -772,24 +771,16 @@ const render = async(posts) =>{
   if(check_export){
     postsContentDiv.innerHTML=postsContent;
     del_btn_event();
-    update_btn_event(posts);
+    update_btn_event();
   }
   
   const postsDivs = document.querySelectorAll(".post-container");
-  // postsDivs.forEach((postDiv)=>{
-  //   postDiv.addEventListener('click', async function (event) {
-  //   });
-  // })
+  
   // render delle immagini
-  postsContent = "";
+  
   for (let i=0; i<posts.length;i++) {
-    const all_date = new Date(parseInt(posts[i].data));
-    let mins = String(all_date.getMinutes());
-    if(mins.length===1){
-      mins="0"+mins
-    }
-    const data = all_date.getDay()+"/"+all_date.getMonth()+"/"+all_date.getFullYear()+" - "+all_date.getHours()+":"+mins
-    const srcPost = await downloadFile(posts[i].file);
+    const middlePost = postsDivs[i].querySelector(".middle-post"); // così quando arriva l'img, renderizzo solo quella
+   const srcPost = await downloadFile(posts[i].file);
     let media;
     if (posts[i].mime==="image"){
       media = `<img src="${srcPost}" class="post_media" width="320" height="240">`;
@@ -800,24 +791,10 @@ const render = async(posts) =>{
     }else{
       media=undefined
     }
-    if(posts[i].ultima_modifica){
-      
-      const all_modifica_date = new Date(parseInt(posts[i].ultima_modifica));
-      let minsModifica = String(all_modifica_date.getMinutes());
-      if(minsModifica.length===1){
-        minsModifica="0"+minsModifica;
-      }
-      const modifica_data = all_modifica_date.getDay()+"/"+all_modifica_date.getMonth()+"/"+all_modifica_date.getFullYear()+" - "+all_modifica_date.getHours()+":"+minsModifica;
-      postsContent=postTemplate.replace("%POSIZIONE",posts[i].nome).replace("%TITOLO",posts[i].testo).replace("%DATA",data).replace("%MODIFICA","modificato: "+modifica_data).replace("%MEDIA",media).replace("%DESCRIZIONE",posts[i].descrizione).replace("%del_btn_id",posts[i].id).replace("%put_btn_id", posts[i].id).replace("%id",posts[i].id);
-    }else{
-      postsContent=postTemplate.replace("%POSIZIONE",posts[i].nome).replace("%TITOLO",posts[i].testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",media).replace("%DESCRIZIONE",posts[i].descrizione).replace("%del_btn_id",posts[i].id).replace("%put_btn_id", posts[i].id).replace("%id",posts[i].id);
-    }
+  
     if(check_export){
-      postsDivs[i].innerHTML=postsContent;
-      del_btn_event();
-      update_btn_event(posts);
+      middlePost.innerHTML=media; //renderizzo solo solo l'img/ video/ audio
     }
-
   };
 }
 
