@@ -69,7 +69,7 @@ print_btn.onclick=async()=>{
   if(check_export){
     print_btn.innerHTML= 
     `
-      <i class="fa-solid fa-book-open"></i>
+      <i class="fa fa-book"></i>
       <p>diario</p>
     `;
     document.getElementById("left-arrow-div").style.display="none";
@@ -83,7 +83,7 @@ print_btn.onclick=async()=>{
 
     print_btn.innerHTML= 
     `
-      <i class="fa-solid fa-earth-americas"></i>
+      <i class="fa fa-globe"></i>
       <p>viaggio completo</p>
     `;
     document.getElementById("left-arrow-div").style.display="flex";
@@ -138,7 +138,7 @@ let map;
 const myMap = (lat, lng) => {
   const mapProp = {
     center: new google.maps.LatLng(lat, lng),
-    zoom: 1
+    zoom: 5
   };
   map = new google.maps.Map(document.getElementById("map_posts"),mapProp);
 }
@@ -727,11 +727,18 @@ const render = async(posts) =>{
           'lat':marker.position.lat(), 
           'lng':marker.position.lng()}
         )
-
+      
       google.maps.event.addDomListener(marker, 'click', function() {
         document.getElementById(marker.id).scrollIntoView({behavior: "smooth"});
     });
+    
     })
+    console.log(tripCoordinates)
+    const delta = tripCoordinates[0].lat/tripCoordinates[1].lat;
+    
+    const zoom =parseInt(Math.abs(delta)*8);
+    console.log(zoom)
+    map.setZoom(zoom);
     
     let tripPath = new google.maps.Polyline({
       path: tripCoordinates,
