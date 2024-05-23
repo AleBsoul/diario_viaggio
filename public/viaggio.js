@@ -691,7 +691,23 @@ const blur=(posts, index)=>{
 }
 
 
+
 const renderSingle=async(posts, index)=>{
+  
+    if(index===0){
+      console.log("si")
+      left_arrow.style.opacity = "0.5";
+      left_arrow.disabled = true;
+    }else if(index===posts.length-1){
+      right_arrow.style.opacity = "0.5";
+      right_arrow.disabled = true;
+    }else{
+      left_arrow.style.opacity = "1";
+      right_arrow.style.opacity = "1";
+      left_arrow.disabled = false;
+      right_arrow.disabled = false;
+    }
+
     document.getElementById("right-arrow-div").style.display="flex";   
     document.getElementById("left-arrow-div").style.display="flex";
 
