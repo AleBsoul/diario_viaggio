@@ -83,8 +83,8 @@ print_btn.onclick=async()=>{
 
     print_btn.innerHTML= 
     `
-      <i class="fa fa-download"></i>
-      <p>esporta</p>
+      <i class="fa-solid fa-earth-americas"></i>
+      <p>viaggio completo</p>
     `;
     document.getElementById("left-arrow-div").style.display="flex";
     document.getElementById("right-arrow-div").style.display="flex";
@@ -646,7 +646,7 @@ const blur=(posts, index)=>{
       
       post_cont.style.transform = "translateY(-50px) scale(1.20)";
   
-      document.addEventListener("keypress", function(event){
+      document.addEventListener("keydown", (event)=>{
         if(event.key === "Escape"){
           event.preventDefault();
           blurDiv.click();

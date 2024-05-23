@@ -438,6 +438,7 @@ body{
   height: fit-content;
   display: flex;
   align-items: center;
+  padding: 10px;
   padding-left: 30px;
 }
 
