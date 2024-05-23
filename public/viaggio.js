@@ -23,7 +23,7 @@ const travel_div = document.querySelector(".travel_div");
 let travel_temp;
 
 right_arrow.onclick=()=>{
-  if(index<posts.result.length){
+  if(index<posts.result.length-1){
     index++;
     // document.querySelector(".post-container").style.animation = 'moveRight 2s forwards';
     renderSingle(posts.result,index);
