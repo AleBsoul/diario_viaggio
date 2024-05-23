@@ -533,7 +533,7 @@ const update_btn_event=()=>{
       document.getElementById("formAddPost").style.display="none";
       openModal(postModal);
       if(check_export){
-        posts.forEach((post)=>{
+        posts.result.forEach((post)=>{
         if(post.id==put_btn.id){
           document.getElementById("put_titolo_post_input").value=post.testo;
           document.getElementById("put_descrizione_post_input").value=post.descrizione;
@@ -758,7 +758,7 @@ const renderSingle=async()=>{
 }
 
 
-const render = async(posts) =>{
+const render = async() =>{
   // travel
   //map
   let tripCoordinates = [];
@@ -861,7 +861,6 @@ let posts = await get_posts(viaggio.id);
 
 ;
 document.getElementById("right-arrow-div").style.display="flex";
-console.log(posts.result)
 if(posts.result.length>0){
   
   document.getElementById("right-arrow-div").style.display="flex"
