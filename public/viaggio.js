@@ -77,20 +77,25 @@ print_btn.onclick=async()=>{
     document.getElementById("map_posts").style.display="block"
     document.getElementById("travel_div").style.display="block"
     renderTravel();
-    render(await posts.result);
+    if(posts.result.length>0){
+      render(await posts.result);
+    }
     // exportTravel();
   }else{
-
+    
     print_btn.innerHTML= 
     `
       <i class="fa fa-download"></i>
       <p>esporta</p>
     `;
-    document.getElementById("left-arrow-div").style.display="flex";
-    document.getElementById("right-arrow-div").style.display="flex";
     document.getElementById("map_posts").style.display="none"
     document.getElementById("travel_div").style.display="none"
-    renderSingle(posts.result,index);
+    if(posts.result.length>0){
+      renderSingle(posts.result,index);
+    }else{
+      document.getElementById("left-arrow-div").style.display="none"
+      document.getElementById("right-arrow-div").style.display="none"    
+    }
   }
 };
 
@@ -353,13 +358,18 @@ updatePost_btn.onclick=async()=>{
     document.getElementById("formUpdatePost").reset();
     posts = await get_posts(viaggio.id);
     document.getElementById("loading-put-post").style.opacity=0;
-    if(check_export){
-      await render(posts.result);
+    if(posts.result.length>0){
+      if(check_export){
+        await render(posts.result);
+      }else{
+        const current_id_post = posts.result[index].id;
+        index = await posts.result.findIndex((e)=>e.id === current_id_post);
+        renderSingle(await posts.result, index);
+      }
     }else{
-      const current_id_post = posts.result[index].id;
-      index = await posts.result.findIndex((e)=>e.id === current_id_post);
-      renderSingle(await posts.result, index);
-
+      document.getElementById("left-arrow-div").style.display="none"
+      document.getElementById("right-arrow-div").style.display="none"
+      postsContentDiv.innerHTML="";
     }
   });
   }
@@ -445,7 +455,19 @@ newPost.onclick=async()=>{
       document.getElementById("formAddPost").reset();
       document.getElementById("loading-add-post").style.opacity=0;
       posts = await get_posts(viaggio.id);
-      await render(posts.result);
+      if(posts.result.length>0){
+        if(check_export){
+          await render(posts.result);
+        }else{
+          const current_id_post = posts.result[index].id;
+          index = await posts.result.findIndex((e)=>e.id === current_id_post);
+          renderSingle(await posts.result, index);
+        }
+      }else{
+        document.getElementById("left-arrow-div").style.display="none"
+        document.getElementById("right-arrow-div").style.display="none"
+        postsContentDiv.innerHTML="";
+      }
     })
   }
   }
@@ -543,12 +565,19 @@ const del_btn_event = () =>{
       post_cont.style.transform = "scale(1)";
       await delPost(del_btn.id);
       posts = await get_posts(viaggio.id);
-      if(check_export){
-        await render(await posts.result);
+      if(posts.result.length>0){
+        if(check_export){
+          await render(await posts.result);
+        }else{
+          index = 0
+          renderSingle(posts.result, index);
+        }
       }else{
-        index = 0
-        renderSingle(posts.result, index);
+        document.getElementById("left-arrow-div").style.display="none"
+        document.getElementById("right-arrow-div").style.display="none"
+        postsContentDiv.innerHTML = "";
       }
+      
       
     }
   })
@@ -663,6 +692,9 @@ const blur=(posts, index)=>{
 
 
 const renderSingle=async(posts, index)=>{
+    document.getElementById("right-arrow-div").style.display="flex";   
+    document.getElementById("left-arrow-div").style.display="flex";
+
     const loadingPost = `<iframe class='loadingPost' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`;
     const all_date = new Date(parseInt(posts[index].data));
     let postsContent;
@@ -804,7 +836,15 @@ document.getElementById("right-arrow-div").style.display="none";
 let posts = await get_posts(viaggio.id);
 
 
-document.getElementById("left-arrow-div").style.display="flex";
+;
 document.getElementById("right-arrow-div").style.display="flex";
+console.log(posts.result)
+if(posts.result.length>0){
+  
+  document.getElementById("right-arrow-div").style.display="flex"
+  renderSingle(posts.result,index);
+}else{
+  document.getElementById("left-arrow-div").style.display="none"
+  document.getElementById("right-arrow-div").style.display="none"
 
-renderSingle(posts.result,index);
+}
