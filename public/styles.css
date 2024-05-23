@@ -18,7 +18,7 @@ body{
 }
 
 .nav-element{
-  z-index: 1000;
+  z-index: 2;
   border: none;
   background: none;
   color: rgb(60, 60, 60);
@@ -61,7 +61,7 @@ body{
 #bar-btn{
   background: none;
   border: none;
-  z-index: 2000;
+  z-index: 2;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -129,7 +129,7 @@ body{
     align-items: center;
     justify-content: center;
     transition: 0.4s;
-    z-index: 50000;
+    z-index: 1;
   }
   
   .modal-container {
@@ -205,6 +205,7 @@ body{
   }
 
   .modal.is-open {
+    z-index:10;
     height: 100%;
     background: rgba(51, 51, 51, 0.85);
   }
@@ -375,7 +376,7 @@ body{
   
 
 /*home page*/
-.travel-content, .post-content{
+.travel-content, .post-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 80px;
@@ -386,7 +387,6 @@ body{
   margin-top: 70px;
   padding-bottom: 30px;
 }
-
 
 @media(max-width: 900px) {
   .travel-content, .post-content {
@@ -400,28 +400,25 @@ body{
   }
 }
 
-
-
-
-.travel{
-  position:relative;
+.travel {
+  position: relative;
   width: 100%;
-  height: 140px;
+  height: auto;
   border-radius: 8px;
   box-shadow: 0px 0px 4px 0px grey;
   cursor: pointer;
   transition: 0.15s all;
 }
 
-.travel:hover{
+.travel:hover {
   box-shadow: 0px 0px 8px 0px grey;
   transform: scale(1.03)
 }
 
-.image-space{
+.image-space {
   width: 100%;
-  height: 70%;
-  display:flex;
+  height: 100px; 
+  display: flex;
   align-items: center;
   justify-content: center;
   border-radius: inherit;
@@ -429,29 +426,31 @@ body{
   border-bottom-right-radius: 0;
 }
 
-.image-space img{
+.image-space img {
   width: 100%;
   height: 100%;
   border-radius: inherit;
   object-fit: cover;
 }
 
-.bottom-travel{
+.bottom-travel {
   margin-top: 0;
-  height: 40px;
+  height: fit-content;
   display: flex;
-  flex-direction: row;
   align-items: center;
   padding-left: 30px;
 }
-.nome{
-  font-size: 32px;
+
+.nome {
+  font-size: 24px;
   flex: 5;
 }
-.user_nome{
+
+.user_nome {
   text-align: center;
 }
-.utente{
+
+.utente {
   margin-right: 25px;
   flex: 1;
   display: flex;
@@ -460,16 +459,18 @@ body{
   column-gap: 5px;
   transition: all 0.15s ease;
 }
-.utente:hover{
+
+.utente:hover {
   opacity: 0.6;
 }
 
-.utente img{
+.utente img {
   width: 20px;
   height: 20px;
   border-radius: 10px;
   object-fit: cover;
 }
+
 
 
 /*==========user==========*/
@@ -495,7 +496,7 @@ body{
 }
 
 .buttons-right{
-  z-index: 5000;
+  z-index: 1;
   position: absolute;
   top: 80px;
   right: 30px;
@@ -671,7 +672,7 @@ body{
   display:flex;
   flex-direction: column;
   overflow-y: auto;
-  z-index: 20000;
+  z-index: 3;
   background: white;
 }
 .post-container:hover{
@@ -923,7 +924,7 @@ body{
   font-size: 24px;
   transition: 0.5s ease-in-out;
   overflow: hidden;
-  z-index: 999;
+  z-index: 15;
 }
 
 .drop {
@@ -1094,7 +1095,7 @@ body{
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 10000;
+  z-index: 2;
   opacity: 0.8;
   background-color: lightgrey;
 }
