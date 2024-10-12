@@ -9,43 +9,18 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="icon" href="./assets/images/logo.png">
         
+        <!-- sidebar -->
+        <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="sidebar.css">
+        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+
         <title>Home</title>
         
       </head>
     <body>
-        <div class="navbar">
-            <div class="left-nav">
-                <img src="assets/images/logo.png" alt="" class="logo">
-            </div>
-            <div class="right-nav" id="right-nav">
-                <div class="invisible" id="bar">
-                    <button type="button" id="bar-btn">
-                        <i class="fa fa-bars fa-3x" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div id="right-nav-content" class="uncollapsed">
-                    
-                    <button id="nav-home" class="nav-element">
-                        <i class="fa fa-home fa-3x"></i>
-                    </button>
-                        
-                    
-                    <button id="nav-user" class="nav-element">
-                        <i class="fa fa-user fa-3x"></i>
-                    </button>
-                
-                
-                    <button id="openModal" class="nav-element">
-                        <i class="fa fa-plus fa-3x"></i>
-                    </button>
-                    
-                
-                    <button id="nav-logout" class="nav-element">
-                        Log Out
-                    </button>
-
-                </div>
-            </div>
+        <div class="title">
+            <h2>Post your travel</h2>
         </div>
         <div class="modal" id="modal">
             <div class="modal-container">
@@ -99,6 +74,57 @@
         
         <div id="travel-content" class="travel-content"></div>
       
+        <!-- sidebar -->
+        <div class="sidebar close">
+            <div class="logo-details">
+                <img src="assets/images/logo.png" class="logo" alt="Logo">
+            </div>
+            <ul class="nav-links">
+              <li>
+                <a href="#">
+                  <i class='bx bx-home' id="nav-home"></i>
+                  <span class="link_name" >Home</span>
+                </a>
+                <ul class="sub-menu blank">
+                  <li><a class="link_name" href="#">Home</a></li>
+                </ul>
+              </li>
+              <li>
+                <a href="#">
+                  <i class='bx bx-user' id="nav-user"></i>
+                  <span class="link_name" >Profilo</span>
+                </a>
+                <ul class="sub-menu blank">
+                  <li><a class="link_name" href="#">Profilo</a></li>
+                </ul>
+              </li>
+              <li>
+                <a href="#">
+                  <i class='bx bx-plus' id="openModal"></i>
+                  <span class="link_name" >Aggiungi</span>
+                </a>
+                <ul class="sub-menu blank">
+                  <li><a class="link_name" href="#" >Aggiungi</a></li>
+                </ul>
+              </li>
+              
+              <li>
+                <div class="logout" title="Log out">
+                    <a href="#">
+                        <i class='bx bx-log-out' id="nav-logout"></i>
+                        <span class="link_name" >Log out</span>
+                      </a>
+                      <ul class="sub-menu blank">
+                        <li><a class="link_name" href="#">Log out</a></li>
+                      </ul>
+                    </li>
+                    
+                </div>
+            </li>
+        </ul>
+          </div>
+
+        <script type="module" src="sidebar.js"></script>
         <script type="module" src='common.js'></script>
         <script type="module" src='home.js'></script>
     </body>

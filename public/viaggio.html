@@ -12,42 +12,17 @@
         
         <link rel="icon" href="./assets/images/logo.png">
 
+        <!-- sidebar -->
+        <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="sidebar.css">
+
         <title>Viaggio</title>
       </head>
     <body>
-        <div class="navbar no_export">
-            <div class="left-nav">
-                <img src="assets/images/logo.png" alt="" class="logo">
-            </div>
-            <div class="right-nav" id="right-nav">
-                <div class="invisible" id="bar">
-                    <button type="button" id="bar-btn">
-                        <i class="fa fa-bars fa-3x" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div id="right-nav-content" class="uncollapsed">
-                    
-                    <button id="nav-home" class="nav-element">
-                        <i class="fa fa-home fa-3x"></i>
-                    </button>
-                        
-                    
-                    <button id="nav-user" class="nav-element">
-                        <i class="fa fa-user fa-3x"></i>
-                    </button>
-                
-                
-                    <button id="openModal" class="nav-element">
-                        <i class="fa fa-plus fa-3x"></i>
-                    </button>
-                    
-                
-                    <button id="nav-logout" class="nav-element">
-                        Log Out
-                    </button>
-
-                </div>
-            </div>
+        <div class="title">
+            <h2>Post your travel</h2>
         </div>
         <div class="modal" id="modal">
             <div class="modal-container">
@@ -223,11 +198,60 @@
 
         <div class="inv" id="blurred-div"></div>
 
-            
+        <!-- sidebar -->
+        <div class="sidebar close no_export">
+            <div class="logo-details">
+                <img src="assets/images/logo.png" class="logo" alt="Logo">
+            </div>
+            <ul class="nav-links">
+              <li>
+                <a href="#">
+                  <i class='bx bx-home' id="nav-home"></i>
+                  <span class="link_name" >Home</span>
+                </a>
+                <ul class="sub-menu blank">
+                  <li><a class="link_name" href="#">Home</a></li>
+                </ul>
+              </li>
+              <li>
+                <a href="#">
+                  <i class='bx bx-user' id="nav-user"></i>
+                  <span class="link_name" >Profilo</span>
+                </a>
+                <ul class="sub-menu blank">
+                  <li><a class="link_name" href="#">Profilo</a></li>
+                </ul>
+              </li>
+              <li>
+                <a href="#">
+                  <i class='bx bx-plus' id="openModal"></i>
+                  <span class="link_name" >Aggiungi</span>
+                </a>
+                <ul class="sub-menu blank">
+                  <li><a class="link_name" href="#" >Aggiungi</a></li>
+                </ul>
+              </li>
+              
+              <li>
+                <div class="logout" title="Log out">
+                    <a href="#">
+                        <i class='bx bx-log-out' id="nav-logout"></i>
+                        <span class="link_name" >Log out</span>
+                      </a>
+                      <ul class="sub-menu blank">
+                        <li><a class="link_name" href="#">Log out</a></li>
+                      </ul>
+                    </li>
+                    
+                </div>
+            </li>
+        </ul>
+          </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs" crossorigin="anonymous"></script>        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;key=AIzaSyCxv9j86w7iiuRA9VOIayp_FYGUUC_UMXQ"></script>
+        <script type="module" src="sidebar.js"></script>
         <script type="module" src="common.js"></script>
         <script type="module" src="viaggio.js"></script>
     </body>
