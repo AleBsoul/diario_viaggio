@@ -32,9 +32,75 @@ app.use("/", express.static(path.join(__dirname, "public")));
 app.use(express.json());
 
 const server = http.createServer(app);
+
+const createTables = () => {
+  const createPosizioneTable = `
+    CREATE TABLE IF NOT EXISTS posizione (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      nome VARCHAR(255) NOT NULL ,
+      latitudine VARCHAR(255),
+      longitudine VARCHAR(255)
+    )
+  `;
+
+  const createUtenteTable = `
+    CREATE TABLE IF NOT EXISTS utente (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      username VARCHAR(255) NOT NULL,
+      password VARCHAR(255) NOT NULL,
+      email VARCHAR(255) NOT NULL,
+      nome VARCHAR(255),
+      cognome VARCHAR(255),
+      bio VARCHAR(255),
+      foto VARCHAR(255)
+    )
+  `;
+
+  const createViaggioTable = `
+    CREATE TABLE IF NOT EXISTS viaggio (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      id_utente INT,
+      titolo VARCHAR(255) NOT NULL,
+      descrizione VARCHAR(255),
+      immagine VARCHAR(255),
+      FOREIGN KEY (id_utente) REFERENCES utente(id)
+    )
+  `;
+
+  const createPostTable = `
+    CREATE TABLE IF NOT EXISTS post (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      file VARCHAR(255),
+      testo VARCHAR(255),
+      descrizione VARCHAR(255),
+      id_posizione INT,
+      id_viaggio INT,
+      data VARCHAR(255),
+      mime VARCHAR(100),
+      ultima_modifica VARCHAR(255),
+      FOREIGN KEY (id_posizione) REFERENCES posizione(id),
+      FOREIGN KEY (id_viaggio) REFERENCES viaggio(id)
+    )
+  `;
+
+  return Promise.all([
+    executeQuery(createPosizioneTable),
+    executeQuery(createUtenteTable),
+    executeQuery(createViaggioTable),
+    executeQuery(createPostTable),
+  ]);
+};
+
+// Chiamata alla funzione per creare le tabelle all'avvio del server
 server.listen(1080, () => {
   console.log("- server running on port 1080 ");
+  createTables()
+    .catch(err => {
+      console.error("Errore nella creazione delle tabelle:", err);
+    });
 });
+
+
 
 
 const mailconf = JSON.parse(fs.readFileSync(path.join(__dirname, './mailconf.json'), 'utf8'));
@@ -53,8 +119,8 @@ let utenti_da_creare=[];//si aggiungono tutti gli account da verificare
 
 app.get('/verify-email/:token', (req, res) => {
     const token = req.params.token;
-    const utente_da_creare = utenti_da_creare.find((utente) => utente.token === token)[0];
-    const index = utenti_da_creare.indexOf(utente_da_creare);
+    const utente_da_creare = utenti_da_creare.find((utente) => utente.token === token);
+    const index = utenti_da_creare.indexOf(utente_da_creare)-1;
     const query = utente_da_creare.query;
     utenti_da_creare.splice(index, 1);
     executeQuery(query);

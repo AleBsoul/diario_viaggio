@@ -110,7 +110,7 @@ const newViaggioClick=async()=>{
 
 const homeBtn = document.getElementById("nav-home");
 homeBtn.onclick=()=>{
-    window.location.href='home.html';
+    window.location.href='index.html';
 }
 
 

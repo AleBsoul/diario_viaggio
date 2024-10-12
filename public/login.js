@@ -112,7 +112,7 @@ loginForm.addEventListener("keypress", function(event) {
       login(user).then((result)=>{
         document.getElementById("loading-login").style.opacity=0;
         if(result.result){
-          window.location.href="home.html";
+          window.location.href="index.html";
           sessionStorage.setItem("loggato", JSON.stringify(result.utente));
         }
       });
@@ -122,15 +122,23 @@ loginForm.addEventListener("keypress", function(event) {
 
 signUpNow.onclick=()=>{
   loginForm.style.display = "none";
-  document.getElementById("modal-right").style.display = "none"; //tolgo l'immagine
+  // document.getElementById("modal-right").style.display = "none"; //tolgo l'immagine
   signUp_form.style.display = "block"
 }
 
 loginNow.onclick=()=>{
   loginForm.style.display = "block";
-  document.getElementById("modal-right").style.display = "block"; //tolgo l'immagine
+  // document.getElementById("modal-right").style.display = "block"; //aggiungo l'immagine
   signUp_form.style.display = "none"
 }
+
+signUp_form.addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    sign_submit.click();
+  }
+});
+
 sign_submit.onclick=async()=>{
   const time = 3000;
   const file = document.getElementById("imgProfilo");

@@ -6,49 +6,39 @@ let user = JSON.parse(sessionStorage.getItem("utente"));
 let loggato = JSON.parse(sessionStorage.getItem("loggato"));
 
 
-
-const travelsTemplateLogged =`
+const travelsTemplateLogged = `
 <div class="travel" id="travel-%id">
     <div class="image-space">
-    %IMGVIAGGIO
+        %IMGVIAGGIO
     </div>
-
     <div class="bottom-travel">
         <p class="nome">%nome</p>
-        <div class="button-user">
-      <button type="button" class="del_btn_viaggio" id="%IDViaggioDel">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
-      </button>
-</div>
     </div>
 </div>
-`
+`;
 
 const travelTemplateLogged = `
 <div class="image-space">
     %IMGVIAGGIO
-    </div>
+    <label class="checkbox-overlay">
+        <input class="checkbox_del" type="checkbox" id="%IDViaggioDel"/>
+        <span class="checkmark"></span>
+    </label>
+</div>
+<div class="bottom-travel">
+    <p class="nome">%nome</p>
+</div>
+`;
 
-    <div class="bottom-travel">
-        <p class="nome">%nome</p>
-        <div class="button-user">
-      <button type="button" class="del_btn_viaggio" id="%IDViaggioDel">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
-      </button>
-</div>
-</div>
-`
 
 const travelsTemplateNot = `
 <div class="travel" id="travel-%id">
     <div class="image-space">
-    %IMGVIAGGIO
+        %IMGVIAGGIO
     </div>
-
     <div class="bottom-travel">
         <p class="nome">%nome</p>
-        <div class="utente" id="%id_utente">
-        </div>
+        <div class="utente" id="%id_utente"></div>
     </div>
 </div>
 `
@@ -71,14 +61,19 @@ const userTemp = `
     %IMMAGINE
 </div>
 <div class="profile-details">
-    <h2 class="username">%nome %cognome</h2>
-    <svg type="button" id="pencilViaggio" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"/></svg>
+    <div class="profile-header">
+        <h2 class="username">%nome %cognome</h2>
+        <svg type="button" id="pencilViaggio" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"/>
+        </svg>
+    </div>
     <p><i>%username</i></p>
     <p class="bio">%bio</p>
     <div class="contact-info">
         <p><i class="fa fa-envelope"></i>%email</p>
     </div>
 </div>
+
 `
 const travelContentDiv = document.getElementById("travel-content");
 const userContentDiv = document.getElementById("user-content");
@@ -105,12 +100,80 @@ newViaggio.onclick=async()=>{
     }
 }
 
+// trash animation
+document.querySelectorAll('.button').forEach(button => button.addEventListener('click', e => {
+    if (!button.classList.contains('delete')) {
+      button.classList.add('delete');
+      setTimeout(() => button.classList.remove('delete'), 3200);
+    }
+    e.preventDefault();
+  }));
+      
+// click del bottone per eliminare
+let travel_to_del=[];
+
+document.getElementById("del_button").onclick=async()=>{
+    const travels = document.querySelectorAll(".travel");
+    for (const id of travel_to_del){
+        for(const travel of travels){
+            if(travel.id.split("-")[1] === id){
+                travel.remove();
+                const index = travel_to_del.indexOf(id);
+                travel_to_del.splice(index,1);
+                button_del_travel();
+            }
+        }
+        delViaggio(id);
+    }
+}
+
+//bottone per eliminare 1 o più viaggi
+const button_del_travel=()=>{
+    const del_button = document.getElementById("del_button");
+    if (!travel_to_del.length){
+        del_button.disabled = true;
+    }else{
+        del_button.disabled = false;
+
+    }
+}
+
+//controlla se il checkbox è selezionato
+const check_del=()=>{
+    const check_boxes = document.querySelectorAll(".checkbox_del");
+    const travels = document.querySelectorAll(".travel");
+    for(const check of check_boxes){
+        check.onclick=()=>{
+            let index
+            if (check.checked){
+                travel_to_del.push(check.id);
+                for(const travel of travels){
+                    if(travel.id.split("-")[1] === check.id){
+                        travel.classList.add("del_travel")
+                    }
+                }
+            }else{
+                index = travel_to_del.indexOf(check.id);
+                travel_to_del.splice(index,1);
+                for(const travel of travels){
+                    if(travel.id.split("-")[1] === check.id){
+                        travel.classList.remove("del_travel")
+                    }
+                }
+            }
+            button_del_travel()
+        }
+    }
+}
+
 //render delle immagini
 const render = async (data,travels) => {
+
     for(let i=0;i<travels.length;i++){
         const imgViaggio = `<img src="${await downloadFile(data[i].immagine)}">`;
         const imgProfilo = `<img src="${await downloadFile(data[i].fotoProfilo)}" class="user-foto">`;  
-        travels[i].innerHTML=travelTemp.replace("%nome", data[i].titolo).replace("%utente", data[i].username).replace("%id_utente", data[i].idUser).replace("%id", data[i].idViaggio).replace("%IMGVIAGGIO",imgViaggio).replace("%IMGPROFILO",imgProfilo).replace("%IDViaggioDel",data[i].idViaggio);
+        travels[i].innerHTML=travelTemp.replace("%nome", data[i].titolo).replace("%utente", data[i].username).replace("%id_utente", data[i].idUser).replace("%id", data[i].idViaggio).replace("%IMGVIAGGIO",imgViaggio).replace("%IMGPROFILO",imgProfilo).replaceAll("%IDViaggioDel",data[i].idViaggio);
+        check_del();
     }
 }
 
@@ -134,14 +197,12 @@ const preRender = async (data) => {
         travel.addEventListener('click', async function (event) {
             const viaggio = await getSingleViaggio(travel.id.split("-")[1]);
             sessionStorage.setItem("viaggio",JSON.stringify(await viaggio.result));
-            window.location.href='viaggio.html';
+            // window.location.href='viaggio.html';
         });
     });
     const del_btns = document.querySelectorAll(".del_btn_viaggio");
     del_btns.forEach((del_btn)=>{
         del_btn.onclick=async()=>{
-            console.log("del")
-            window.location.href='user.html';
             await delViaggio(del_btn.id);
             getUserViaggi(user.id).then((result)=>{
                 preRender(result.result);

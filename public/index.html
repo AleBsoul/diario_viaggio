@@ -1,312 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
-<link href="/assets/images/favicon.png" rel="icon" />
-<title>PROGETTO XYZ</title>
-<meta name="description" content="Your ThemeForest item Name and description">
-<meta name="author" content="harnishdesign.net">
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="styles.css">
+        <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
 
-<!-- Stylesheet
-============================== -->
-<!-- Bootstrap -->
-<link rel="stylesheet" type="text/css" href="/assets/vendor/bootstrap/css/bootstrap.min.css" />
-<!-- Font Awesome Icon -->
-<link rel="stylesheet" type="text/css" href="/assets/vendor/font-awesome/css/all.min.css" />
-<!-- Magnific Popup -->
-<link rel="stylesheet" type="text/css" href="/assets/vendor/magnific-popup/magnific-popup.min.css" />
-<!-- Highlight Syntax -->
-<link rel="stylesheet" type="text/css" href="/assets/vendor/highlight.js/styles/github.css" />
-<!-- Custom Stylesheet -->
-<link rel="stylesheet" type="text/css" href="assets/css/stylesheet.css" />
-</head>
-<body data-spy="scroll" data-target=".idocs-navigation" data-offset="125">
-
-<!-- Preloader -->
-<div class="preloader">
-  <div class="lds-ellipsis">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
-</div>
-<!-- Preloader End --> 
-
-<!-- Document Wrapper   
-=============================== -->
-<div id="main-wrapper"> 
-  <!-- Content
-  ============================ -->
-  <div id="content" role="main">
-    
-	<!-- Sidebar Navigation
-	============================ -->
-	<div class="idocs-navigation bg-dark docs-navigation-dark">
-      <ul class="nav flex-column ">
-        <li class="nav-item"><a class="nav-link active" href="#start">Inizio</a>          
-        </li>
-        <li class="nav-item"><a class="nav-link" href="#architettura_informazione">Architettura informazione</a>
-        <li class="nav-item"><a class="nav-link" href="#ipotesi_infrastruttura">Ipotesi infrastruttura</a>          
-        </li>
-        <li class="nav-item"><a class="nav-link" href="#UML">UML</a>
-			<ul class="nav flex-column">
-            <li class="nav-item"><a class="nav-link" href="#umlcasiduso">Casi d'uso</a></li>
-            <li class="nav-item"><a class="nav-link" href="#umloggetti">Oggetti</a></li>
-            <li class="nav-item"><a class="nav-link" href="#umlstato">Stato</a></li>
-			<li class="nav-item"><a class="nav-link" href="#umlsequenza">Sequenza</a></li>
-           
-          </ul>
-		</li>
-        <li class="nav-item"><a class="nav-link" href="#contenuti">Contenuti</a>
-          
-        </li>
-		<li class="nav-item"><a class="nav-link" href="#wireframes">Wireframes</a></li>
-              
-		</li>
-         <li class="nav-item"><a class="nav-link" href="#progetto">Il progetto</a>
-           <ul class="nav flex-column">
-             <li class="nav-item"><a class="nav-link" href="#link">Link al progetto</a></li>
-             </ul>  
-         </li>
-      </ul>
-    </div>
-    
- 
-    <div class="idocs-content">
-      <div class="container"> 
-   
-        <section id="start">
-        <h1>Documentazione</h1>
-        <h2>Diario di viaggio</h2>
-        <p class="lead">
-          Questo sito web permette di memorizzare le esperienze di viaggi e prevede la registrazione degli utenti i quali hanno una dashboard personale in cui si potrà <b>creare</b>, <b>modificare</b> e <b>cancelare</b> i propri viaggi.
-          Ogni utente dovrà registrarsi e potrà <b>creare</b>, <b>modificare</b> e <b>cancellare</b> i propri viaggi.<br>
-          Per ogni signolo viaggio potrà:
-          <ul>
-            <li>creare un post con una immagine, un video, un audio e del testo;</li>
-            <li>inserire una posizione con una descrizione;</li>
-            <li>esportare il viaggio </li>
-          </ul>
-          Sarà presente anche una pagina home in cui verranno caricati i viaggi di tutti gli utenti.
-          </p>
-		<hr>
-		<div class="row">
-			<div class="col-sm-6 col-lg-5">
-				<ul class="list-unstyled">
-					<li><strong>Classe/Anno:</strong> 5Binf - 23/24</li>
-					<li><strong>Author:</strong> Bsoul Alessandro & Mugnai Federico</li>
-				</ul>
-			</div>
-			<div class="col-sm-6 col-lg-4">
-				<ul class="list-unstyled">
-					<li><strong class="font-weight-700">Creato:</strong> 26 aprile 2024</li>
-					<li><strong>Ultima modifica:</strong> 27 aprile 2024</li>
-				</ul>
-			</div>
-		</div>
-        </section>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="icon" href="./assets/images/logo.png">
         
-		<hr class="divider">
-
-        <section id="architettura_informazione">
-          <h2>Architettura informazione</h2>
-          <img src="/assets/uml/informazione.jpg">
-        </section>
-        <section id="ipotesi_infrastruttura">
-          <h2>Ipotesi_infrastruttura</h2>
-          <img src="assets/images/ipotesi.png"/>
-        </section>
+        <title>Home</title>
         
-		<hr class="divider">
+      </head>
+    <body>
+        <div class="navbar">
+            <div class="left-nav">
+                <img src="assets/images/logo.png" alt="" class="logo">
+            </div>
+            <div class="right-nav" id="right-nav">
+                <div class="invisible" id="bar">
+                    <button type="button" id="bar-btn">
+                        <i class="fa fa-bars fa-3x" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div id="right-nav-content" class="uncollapsed">
+                    
+                    <button id="nav-home" class="nav-element">
+                        <i class="fa fa-home fa-3x"></i>
+                    </button>
+                        
+                    
+                    <button id="nav-user" class="nav-element">
+                        <i class="fa fa-user fa-3x"></i>
+                    </button>
+                
+                
+                    <button id="openModal" class="nav-element">
+                        <i class="fa fa-plus fa-3x"></i>
+                    </button>
+                    
+                
+                    <button id="nav-logout" class="nav-element">
+                        Log Out
+                    </button>
 
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="modal">
+            <div class="modal-container">
+                <div class="modal-left">
+                    <form id="formAdd">
+                        <h1>Aggiungi viaggio</h1>
 
-        <section id="UML">
-              <h2>UML</h2>
-            </section>
+                        <div class="input-block">
+                            <label for="titolo_viaggio_input" class="input-label">Titolo</label>
+                            <input type="text" id="titolo_viaggio_input">
+                            <div class="error-space">
+                                <p class="invisible" id="titolo_error">Titolo vuoto</p>
+                            </div>
+                        </div>
+                        
 
-        <section id="umlcasiduso">
-          <h2>Diagramma di Casi d'uso</h2>
-          <img src="/assets/uml/use case.jpg" />
-          
-        </section>
+                        <div class="textarea-block">
+                            <label for="descrizione_viaggio_input" class="input-label">Descrizione</label>
+                            <textarea id="descrizione_viaggio_input"></textarea>
+                            <div class="error-space">
+                                <p class="invisible" id="descrizione_error">Descrizione vuota</p>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="input-block">
+                            <label for="immagine_viaggio_input" class="input-label">Immagine</label>
+                            <input type="file" id="immagine_viaggio_input">
+                            <div class="error-space">
+                                <p class="invisible" id="immagine_error">Inserisci l'immagine</p>
+                            </div>
+                            
+                        </div>
 
-        <section id="umloggetti">
-          <h2>Diagramma di oggetti</h2>
-          <img src="/assets/uml/oggetti.jpg" />
-
-        </section>
-
-        <section id="umlstato">
-          <h2>Diagramma di stato</h2>
-          <img src="/assets/uml/stato.png" />
-
-        </section>
-
-        <section id="umlsequenza">
-          <h2>Diagramma di Sequenza</h2>
-          <img src="/assets/uml/sequenza.jpg" />
-
-        </section>
-
+                        <div class="modal-buttons">
+                            <iframe class='loading' id="loading-add-travel"src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>
+                            <button type="button" class="input-button" id="newViaggio_btn">Aggiungi viaggio</button>
+                        </div> 
+                    </form>
+                </div>
+                <div class="modal-right" id="modal-right">
+                  <img src="assets/images/logo_sfondo.png" alt="">
+                </div>
+                <button class="icon-button close-button" id="close_btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+                    <path d="M 25 3 C 12.86158 3 3 12.86158 3 25 C 3 37.13842 12.86158 47 25 47 C 37.13842 47 47 37.13842 47 25 C 47 12.86158 37.13842 3 25 3 z M 25 5 C 36.05754 5 45 13.94246 45 25 C 45 36.05754 36.05754 45 25 45 C 13.94246 45 5 36.05754 5 25 C 5 13.94246 13.94246 5 25 5 z M 16.990234 15.990234 A 1.0001 1.0001 0 0 0 16.292969 17.707031 L 23.585938 25 L 16.292969 32.292969 A 1.0001 1.0001 0 1 0 17.707031 33.707031 L 25 26.414062 L 32.292969 33.707031 A 1.0001 1.0001 0 1 0 33.707031 32.292969 L 26.414062 25 L 33.707031 17.707031 A 1.0001 1.0001 0 0 0 32.980469 15.990234 A 1.0001 1.0001 0 0 0 32.292969 16.292969 L 25 23.585938 L 17.707031 16.292969 A 1.0001 1.0001 0 0 0 16.990234 15.990234 z"></path>
+                  </svg>
+                </button>
+            </div>
+        </div>
         
-
-        <hr class="divider">
-
-        <section id="contenuti">
-          <h2>Contenuti del progetto</h2>
-          <div>
-            <h3>Palma di maiorca</h3>
-            <p>
-              Palma di Maiorca, capitale dell’isola, è una città davvero carina tutta da esplorare.
-Il centro storico, ricco di edifici, si può tranquillamente girare a piedi e perdersi tra le vie è sicuramente un bel modo per passare una giornata. Ciò che consiglio particolarmente è il free walking tour che viene offerto ogni giorno in inglese e spagnolo. L’ho trovato davvero interessante e ricco di informazioni sulla storia della città, anche se piccola. La nostra guida era preparata e suggerisco di lasciare un’offerta, anche se il tour volendo può essere completamente gratuito. Dura due ore e tocca tutti i principali punti di interesse.</p>
-          <blockquote class="imgur-embed-pub" lang="en" data-id="a/mbT4EOv" data-context="false" ><a href="//imgur.com/a/mbT4EOv"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-          <blockquote class="imgur-embed-pub" lang="en" data-id="a/bcT2KWg" data-context="false" ><a href="//imgur.com/a/bcT2KWg"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-          <blockquote class="imgur-embed-pub" lang="en" data-id="a/ya43LFX" data-context="false" ><a href="//imgur.com/a/ya43LFX"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-          </div>
-          <hr class="divider">
-          <div>
-            <h3>Vienna</h3>
-            <p>
-La primissima impressione ricevuta è quella di aver messo i piedi in una città elegante, raffinata e coinvolgente. Potrebbe essere anche grazie all’atmosfera particolare che si respira durante i mercatini di Natale, quando le strade sono addobbate a festa e l’innere stadt, il centro storico, si trasforma in un tripudio di luci e splendide decorazioni.
-Tuttavia resto fermamente dell’idea che parliamo di una città perfetta da visitare in tutte le stagioni, a cui dedicare soltanto un weekend vuol dire assaggiare le principali bellezze che offre. La capitale austriaca, dichiarata Patrimonio Mondiale UNESCO, è una metropoli di quasi 2 milioni di abitanti, a cui si aggiungono flussi turistici in costante incremento.
-Le cose da fare a Vienna sono tante e dunque in un weekend alcuni punti d’interesse vanno tralasciati, da recuperare in futuro. Per visitare la città mi sono affidato alla comodissima Vienna City Card, che offre la possibilità di utilizzare tutti i mezzi pubblici gratuitamente, compreso il transfer da e verso l’aeroporto, e avere sconti in musei, attrazioni turistiche, negozi e ristoranti.
-            </p>
-            <blockquote class="imgur-embed-pub" lang="en" data-id="a/w5abXbw" data-context="false" ><a href="//imgur.com/a/w5abXbw"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-<p>
-Dalle parti di Vienna sono passati numerosi personaggi di fama mondiale: pittori, scultori, musicisti, compositori, attori, scienziati. Di alcuni ne è la città a cui ha dato i natali, come nel caso di Gustav Klimt e Johann Strauss; altri ci hanno trascorso periodi importanti della loro vita. Tra questi Sigmund Freud, fondatore della psicoanalisi, Egon Schiele, esponente dell’Espressionismo viennese, e, non per ultimi, i leggendari Mozart e Beethoven.
-Proprio il 2020 sarà un anno speciale per Vienna. Il rapporto tra la città e la musica si sente ancora di più grazie al 250esimo anniversario della nascita di Ludwig van Beethoven. Nonostante abbia aperto per la prima volta gli occhi a Bonn, in Germania, all’età di 22 anni si è trasferito a Vienna, dando vita alla carriera che tutto il mondo conosce.
-Per questa felice ricorrenza si prospetta un’annata fortemente dedicata alla musica, con una lunga serie di mostre, spettacoli e concerti, all’interno di luoghi come la Staatsoper, il Konzerthaus e il Volksoper.
-            </p>
-            <blockquote class="imgur-embed-pub" lang="en" data-id="a/TXXL8Fe" data-context="false" ><a href="//imgur.com/a/TXXL8Fe"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-            <p>In questa guida di viaggio sono pronto a raccontarvi la mia esperienza di un weekend nella capitale austriaca. Forza, andiamo a scoprire insieme cosa fare a Vienna e i luoghi da non perdere assolutamente.</p>
-            <h5>Visita del Duomo di Santo Stefano</h5>
-            <p>
-Il Duomo di Santo Stefano è il mnumento religioso simbolo di Vienna, è l’edificio gotico più imponente di tutta l’Austria, visitato da milioni di turisti. Colpisce l’occhio il tetto particolare, formato da ben 250.000 maioliche, disposte in modo da raffigurare lo stemma degli Asburgo e della città.
-Anche il campanile fa effetto, con i suoi quasi 137 metri d’altezza. Si chiama Steffl (Stefanino) e dalla cima si può godere di un’eccezionale vista panoramica sui tetti di Vienna. Si sale in ascensore oppure a piedi su di una stretta scala a chiocciola, ma la fatica viene ripagata.
-            </p>
-            <blockquote class="imgur-embed-pub" lang="en" data-id="a/IWZx9Yp" data-context="false" ><a href="//imgur.com/a/IWZx9Yp"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-
-            <blockquote class="imgur-embed-pub" lang="en" data-id="a/KdNm83I" data-context="false" ><a href="//imgur.com/a/KdNm83I"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-
-Per entrare nel Duomo si passa attraverso la Riesentor, alias Porta dei Giganti, situata in mezzo alle Torri Pagane. L’interno è maestoso e non tradisce le aspettative, caratterizzato da elementi in stile gotico, come la navata centrale e le cappelle laterali, e altri in stile barocco.
-C’è la possibilità di scendere nelle catacombe, dove sono conservati sia i resti dei viennesi colpiti dalla peste del 1679, sia quelli di principi, regine e imperatori austriaci.
-L’ingresso al Duomo è gratuito. A pagamento invece ci sono l’audioguida, le catacombe e gli accessi alle due torri: la sud per il panorama, la nord per la grossa campana Pummerin.
-<blockquote class="imgur-embed-pub" lang="en" data-id="a/w3CvdGR" data-context="false" ><a href="//imgur.com/a/w3CvdGR"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-</div>
-          <hr class="divider">
-          <div>
-            <h3>Sofia</h3>
-            <blockquote class="imgur-embed-pub" lang="en" data-id="a/JynKAvp" data-context="false" ><a href="//imgur.com/a/JynKAvp"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-Sofia è una città di quasi due milioni di abitanti estesa alle pendici della montagna Vitosha. Spesso, anche nei caldi mesi di maggio e giugno, passeggiando per il centro si vede la neve ancora presente sulle cime che arrivano a 2.290 metri.
-Il periodo migliore per visitarla è tra la primavera e l’estate, quando fiorisce letteralmente e i numerosi parchi e giardini si tingono di verde invogliando i suoi abitanti a riversarsi per le strade e invadere gli onnipresenti baretti e le piccole osterie a conduzione familiare.
-Sofia è l’ultima delle capitali europee in cui l’eredità dell’epoca comunista si vede ancora, e tanto. In centro ci sono molti palazzi fatiscenti, con facciate scrostate e ingressi trasandati, che si mischiano con gli edifici moderni di vetro e acciaio che nascono qua e la a vista 
-d’occhio cambiando continuamente il volto della città.<br>
-<blockquote class="imgur-embed-pub" lang="en" data-id="a/tBgfVEO" data-context="false" ><a href="//imgur.com/a/tBgfVEO"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-<h4>Da sapere prima di fare un viaggio a Sofia</h4>
-            <p>
-L’Aeroporto internazionale dista a soli 6 km dal centro perciò il modo migliore per raggiungerlo è prendete un taxi (stando attenti a evitare quelli abusivi) considerando che per la corsa si paga l’equivalente di 5 euro (10 Lev).
-Il centro è raccolto, quieto e piacevole, visitabile interamente a piedi. I pochi hotel di livello offrono tariffe accessibili, perciò prenotando date un’occhiata al Grand Hotel Sofia (il più lussuoso), allo Sheraton, al Radisson SAS, di fronte al Parlamento, al Crystal Palace Boutique Hotel e al nuovissimo Hotel Sense proprio di fronte all’Ambasciata italiana e con un rooftop meraviglioso… sono quelli meglio posizionati, da cui sarà più semplice muoversi alla scoperta della città! Evitate, invece, la zona del Boulevard Maria-Luisa, di sera non molto gradevole, il Kempinski, ottimo albergo però in posizione scomoda e l’Hilton, collocato meglio ma sempre leggermente decentrato.</p>
-<blockquote class="imgur-embed-pub" lang="en" data-id="a/3qALkdi" data-context="false" ><a href="//imgur.com/a/3qALkdi"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-
-            <p>Il cuore della città è la maestosa Basilica di Alexander Nevski, riconoscibile dalle cupole dorate che svettano su tutto il resto. Una volta entrati, ci s’immerge nell’incredibile atmosfera mistica che caratterizza i luoghi di culto della religione ortodossa, le cui chiese avvolte nella penombra sono dominate dell’odore di incenso e di candele, mentre le icone dorate e i preti con le loro lunghe barbe cerano sensazioni davvero suggestive.</p>
-            <blockquote class="imgur-embed-pub" lang="en" data-id="a/228HUtJ" data-context="false" ><a href="//imgur.com/a/228HUtJ"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-            <p>Intorno alla Basilica si trovano la maggior parte degli edifici e monumenti che meritano essere visitati. Il Parlamento, con di fronte il monumento equestre dell’imperatore russo Alessandro II che ha liberato i bulgari dal dominio dell’Impero Ottomano (e l’hotel Radisson), la Chiesa bizantina di Santa Sofia, la più antica della città, con il monumento del Milite Ignoto sul lato, la Galleria Nazionale d’Arte, l’Accademia delle Belle Arti e, di fronte a quest’ultima attraversando il piccolo giardino, l’imponente edificio dell’Università Statale Kliment Ohridski.</p>
-
-            <blockquote class="imgur-embed-pub" lang="en" data-id="a/U2aCFhL" data-context="false" ><a href="//imgur.com/a/U2aCFhL"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-            <p>Davanti al Parlamento inizia via Tzar Osvoboditel, una delle strade principali del centro, caratterizzata dalla particolare pavimentazione di mattoncini gialli. Attenti quando piove, diventano davvero scivolosi e spesso provocano anche incidenti automobilistici.</p>
-
-            <blockquote class="imgur-embed-pub" lang="en" data-id="a/e6u6fVi" data-context="false" ><a href="//imgur.com/a/e6u6fVi"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-            <p>Lungo Tzar Osvoboditel si trovano oltre alla già menzionata Assemblea Nazionale anche le ambasciate dell’Austria e dell’Italia, il palazzo novecentesco del Club Militare, la Chiesa Russa e altri edifici storici, oggi sedi di banche e società, per finire davanti alla grande Piazza del Palazzo Reale di fronte a cui sorgeva il Mausoleo che conteneva la salma imbalsamata del dittatore comunista Georgi Dimitrov, abbattuto nel 1999 come segno di distacco politico.</p>
-          </div>
-          <hr class="divider">
-          
-          <div>
-            <h3>Bucarest</h3>
-            <blockquote class="imgur-embed-pub" lang="en" data-id="a/hfU5kfN" data-context="false" ><a href="//imgur.com/a/hfU5kfN"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-            <p>Il mio weekend a Bucarest è nato un pò per caso e per una serie di coincidenze. A differenza del solito, ho organizzato tutto pochi giorni prima di partire e non sapevo quale destinazione scegliere. Le uniche cose chiare erano: la necessità di spendere poco e la volontà di visitare una capitale europea facilmente raggiungibile. Ed ecco che la scelta è ricaduta su Bucarest! 🙂</p>
-            <blockquote class="imgur-embed-pub" lang="en" data-id="a/z6s9TOA" data-context="false" ><a href="//imgur.com/a/z6s9TOA"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-            <p>Bucarest non è il tipo di città che ti lascerà senza fiato dalla bellezza o almeno io non l’ho vissuta così.
-              E’ sicuramente una città piacevole, ma ce ne sono di più belle in Europa e che ti lasciano l’effetto “wow”. Con questo non voglio dire che Bucarest non è interessante, anzi. Ma non vorrei che le tue aspettative fossero troppo alte.
-              Quali sono i motivi principali per cui consiglio di trascorrere un weekend a Bucarest?
-              <ul>
-                <li>E’ una delle città più economiche in assoluto in Europa, quindi se vuoi goderti un weekend in una capitale europea e non hai un gran budget, è perfetta!</li>
-                <li>E’ facilmente raggiungibile, con numerosi voli low cost in partenza dalle maggiori città italiane.</li>
-                <li>Ha una cultura culinaria davvero interessante, per cui ti consentirà di vivere un weekend all’insegna del buon cibo.</li>
-                <li>E’ una città molto verde: è ricca di parchi e di giardini per rilassarsi e godersi un pò di aria pulita.</li>
-                <li>Si tratta di una città sicura e comoda da girare a piedi, in quanto le attrazioni principali sono vicine l’una all’altra.</li>
-                <li>E’ una città intrisa di storia: quindi, se ami monumenti, palazzi storici e chiese qui ce ne sono a volontà!</li>
-                <li>Se non fosse ancora abbastanza, Bucarest potrebbe essere la base di partenza per visitare i boschi della Transilvania e i numerosi castelli che hanno reso famosa la Romania.</p></li>
-              </ul>
-          </div>
-          <hr class="divider">
-          <div>
-            <h3>Praga</h3>
-            <p>Praga è una meta ideale per vivere un weekend fuori porta in una grande capitale europea. Grande, ma non troppo: è facilmente visitabile a piedi e non richiede grande organizzazione e nemmeno una spesa eccessiva, visto che i prezzi sono più bassi del 50% rispetto all’Italia (tranne gli alberghi che purtroppo sono lievitati). E’ una città romantica e nostalgica, che conquista tutti con le sue atmosfere dark e spettrali, soprattutto durante l’inverno, e le sue bellezze architettoniche che spaziano tra edifici storici e moderni, incantando ogni generazione. E’ ideale per chi cerca due giorni fuori dal tempo, arricchendosi di cultura e anche tanto divertimento.</p>
-            <blockquote class="imgur-embed-pub" lang="en" data-id="a/2Xw0hfx" data-context="false" ><a href="//imgur.com/a/2Xw0hfx"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-
-            <blockquote class="imgur-embed-pub" lang="en" data-id="a/SiOMmKv"  ><a href="//imgur.com/a/SiOMmKv"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
-
-
-
-          </div>
-        </section>
-
-         <hr class="divider">
-
-        <section id="wireframes">
-          <h2>Wireframes</h2>
-          <img src="/assets/images/wireframes/storyboard.jpg" />
-          <hr class="divider">
-
-          <section id="progetto">
-          <h2>Il progetto</h2>
-          <p class="lead">In questa sezione vanno inserite ulteriori informazioni aggiuntive (es. credenziali) ed il link al progetto </p>
-
-            <section id="link">
-            <h2>Link al progetto</h2>
-            <a href="login.html">Link al progetto</a>
-        </section>
-        
-      </div>
-    </div>
-	
-  </div>
-  <!-- Content end --> 
-  
-  <!-- Footer
-  ============================ -->
-  <footer id="footer" class="section bg-dark footer-text-light">
-    <div class="container">
+        <div id="travel-content" class="travel-content"></div>
       
-      <p class="text-center">ITT e LSSA "Molinari" - Milano <a href="progettimolinari.it">Progetti Molinari</a>. Tutti i diritti riservati</p>
-	  
-    </div>
-  </footer>
-  <!-- Footer end -->
-  
-</div>
-<!-- Document Wrapper end --> 
-
-<!-- Back To Top --> 
-<a id="back-to-top" data-toggle="tooltip" title="Back to Top" href="javascript:void(0)"><i class="fa fa-chevron-up"></i></a> 
-
-<!-- JavaScript
-============================ -->
-<script src="assets/vendor/jquery/jquery.min.js"></script> 
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> 
-<!-- Highlight JS -->
-<script src="assets/vendor/highlight.js/highlight.min.js"></script> 
-<!-- Easing --> 
-<script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script> 
-<!-- Magnific Popup --> 
-<script src="assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script> 
-<!-- Custom Script -->
-<script src="assets/js/theme.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-<script type="module" src="public.js"></script>
-</body>
+        <script type="module" src='common.js'></script>
+        <script type="module" src='home.js'></script>
+    </body>
+    
 </html>

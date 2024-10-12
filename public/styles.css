@@ -1,7 +1,8 @@
 
 body{
-    margin: 0;
-    font-family: century-gothic, sans-serif;
+  margin: 0;
+  font-family: "Inter", Arial;
+  background: #ECEFFC;
 }
 
 .navbar{
@@ -133,10 +134,9 @@ body{
   }
   
   .modal-container {
-    height: 600px;
-    
+    height: 70%;
     display: flex;
-    max-width: 60vw;
+    max-width: 70vw;
     width: 100%;
     border-radius: 10px;
     overflow: hidden;
@@ -201,7 +201,7 @@ body{
     height: 100%;
     transform: scale(2);
     object-fit: cover;
-    transition-duration: 1.2s;
+    transition-duration: 1s;
   }
 
   .modal.is-open {
@@ -355,7 +355,7 @@ body{
   
   @media (max-width: 750px) {
     .modal-container {
-      width: 90%;
+      max-width: 90vw;
     }
     .modal-right {
       display: none;
@@ -415,9 +415,18 @@ body{
   transform: scale(1.03)
 }
 
+.del_travel {
+  box-shadow: 0px 0px 4px 0px rgb(221, 15, 15);
+}
+
+.del_travel:hover {
+  box-shadow: 0px 0px 8px 0px rgb(155, 3, 3);
+}
+
 .image-space {
   width: 100%;
   height: 100px; 
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -480,13 +489,13 @@ body{
   width: fit-content;
   block-size: fit-content;
   margin: 20px auto;
-  padding: 0 20px;
+  padding: 20px;
   display: flex;
   align-items: center;
   background-color: #f9f9f9;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  font-size: larger;
+  font-size: smaller;
   position:relative;
 }
 
@@ -597,13 +606,7 @@ body{
 .bio{
   width: 80%;
 }
-.del_btn_viaggio{
-  color: rgb(176, 21, 4);
-  font-size: 30px;
-  border:none;
-  background-color:white;
-  cursor: pointer;
-}
+
 
 .loadingViaggio, .loadingPost, .loadingTravel{
   height: 45px;
@@ -746,15 +749,8 @@ body{
   width: 60px;
 }
 
-.button-user{
-  position: absolute;
-  right: 10px;
-  bottom: 3px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  width: 50px;
-}
-.buttons-post button, .button-travel button, .button-user button{
+
+.buttons-post button, .button-travel button{
   width: 16px;
   cursor: pointer;
   background: none;
@@ -762,7 +758,7 @@ body{
   transition: all 0.15s ease;
 }
 
-.buttons-post button:hover, .button-travel button:hover, .button-user button:hover{
+.buttons-post button:hover, .button-travel button:hover{
   opacity: 0.6;
   transform: scale(1.04);
 }
@@ -860,15 +856,26 @@ body{
   position: relative; 
 }
 
-#pencilViaggio{
-  position:absolute;
-  height:20px;
-  top:30px;
-  margin-left:90%;
-  cursor: pointer;
+
+
+.profile-header {
+  display: flex;
+  align-items: center; 
+  justify-content: space-between; 
 }
 
+.profile-header h2 {
+  margin: 0; 
+}
 
+.username{
+  padding-right:1vw;
+}
+
+#pencilViaggio{
+  height:20px;
+  cursor: pointer;
+}
 
 
 
@@ -1057,29 +1064,27 @@ body{
   
 }
 
-@media(max-width: 700px) {
+@media(max-width: 800px) {
   .modal-button{
     top: 25vh;
     font-size: 18px;
   }
   .logo{
     width: 70px;
-}
-.nome{
-  font-size: 18px;
-}
-.utente{
-  font-size: 14px;
-}
-#left-arrow-div{
-  margin-left: 0;
-}
-#right-arrow-div{
-  transform: translateX(calc(100vw - 100%));
+  }
+  .nome{
+    font-size: 18px;
+  }
+  .utente{
+    font-size: 14px;
+  }
+  #left-arrow-div{
+    margin-left: 0;
+  }
+  #right-arrow-div{
+    transform: translateX(calc(100vw - 100%));
 
-}
-
-  
+  }  
 }
 
 
@@ -1102,6 +1107,44 @@ body{
 }
 
 
+
+/* ======CHECKBOX====== */
+
+.checkbox-overlay {
+  position: absolute;
+  top: 10px; 
+  right: 10px;
+  cursor: pointer; 
+}
+
+.checkbox-overlay input {
+  display: none; 
+}
+
+.checkmark {
+  height: 20px; 
+  width: 20px;
+  background-color: white; 
+  border: 2px solid #ccc;
+  border-radius: 3px; 
+  display: inline-block; 
+  position: relative; 
+}
+
+.checkbox-overlay input:checked + .checkmark {
+  background-color: #ea2b2b; 
+  border-color: #8a0202; 
+}
+
+.checkmark::after {
+  content: "";
+  position: absolute;
+  display: none; 
+}
+
+.checkbox-overlay input:checked + .checkmark::after {
+  display: block; 
+}
 
 
 
