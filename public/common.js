@@ -13,7 +13,8 @@ const checkNull = (element) => {
       element.parentElement.classList.add("null");
     }
 }
-  
+
+
 
 const getUserViaggi = async (id) => {
     try{

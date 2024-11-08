@@ -61,29 +61,33 @@ const preRender=async(viaggi)=>{
         travelContentDiv.innerHTML += travelsTemplate.replace("%nome", travel.titolo).replace("%utente", travel.username).replace("%id_utente", travel.idUser).replace("%id", travel.idViaggio).replace("%IMGVIAGGIO",loadingViaggio).replace("%IMGPROFILO",loadingProfilo);
     }
     const travels = document.querySelectorAll(".travel");
+
     render(viaggi.result,travels);
 
-    travels.forEach(async(travel) => {
-        travel.addEventListener('click', async function (event) {
-            // const utente = await getUser(user.id)
-            const viaggio = await getSingleViaggio(travel.id.split("-")[1]);
-            const utente = await getUser(viaggio.result.id_utente)
-            sessionStorage.setItem("utente",JSON.stringify(await utente.result));
-            sessionStorage.setItem("viaggio",JSON.stringify(await viaggio.result));
-            window.location.href='viaggio.html';
-        });
-    });
+    
     const users = document.querySelectorAll(".utente");
-    users.forEach((user) => {
-        user.addEventListener('click', async function (event) {
-            const utente = await getUser(user.id)
-            sessionStorage.setItem("utente",JSON.stringify(await utente.result));
-            window.location.href='user.html';
-        });
+    
+    travelContentDiv.addEventListener('click', async function(event) {
+        // Verifica se si clicca su un div degli utenti
+        if (event.target.closest('.utente')) {
+            const userElement = event.target.closest('.utente');
+            const utente = await getUser(userElement.id);
+            sessionStorage.setItem("utente", JSON.stringify(await utente.result));
+            window.location.href = 'user.html';
+        }
+    
+        // Verifica se si clicca su un div dei viaggi
+        if (event.target.closest('.travel')) {
+            const travelElement = event.target.closest('.travel');
+            const viaggio = await getSingleViaggio(travelElement.id.split("-")[1]);
+            const utente = await getUser(viaggio.result.id_utente);
+            sessionStorage.setItem("utente", JSON.stringify(await utente.result));
+            sessionStorage.setItem("viaggio", JSON.stringify(await viaggio.result));
+            window.location.href = 'viaggio.html';
+        }
     });
+    
 }
-
-
 
 // const viaggi = await getViaggi();
 preRender(await getViaggi());

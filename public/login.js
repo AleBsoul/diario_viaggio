@@ -1,5 +1,4 @@
 import { uploadFile, downloadFile } from "./mega.js"
-
 const modal = document.getElementById("modal");
 const modalButton = document.querySelector(".modal-button");
 const closeButton = document.querySelector(".close-button");
