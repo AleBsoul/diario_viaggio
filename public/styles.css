@@ -973,7 +973,9 @@ body{
   height: 350px;
   margin: auto; 
   margin-top: 50px;
+  z-index:2;
 }
+
 .main{
   margin-top: 20px;
   position: relative;

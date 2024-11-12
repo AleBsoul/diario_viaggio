@@ -103,53 +103,56 @@ print_btn.onclick=async()=>{
 let place;
 
 //api maps
-function initializeAutocomplete(id) {
-  var element = document.getElementById(id);
-  if (element) {
-      const autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'] });
-      google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);  
-    }
-}
+// function initializeAutocomplete(id) {
+//   var element = document.getElementById(id);
+//   if (element) {
+//       const autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'] });
+//       google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);  
+//     }
+// }
 
-function onPlaceChanged() {
-  place = this.getPlace();
+// function onPlaceChanged() {
+//   place = this.getPlace();
 
-  // console.log(place);  // Uncomment this line to view the full object returned by Google API.
+//   // console.log(place);  // Uncomment this line to view the full object returned by Google API.
 
-  for (var i in place.address_components) {
-    let component = place.address_components[i];
-    for (var j in component.types) {  // Some types are ["country", "political"]
-      //var type_element = document.getElementById(component.types[j]);
-      //if (type_element) {
-        //type_element.value = component.long_name;
-        let geocoder = new google.maps.Geocoder();
-        geocoder.geocode({
-            "address": component.long_name
-        }, function(results) {
-          //console.log("latittudine: ",results[0].geometry.location.lat()); 
-          //console.log("longitudine:",results[0].geometry.location.lng()); 
-        });
-    }
-  }
-}
+//   for (var i in place.address_components) {
+//     let component = place.address_components[i];
+//     for (var j in component.types) {  // Some types are ["country", "political"]
+//       //var type_element = document.getElementById(component.types[j]);
+//       //if (type_element) {
+//         //type_element.value = component.long_name;
+//         let geocoder = new google.maps.Geocoder();
+//         geocoder.geocode({
+//             "address": component.long_name
+//         }, function(results) {
+//           //console.log("latittudine: ",results[0].geometry.location.lat()); 
+//           //console.log("longitudine:",results[0].geometry.location.lng()); 
+//         });
+//     }
+//   }
+// }
 
-google.maps.event.addDomListener(window, 'load', function() {
-  initializeAutocomplete('posizione_post_input');
-  initializeAutocomplete('put_posizione_post_input');
-});
+// google.maps.event.addDomListener(window, 'load', function() {
+//   initializeAutocomplete('posizione_post_input');
+//   initializeAutocomplete('put_posizione_post_input');
+// });
 
-//map
-let map;
-const myMap = (lat, lng) => {
-  const mapProp = {
-    center: new google.maps.LatLng(lat, lng),
-    zoom: 5
-  };
-  map = new google.maps.Map(document.getElementById("map_posts"),mapProp);
-}
+//map_posts
+// let map_posts;
+// const myMap = (lat, lng) => {
+//   const mapProp = {
+//     center: new google.maps.LatLng(lat, lng),
+//     zoom: 5
+//   };
+//   map_posts = new google.maps.map_posts(document.getElementById("map_posts"),mapProp);
+// }
 
+const map_posts = L.map('map_posts').setView([52.517, 13.388], 9.5)
 
-
+L.maplibreGL({
+  style: 'https://tiles.openfreemap.org/styles/liberty',
+}).addTo(map_posts)
 
 
 if(user.id===loggato.id){
@@ -760,14 +763,14 @@ const renderSingle=async()=>{
 
 const render = async() =>{
   // travel
-  //map
+  //map_posts
   let tripCoordinates = [];
   if(posts.result.length){ 
     myMap(posts.result[0].latitudine, posts.result[0].longitudine);
     posts.result.forEach((post)=>{
       const marker = new google.maps.Marker({
         position: new google.maps.LatLng(post.latitudine, post.longitudine),
-        map: map,
+        map_posts: map_posts,
         id: post.id
       })
       tripCoordinates.push(
@@ -786,7 +789,7 @@ const render = async() =>{
     
     const zoom =parseInt(Math.abs(delta)*8);
     console.log(zoom)
-    map.setZoom(zoom);
+    map_posts.setZoom(zoom);
     
     let tripPath = new google.maps.Polyline({
       path: tripCoordinates,
@@ -795,7 +798,7 @@ const render = async() =>{
       strokeOpacity: 1.0,
       strokeWeight: 2
     })
-    tripPath.setMap(map);
+    tripPath.setMap(map_posts);
     document.getElementById("map_posts").style.display="block"
   }else{
     document.getElementById("map_posts").style.display="none"
