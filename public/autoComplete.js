@@ -6,10 +6,28 @@
   	 - placeholder - placeholder text for an input element
      - type - location type
 */
+
+// function put_autocomplete(containerElement){
+//   var inputElement = document.getElementById("put_posizione_post_input");
+//   return inputElement
+// }
+
+// function add_autocomplete(containerElement){
+//   var inputElement = document.getElementById("posizione_post_input");
+//   return inputElement 
+// }
+
 function addressAutocomplete(containerElement, callback, options) {
     // create input element
-    var inputElement = document.getElementById("posizione_post_input");
-  
+    let inputElement
+    if(containerElement.id === "autocomplete-container-city"){
+      inputElement = document.getElementById("posizione_post_input");
+    }else{
+      inputElement = document.getElementById("put_posizione_post_input");
+    }
+
+    
+    
     // add input field clear button
     var clearButton = document.createElement("div");
     clearButton.classList.add("clear-button");
@@ -211,10 +229,12 @@ function addressAutocomplete(containerElement, callback, options) {
   //   type: "country"
   // });
   
-addressAutocomplete(document.getElementById("autocomplete-container-city"), (data) => {
-    console.log("Selected city: ");
-    console.log(data);
-  }, {
-      placeholder: "Enter a city name here"
-  });
+// addressAutocomplete(document.getElementById("autocomplete-container-city"), (data) => {
+//     console.log("Selected city: ");
+//     console.log(data);
+//   }, {
+//       placeholder: "Enter a city name here"
+//   });
   
+
+export { addressAutocomplete }

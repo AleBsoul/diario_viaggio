@@ -1,5 +1,6 @@
 import { uploadFile, downloadFile} from "./mega.js"
 import { newViaggioClick, getSingleViaggio, checkNull } from "./common.js"
+import { addressAutocomplete } from "./autocomplete.js";
 
 let index = 0; //per decidere quale post renderizzare
 const right_arrow = document.getElementById("right-arrow");
@@ -78,7 +79,7 @@ print_btn.onclick=async()=>{
     document.getElementById("travel_div").style.display="block"
     renderTravel();
     if(posts.result.length>0){
-      render();
+      render(posts);
     }
     // exportTravel();
   }else{
@@ -101,6 +102,24 @@ print_btn.onclick=async()=>{
 
 
 let place;
+
+addressAutocomplete(document.getElementById("autocomplete-container-city"), (data) => {
+  console.log("Selected city: ");
+  console.log(data);
+  place = data
+}, {
+    placeholder: "Enter a city name here"
+});
+
+// addressAutocomplete(document.getElementById("put-autocomplete-container-city"), (data) => {
+//   console.log("Selected city: ");
+//   console.log(data);
+//   place = data
+// }, {
+//     placeholder: "Enter a city name here"
+// });
+
+
 
 //api maps
 // function initializeAutocomplete(id) {
@@ -148,11 +167,34 @@ let place;
 //   map_posts = new google.maps.map_posts(document.getElementById("map_posts"),mapProp);
 // }
 
-const map_posts = L.map('map_posts').setView([52.517, 13.388], 9.5)
+//map
 
-L.maplibreGL({
-  style: 'https://tiles.openfreemap.org/styles/liberty',
-}).addTo(map_posts)
+let map_posts;
+const addMarkers = (all_markers) => {
+  let markers = [];
+  all_markers.forEach((m) => {
+    const lat = m.position[0];
+    const long = m.position[1];
+    markers.push(L.marker([lat, long]).addTo(map_posts).bindPopup(m.name));
+  });
+
+  // Create a LatLngBounds object
+  const bounds = L.latLngBounds();
+
+  // Extend the bounds with each marker's position
+  markers.forEach(marker => bounds.extend(marker.getLatLng()));
+
+  // If there is only one marker, center the map on it
+  if (markers.length === 1) {
+    map_posts.setView(markers[0].getLatLng(), 13); // 13 is the zoom level
+  } else {
+    // Fit the map to the bounds for multiple markers
+    map_posts.fitBounds(bounds, {
+      padding: [50, 50]
+    });
+  }
+}
+
 
 
 if(user.id===loggato.id){
@@ -310,8 +352,6 @@ const close_btn = document.getElementById("close_btn_1");
 
 let isOpened = false;
 
-
-
 const openModal = (modal) => {
   modal.classList.add("is-open");
 };
@@ -321,7 +361,6 @@ const closeModal = () => {
   postModal.classList.remove("is-open");
 };
 
-
 updatePost_btn.onclick=async()=>{
   const titolo = document.getElementById("put_titolo_post_input");
   const descrizione = document.getElementById("put_descrizione_post_input");
@@ -329,9 +368,9 @@ updatePost_btn.onclick=async()=>{
   let position
   if(place){
     position = {
-      nome: place.formatted_address,
-      latitudine: place.geometry.location.lat(),
-      longitudine: place.geometry.location.lng()
+      nome: place.properties.city,
+      latitudine: place.geometry.coordinates[1],
+      longitudine: place.geometry.coordinates[0]
     }
   }else{
     position = null
@@ -339,7 +378,7 @@ updatePost_btn.onclick=async()=>{
   if(titolo.value.replaceAll("'", " ") || descrizione.value.replaceAll("'", " ") || position || media.value.replaceAll("'", " ")){
     document.getElementById("loading-put-post").style.opacity=1;
 
-    const data = String(Date.now());
+  const data = String(Date.now());
   let post = {
     id:postId,
     titolo: titolo.value.replaceAll("'", " "),
@@ -363,7 +402,7 @@ updatePost_btn.onclick=async()=>{
     document.getElementById("loading-put-post").style.opacity=0;
     if(posts.result.length>0){
       if(check_export){
-        await render();
+        await render(posts);
       }else{
         const current_id_post = posts.result[index].id;
         index = await posts.result.findIndex((e)=>e.id === current_id_post);
@@ -436,12 +475,11 @@ newPost.onclick=async()=>{
   if(titolo.value && descrizione.value && media.value && posizione.value){
     document.getElementById("loading-add-post").style.opacity=1;
     const position = {
-        nome: place.formatted_address,
-        latitudine: place.geometry.location.lat(),
-        longitudine: place.geometry.location.lng()
+      nome: place.properties.state,
+      latitudine: place.geometry.coordinates[1],
+      longitudine: place.geometry.coordinates[0]
     };
-    
-    
+        
     const fileImg = await uploadFile(media);
     const imgLink = await fileImg.link;
     const post = {
@@ -451,7 +489,8 @@ newPost.onclick=async()=>{
       posizione: position,
       id_viaggio: viaggio.id,
       mime: media.files[0].type.split("/")[0],
-      data: data
+      data: data,
+      nome: position.nome
     }
     
     savePost(post).then(async(result)=>{
@@ -460,7 +499,7 @@ newPost.onclick=async()=>{
       posts = await get_posts(viaggio.id);
       if(posts.result.length>0){
         if(check_export){
-          await render();
+          await render(posts);
         }else{
           const current_id_post = posts.result[index].id;
           index = await posts.result.findIndex((e)=>e.id === current_id_post);
@@ -538,6 +577,7 @@ const update_btn_event=()=>{
       if(check_export){
         posts.result.forEach((post)=>{
         if(post.id==put_btn.id){
+          console.log(post)
           document.getElementById("put_titolo_post_input").value=post.testo;
           document.getElementById("put_descrizione_post_input").value=post.descrizione;
           document.getElementById("put_posizione_post_input").value=post.nome;
@@ -569,7 +609,7 @@ const del_btn_event = () =>{
       posts = await get_posts(viaggio.id);
       if(posts.result.length>0){
         if(check_export){
-          await render();
+          await render(posts);
         }else{
           index = 0
           renderSingle();
@@ -696,13 +736,24 @@ const blur=()=>{
 
 const renderSingle=async()=>{
     const indiceControllo = index //serve a gestire le chiamate asincrone
-    if(index===0){
-      console.log("si")
+    if (posts.result.length === 1){
       left_arrow.style.opacity = "0.5";
       left_arrow.disabled = true;
+      right_arrow.style.opacity = "0.5";
+      right_arrow.disabled = true;
+    }
+    else if(index===0){
+      // console.log("si")
+      left_arrow.style.opacity = "0.5";
+      left_arrow.disabled = true;
+      right_arrow.style.opacity = "1";
+      right_arrow.disabled = false;
+      
     }else if(index===posts.result.length-1){
       right_arrow.style.opacity = "0.5";
       right_arrow.disabled = true;
+      left_arrow.style.opacity = "1";
+      left_arrow.disabled = false;
     }else{
       left_arrow.style.opacity = "1";
       right_arrow.style.opacity = "1";
@@ -761,44 +812,29 @@ const renderSingle=async()=>{
 }
 
 
-const render = async() =>{
+const render = async(posts) =>{
   // travel
+  
   //map_posts
-  let tripCoordinates = [];
+  let all_markers = [];
+
   if(posts.result.length){ 
-    myMap(posts.result[0].latitudine, posts.result[0].longitudine);
+    map_posts = L.map('map_posts').setView([52.517, 13.388], 9.5)
+    L.maplibreGL({
+      style: 'https://tiles.openfreemap.org/styles/liberty',
+    }).addTo(map_posts)
+
     posts.result.forEach((post)=>{
-      const marker = new google.maps.Marker({
-        position: new google.maps.LatLng(post.latitudine, post.longitudine),
+      const marker = {
+        position: [post.latitudine, post.longitudine],
         map_posts: map_posts,
+        name: post.testo,
         id: post.id
-      })
-      tripCoordinates.push(
-        {
-          'lat':marker.position.lat(), 
-          'lng':marker.position.lng()}
-        )
-      
-      google.maps.event.addDomListener(marker, 'click', function() {
-        document.getElementById(marker.id).scrollIntoView({behavior: "smooth"});
-    });
-    
+      }
+
+      all_markers.push(marker)
     })
-    console.log(tripCoordinates)
-    const delta = tripCoordinates[0].lat/tripCoordinates[1].lat;
-    
-    const zoom =parseInt(Math.abs(delta)*8);
-    console.log(zoom)
-    map_posts.setZoom(zoom);
-    
-    let tripPath = new google.maps.Polyline({
-      path: tripCoordinates,
-      geodesic: true,
-      strokeColor: '#000000',
-      strokeOpacity: 1.0,
-      strokeWeight: 2
-    })
-    tripPath.setMap(map_posts);
+    addMarkers(all_markers);
     document.getElementById("map_posts").style.display="block"
   }else{
     document.getElementById("map_posts").style.display="none"
@@ -838,7 +874,7 @@ const render = async() =>{
   
   for (let i=0; i<posts.result.length;i++) {
     const middlePost = postsDivs[i].querySelector(".middle-post"); // così quando arriva l'img, renderizzo solo quella
-   const srcPost = await downloadFile(posts.result[i].file);
+    const srcPost = await downloadFile(posts.result[i].file);
     let media;
     if (posts.result[i].mime==="image"){
       media = `<img src="${srcPost}" class="post_media" width="320" height="240">`;
