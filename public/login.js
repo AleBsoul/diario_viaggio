@@ -176,7 +176,6 @@ sign_submit.onclick=async()=>{
   const link = fileImg.link;
   const user = {username: username, password: pass, email:email, nome:nome, cognome:cognome, bio:bio, foto:link}
   addUser(user).then((result)=>{
-    console.log(result);
     if(!result){//controllo che non esista lo username
       username_input.parentElement.classList.remove("null")
       username_input.parentElement.classList.add("null");

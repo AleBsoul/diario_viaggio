@@ -1,275 +1,286 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="styles.css">
-        <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.3.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-        <link rel="stylesheet" href="https://use.typekit.net/oov2wcw.css">
 
-        <!-- icone font awsome -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        
-        <link rel="icon" href="./assets/images/logo.png">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css">
+    <link rel='stylesheet'
+        href='https://cdn-uicons.flaticon.com/2.3.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel="stylesheet" href="https://use.typekit.net/oov2wcw.css">
 
-        <!-- sidebar -->
-        <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="sidebar.css">
+    <!-- icone font awsome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-        <!-- map -->
-        <!-- Leaflet -->
-        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link rel="icon" href="./assets/images/logo.png">
 
-        <!-- Maplibre GL -->
-        <link href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" rel="stylesheet" />
-        <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
+    <!-- sidebar -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="sidebar.css">
 
-        <!-- Maplibre GL Leaflet  -->
-        <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet/leaflet-maplibre-gl.js"></script>
+    <!-- map -->
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-        <title>Viaggio</title>
-      </head>
-    <body>
-        <div class="title">
-            <h2>Post your travel</h2>
+    <!-- Maplibre GL -->
+    <link href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" rel="stylesheet" />
+    <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
+
+    <!-- Maplibre GL Leaflet  -->
+    <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet/leaflet-maplibre-gl.js"></script>
+
+    <title>Viaggio</title>
+</head>
+
+<body>
+    <div class="title">
+        <h2>Post your travel</h2>
+    </div>
+    <div class="modal" id="modal">
+        <div class="modal-container">
+            <div class="modal-left">
+                <form id="formAdd">
+                    <h1>Aggiungi viaggio</h1>
+
+                    <div class="input-block">
+                        <label for="titolo_viaggio_input" class="input-label">Titolo</label>
+                        <input type="text" id="titolo_viaggio_input">
+
+
+                    </div>
+
+
+                    <div class="textarea-block">
+                        <label for="descrizione_viaggio_input" class="input-label">Descrizione</label>
+                        <textarea id="descrizione_viaggio_input"></textarea>
+
+                    </div>
+
+
+                    <div class="input-block">
+                        <label for="immagine_viaggio_input" class="input-label">Immagine</label>
+                        <input type="file" id="immagine_viaggio_input">
+
+                    </div>
+
+                    <div class="modal-buttons">
+                        <iframe class='loading' id="loading-add-travel"
+                            src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json'></iframe>
+                        <button type="button" class="input-button" id="newViaggio_btn">Aggiungi viaggio</button>
+                    </div>
+                </form>
+                <form id="formPut">
+                    <h1>Modifica viaggio</h1>
+
+                    <div class="input-block">
+                        <label for="put_titolo_viaggio_input" class="input-label">Titolo</label>
+                        <input type="text" id="put_titolo_viaggio_input">
+
+                    </div>
+
+
+                    <div class="textarea-block">
+                        <label for="put_descrizione_viaggio_input" class="input-label">Descrizione</label>
+                        <textarea id="put_descrizione_viaggio_input"></textarea>
+
+                    </div>
+
+
+                    <div class="input-block">
+                        <label for="put_immagine_viaggio_input" class="input-label">Immagine</label>
+                        <input type="file" id="put_immagine_viaggio_input">
+
+
+                    </div>
+
+                    <div class="modal-buttons">
+                        <iframe class='loading' id="loading-put-travel"
+                            src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json'></iframe>
+                        <button type="button" class="input-button" id="putViaggio_btn">Save changes</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-right" id="modal-right">
+                <img src="assets/images/logo_sfondo.png" alt="">
+            </div>
+            <button class="icon-button close-button" id="close_btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+                    <path
+                        d="M 25 3 C 12.86158 3 3 12.86158 3 25 C 3 37.13842 12.86158 47 25 47 C 37.13842 47 47 37.13842 47 25 C 47 12.86158 37.13842 3 25 3 z M 25 5 C 36.05754 5 45 13.94246 45 25 C 45 36.05754 36.05754 45 25 45 C 13.94246 45 5 36.05754 5 25 C 5 13.94246 13.94246 5 25 5 z M 16.990234 15.990234 A 1.0001 1.0001 0 0 0 16.292969 17.707031 L 23.585938 25 L 16.292969 32.292969 A 1.0001 1.0001 0 1 0 17.707031 33.707031 L 25 26.414062 L 32.292969 33.707031 A 1.0001 1.0001 0 1 0 33.707031 32.292969 L 26.414062 25 L 33.707031 17.707031 A 1.0001 1.0001 0 0 0 32.980469 15.990234 A 1.0001 1.0001 0 0 0 32.292969 16.292969 L 25 23.585938 L 17.707031 16.292969 A 1.0001 1.0001 0 0 0 16.990234 15.990234 z">
+                    </path>
+                </svg>
+            </button>
         </div>
-        <div class="modal" id="modal">
-            <div class="modal-container">
-                <div class="modal-left">
-                    <form id="formAdd">
-                        <h1>Aggiungi viaggio</h1>
+    </div>
 
-                        <div class="input-block">
-                            <label for="titolo_viaggio_input" class="input-label">Titolo</label>
-                            <input type="text" id="titolo_viaggio_input">
-
-                            
-                        </div>
-                        
-
-                        <div class="textarea-block">
-                            <label for="descrizione_viaggio_input" class="input-label">Descrizione</label>
-                            <textarea id="descrizione_viaggio_input"></textarea>
-   
-                        </div>
-                        
-
-                        <div class="input-block">
-                            <label for="immagine_viaggio_input" class="input-label">Immagine</label>
-                            <input type="file" id="immagine_viaggio_input">
-     
-                        </div>
-
-                        <div class="modal-buttons">
-                            <iframe class='loading' id="loading-add-travel"src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>
-                            <button type="button" class="input-button" id="newViaggio_btn">Aggiungi viaggio</button>
-                        </div> 
-                    </form>
-                    <form id="formPut">
-                        <h1>Modifica viaggio</h1>
-
-                        <div class="input-block">
-                            <label for="put_titolo_viaggio_input" class="input-label">Titolo</label>
-                            <input type="text" id="put_titolo_viaggio_input">
-
-                        </div>
-                        
-
-                        <div class="textarea-block">
-                            <label for="put_descrizione_viaggio_input" class="input-label">Descrizione</label>
-                            <textarea id="put_descrizione_viaggio_input"></textarea>
-  
-                        </div>
-                        
-
-                        <div class="input-block">
-                            <label for="put_immagine_viaggio_input" class="input-label">Immagine</label>
-                            <input type="file" id="put_immagine_viaggio_input">
-
-                            
-                        </div>
-
-                        <div class="modal-buttons">
-                            <iframe class='loading' id="loading-put-travel"src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>
-                            <button type="button" class="input-button" id="putViaggio_btn">Save changes</button>
-                        </div> 
-                    </form>
-                </div>
-                <div class="modal-right" id="modal-right">
-                  <img src="assets/images/logo_sfondo.png" alt="">
-                </div>
-                <button class="icon-button close-button" id="close_btn">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
-                    <path d="M 25 3 C 12.86158 3 3 12.86158 3 25 C 3 37.13842 12.86158 47 25 47 C 37.13842 47 47 37.13842 47 25 C 47 12.86158 37.13842 3 25 3 z M 25 5 C 36.05754 5 45 13.94246 45 25 C 45 36.05754 36.05754 45 25 45 C 13.94246 45 5 36.05754 5 25 C 5 13.94246 13.94246 5 25 5 z M 16.990234 15.990234 A 1.0001 1.0001 0 0 0 16.292969 17.707031 L 23.585938 25 L 16.292969 32.292969 A 1.0001 1.0001 0 1 0 17.707031 33.707031 L 25 26.414062 L 32.292969 33.707031 A 1.0001 1.0001 0 1 0 33.707031 32.292969 L 26.414062 25 L 33.707031 17.707031 A 1.0001 1.0001 0 0 0 32.980469 15.990234 A 1.0001 1.0001 0 0 0 32.292969 16.292969 L 25 23.585938 L 17.707031 16.292969 A 1.0001 1.0001 0 0 0 16.990234 15.990234 z"></path>
-                  </svg>
-                </button>
-            </div>
+    <div class="buttons-right">
+        <div class="addPostDiv invisible no_export" id="addPostDiv">
+            <button id="add-post">
+                <i class="fa fa-plus"></i>
+                <p>New post</p>
+            </button>
         </div>
-
-        <div class="buttons-right">
-            <div class="addPostDiv invisible no_export" id="addPostDiv">
-                <button id="add-post">
-                    <i class="fa fa-plus"></i>
-                    <p>New post</p>
-                </button>
-            </div>
-            <div class="printTravelDiv no_export">
-                <button id="print-post">
-                    <i class="fa fa-globe"></i>
-                    <p>viaggio completo</p>
-                </button>
-            </div>
+        <div class="printTravelDiv no_export">
+            <button id="print-post">
+                <i class="fa fa-globe"></i>
+                <p>viaggio completo</p>
+            </button>
         </div>
-        
-        
-        <div class="modal" id="modalPost">
-            <div class="modal-container">
-                <div class="modal-left">
-                    <form id="formAddPost">
-                        <h1>Aggiungi post</h1>
+    </div>
 
-                        <div class="input-block">
-                            <label for="titolo_post_input" class="input-label">Titolo</label>
-                            <input type="text" id="titolo_post_input">
-                        </div>
-                        
 
-                        <div class="textarea-block">
-                            <label for="descrizione_post_input" class="input-label">Descrizione</label>
-                            <textarea id="descrizione_post_input"></textarea>
-                        </div>
-                        <div class="input-block">
-                            <label for="media_post_input" class="input-label">Media (foto/video/audio)</label>
-                            <input type="file" id="media_post_input">
-                        </div>
-                        <div class="input-block autocomplete-container" id="autocomplete-container-city">
-                            <label for="posizione_post_input" class="input-label">Posizione</label>
-                            <input type="text" id="posizione_post_input">
-                        </div>
+    <div class="modal" id="modalPost">
+        <div class="modal-container">
+            <div class="modal-left">
+                <form id="formAddPost">
+                    <h1>Aggiungi post</h1>
 
-                        <div class="modal-buttons">
-                            <iframe class='loading' id="loading-add-post"src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>
-                            <button type="button" class="input-button" id="newPost_btn">Aggiungi post</button>
-                        </div> 
-                    </form>
-                    <form id="formUpdatePost">
-                        <h1>Modifica post</h1>
+                    <div class="input-block">
+                        <label for="titolo_post_input" class="input-label">Titolo</label>
+                        <input type="text" id="titolo_post_input">
+                    </div>
 
-                        <div class="input-block">
-                            <label for="put_titolo_post_input" class="input-label">Titolo</label>
-                            <input type="text" id="put_titolo_post_input">
-                        </div>
-                        
 
-                        <div class="textarea-block">
-                            <label for="put_descrizione_post_input" class="input-label">Descrizione</label>
-                            <textarea id="put_descrizione_post_input"></textarea>
-                        </div>
-                        <div class="input-block">
-                            <label for="put_media_post_input" class="input-label">Media (foto/video/audio)</label>
-                            <input type="file" id="put_media_post_input">
-                        </div>
-                        <div class="input-block" id="put--containerautocomplete-city">
-                            <label for="put_posizione_post_input" class="input-label">Posizione</label>
-                            <input type="text" id="put_posizione_post_input">
-                        </div>
+                    <div class="textarea-block">
+                        <label for="descrizione_post_input" class="input-label">Descrizione</label>
+                        <textarea id="descrizione_post_input"></textarea>
+                    </div>
+                    <div class="input-block">
+                        <label for="media_post_input" class="input-label">Media (foto/video/audio)</label>
+                        <input type="file" id="media_post_input">
+                    </div>
+                    <div class="input-block autocomplete-container" id="autocomplete-container-city">
+                        <label for="posizione_post_input" class="input-label">Posizione</label>
+                        <input type="text" id="posizione_post_input">
+                    </div>
 
-                        <div class="modal-buttons">
-                            <iframe class='loading' id="loading-put-post"src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>
-                            <button type="button" class="input-button" id="updatePost_btn">Save changes</button>
-                        </div> 
-                    </form>
-                </div>
-                <div class="modal-right" id="modal-right">
-                  <img src="assets/images/logo_sfondo.png" alt="">
-                </div>
-                <button class="icon-button close-button" id="close_btn_1">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
-                    <path d="M 25 3 C 12.86158 3 3 12.86158 3 25 C 3 37.13842 12.86158 47 25 47 C 37.13842 47 47 37.13842 47 25 C 47 12.86158 37.13842 3 25 3 z M 25 5 C 36.05754 5 45 13.94246 45 25 C 45 36.05754 36.05754 45 25 45 C 13.94246 45 5 36.05754 5 25 C 5 13.94246 13.94246 5 25 5 z M 16.990234 15.990234 A 1.0001 1.0001 0 0 0 16.292969 17.707031 L 23.585938 25 L 16.292969 32.292969 A 1.0001 1.0001 0 1 0 17.707031 33.707031 L 25 26.414062 L 32.292969 33.707031 A 1.0001 1.0001 0 1 0 33.707031 32.292969 L 26.414062 25 L 33.707031 17.707031 A 1.0001 1.0001 0 0 0 32.980469 15.990234 A 1.0001 1.0001 0 0 0 32.292969 16.292969 L 25 23.585938 L 17.707031 16.292969 A 1.0001 1.0001 0 0 0 16.990234 15.990234 z"></path>
-                  </svg>
-                </button>
+                    <div class="modal-buttons">
+                        <iframe class='loading' id="loading-add-post"
+                            src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json'></iframe>
+                        <button type="button" class="input-button" id="newPost_btn">Aggiungi post</button>
+                    </div>
+                </form>
+                <form id="formUpdatePost">
+                    <h1>Modifica post</h1>
+
+                    <div class="input-block">
+                        <label for="put_titolo_post_input" class="input-label">Titolo</label>
+                        <input type="text" id="put_titolo_post_input">
+                    </div>
+
+
+                    <div class="textarea-block">
+                        <label for="put_descrizione_post_input" class="input-label">Descrizione</label>
+                        <textarea id="put_descrizione_post_input"></textarea>
+                    </div>
+                    <div class="input-block">
+                        <label for="put_media_post_input" class="input-label">Media (foto/video/audio)</label>
+                        <input type="file" id="put_media_post_input">
+                    </div>
+                    <div class="input-block autocomplete-container" id="put-autocomplete-container-city">
+                        <label for="put_posizione_post_input" class="input-label">Posizione</label>
+                        <input type="text" id="put_posizione_post_input">
+                    </div>
+
+                    <div class="modal-buttons">
+                        <iframe class='loading' id="loading-put-post"
+                            src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json'></iframe>
+                        <button type="button" class="input-button" id="updatePost_btn">Save changes</button>
+                    </div>
+                </form>
             </div>
+            <div class="modal-right" id="modal-right">
+                <img src="assets/images/logo_sfondo.png" alt="">
+            </div>
+            <button class="icon-button close-button" id="close_btn_1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+                    <path
+                        d="M 25 3 C 12.86158 3 3 12.86158 3 25 C 3 37.13842 12.86158 47 25 47 C 37.13842 47 47 37.13842 47 25 C 47 12.86158 37.13842 3 25 3 z M 25 5 C 36.05754 5 45 13.94246 45 25 C 45 36.05754 36.05754 45 25 45 C 13.94246 45 5 36.05754 5 25 C 5 13.94246 13.94246 5 25 5 z M 16.990234 15.990234 A 1.0001 1.0001 0 0 0 16.292969 17.707031 L 23.585938 25 L 16.292969 32.292969 A 1.0001 1.0001 0 1 0 17.707031 33.707031 L 25 26.414062 L 32.292969 33.707031 A 1.0001 1.0001 0 1 0 33.707031 32.292969 L 26.414062 25 L 33.707031 17.707031 A 1.0001 1.0001 0 0 0 32.980469 15.990234 A 1.0001 1.0001 0 0 0 32.292969 16.292969 L 25 23.585938 L 17.707031 16.292969 A 1.0001 1.0001 0 0 0 16.990234 15.990234 z">
+                    </path>
+                </svg>
+            </button>
         </div>
-        <div class="main">
-            <div class="arrow_div" id="left-arrow-div">
-                <button class="arrow_button" id="left-arrow"><i class="fa fa-angle-left fa-5x"></i></button>
-            </div>
-            <div class="arrow_div" id="right-arrow-div">
-                <button class="arrow_button" id="right-arrow"><i class="fa fa-angle-right fa-5x"></i></button>
-            </div>    
-            <div id="export">
-                <div class="travel_div" id="travel_div"></div>
-
-                <!-- <div id="map_posts"></div> -->
-
-                <div id="map_posts"></div>
-                <div class="post-content singleView" id="post-content"></div>
-            </div>
+    </div>
+    <div class="main">
+        <div class="arrow_div" id="left-arrow-div">
+            <button class="arrow_button" id="left-arrow"><i class="fa fa-angle-left fa-5x"></i></button>
         </div>
+        <div class="arrow_div" id="right-arrow-div">
+            <button class="arrow_button" id="right-arrow"><i class="fa fa-angle-right fa-5x"></i></button>
+        </div>
+        <div id="export">
+            <div class="travel_div" id="travel_div"></div>
 
-        <div class="inv" id="blurred-div"></div>
+            <!-- <div id="map_posts"></div> -->
 
-        <!-- sidebar -->
-        <div class="sidebar close no_export">
-            <div class="logo-details">
-                <img src="assets/images/logo.png" class="logo" alt="Logo">
-            </div>
-            <ul class="nav-links">
-              <li>
+            <div id="map_posts"></div>
+            <div class="post-content singleView" id="post-content"></div>
+        </div>
+    </div>
+
+    <div class="inv" id="blurred-div"></div>
+
+    <!-- sidebar -->
+    <div class="sidebar close no_export">
+        <div class="logo-details">
+            <img src="assets/images/logo.png" class="logo" alt="Logo">
+        </div>
+        <ul class="nav-links">
+            <li>
                 <a href="#">
-                  <i class='bx bx-home' id="nav-home"></i>
-                  <span class="link_name" >Home</span>
+                    <i class='bx bx-home' id="nav-home"></i>
+                    <span class="link_name">Home</span>
                 </a>
                 <ul class="sub-menu blank">
-                  <li><a class="link_name" href="#">Home</a></li>
+                    <li><a class="link_name" href="#">Home</a></li>
                 </ul>
-              </li>
-              <li>
+            </li>
+            <li>
                 <a href="#">
-                  <i class='bx bx-user' id="nav-user"></i>
-                  <span class="link_name" >Profilo</span>
+                    <i class='bx bx-user' id="nav-user"></i>
+                    <span class="link_name">Profilo</span>
                 </a>
                 <ul class="sub-menu blank">
-                  <li><a class="link_name" href="#">Profilo</a></li>
+                    <li><a class="link_name" href="#">Profilo</a></li>
                 </ul>
-              </li>
-              <li>
+            </li>
+            <li>
                 <a href="#">
-                  <i class='bx bx-plus' id="openModal"></i>
-                  <span class="link_name" >Aggiungi</span>
+                    <i class='bx bx-plus' id="openModal"></i>
+                    <span class="link_name">Aggiungi</span>
                 </a>
                 <ul class="sub-menu blank">
-                  <li><a class="link_name" href="#" >Aggiungi</a></li>
+                    <li><a class="link_name" href="#">Aggiungi</a></li>
                 </ul>
-              </li>
-              
-              <li>
+            </li>
+
+            <li>
                 <div class="logout" title="Log out">
                     <a href="#">
                         <i class='bx bx-log-out' id="nav-logout"></i>
-                        <span class="link_name" >Log out</span>
-                      </a>
-                      <ul class="sub-menu blank">
+                        <span class="link_name">Log out</span>
+                    </a>
+                    <ul class="sub-menu blank">
                         <li><a class="link_name" href="#">Log out</a></li>
-                      </ul>
-                    </li>
-                    
-                </div>
+                    </ul>
             </li>
-        </ul>
-          </div>
+
+    </div>
+    </li>
+    </ul>
+    </div>
 
 
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs" crossorigin="anonymous"></script>        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;key=AIzaSyCxv9j86w7iiuRA9VOIayp_FYGUUC_UMXQ"></script> -->
-        
-        <script type="module" src="sidebar.js"></script>
-        <script type="module" src="common.js"></script>
-        <script type="module" src="viaggio.js"></script>
-        <script type="module" src="autoComplete.js"></script>
-    </body>
-    
+
+    <script type="module" src="sidebar.js"></script>
+    <script type="module" src="common.js"></script>
+    <script type="module" src="viaggio.js"></script>
+    <script type="module" src="autoComplete.js"></script>
+</body>
+
 </html>

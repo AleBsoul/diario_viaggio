@@ -80,6 +80,8 @@ print_btn.onclick=async()=>{
     renderTravel();
     if(posts.result.length>0){
       render(posts);
+    }else{
+      document.getElementById("map_posts").style.display="none"
     }
     // exportTravel();
   }else{
@@ -104,20 +106,16 @@ print_btn.onclick=async()=>{
 let place;
 
 addressAutocomplete(document.getElementById("autocomplete-container-city"), (data) => {
-  console.log("Selected city: ");
-  console.log(data);
   place = data
 }, {
     placeholder: "Enter a city name here"
 });
 
-// addressAutocomplete(document.getElementById("put-autocomplete-container-city"), (data) => {
-//   console.log("Selected city: ");
-//   console.log(data);
-//   place = data
-// }, {
-//     placeholder: "Enter a city name here"
-// });
+addressAutocomplete(document.getElementById("put-autocomplete-container-city"), (data) => {
+  place = data
+}, {
+    placeholder: "Enter a city name here"
+});
 
 
 
@@ -368,7 +366,7 @@ updatePost_btn.onclick=async()=>{
   let position
   if(place){
     position = {
-      nome: place.properties.city,
+      nome: place.properties.state,
       latitudine: place.geometry.coordinates[1],
       longitudine: place.geometry.coordinates[0]
     }
@@ -404,6 +402,7 @@ updatePost_btn.onclick=async()=>{
       if(check_export){
         await render(posts);
       }else{
+        document.getElementById("map_posts").style.display="none"
         const current_id_post = posts.result[index].id;
         index = await posts.result.findIndex((e)=>e.id === current_id_post);
         renderSingle();
@@ -501,6 +500,7 @@ newPost.onclick=async()=>{
         if(check_export){
           await render(posts);
         }else{
+          document.getElementById("map_posts").style.display="none"
           const current_id_post = posts.result[index].id;
           index = await posts.result.findIndex((e)=>e.id === current_id_post);
           renderSingle();
@@ -577,7 +577,6 @@ const update_btn_event=()=>{
       if(check_export){
         posts.result.forEach((post)=>{
         if(post.id==put_btn.id){
-          console.log(post)
           document.getElementById("put_titolo_post_input").value=post.testo;
           document.getElementById("put_descrizione_post_input").value=post.descrizione;
           document.getElementById("put_posizione_post_input").value=post.nome;
@@ -615,6 +614,7 @@ const del_btn_event = () =>{
           renderSingle();
         }
       }else{
+        document.getElementById("map_posts").style.display="none"
         document.getElementById("left-arrow-div").style.display="none"
         document.getElementById("right-arrow-div").style.display="none"
         postsContentDiv.innerHTML = "";
@@ -743,7 +743,6 @@ const renderSingle=async()=>{
       right_arrow.disabled = true;
     }
     else if(index===0){
-      // console.log("si")
       left_arrow.style.opacity = "0.5";
       left_arrow.disabled = true;
       right_arrow.style.opacity = "1";
@@ -772,7 +771,7 @@ const renderSingle=async()=>{
     if(mins.length===1){
       mins="0"+mins
     }
-    const data = all_date.getDay()+"/"+all_date.getMonth()+"/"+all_date.getFullYear()+" - "+all_date.getHours()+":"+mins
+    const data = all_date.getDate()+"/"+String(parseInt(all_date.getMonth())+1)+"/"+all_date.getFullYear()+" - "+all_date.getHours()+":"+mins
     
     if(posts.result[index].ultima_modifica){
       const all_modifica_date = new Date(parseInt(posts.result[index].ultima_modifica));
@@ -780,7 +779,7 @@ const renderSingle=async()=>{
       if(mins_modifica.length===1){
         mins_modifica="0"+mins_modifica;
       }
-      modifica_data = all_modifica_date.getDay()+"/"+all_modifica_date.getMonth()+"/"+all_modifica_date.getFullYear()+" - "+all_modifica_date.getHours()+":"+mins_modifica;
+      modifica_data = all_modifica_date.getDate()+"/"+all_modifica_date.getMonth()+"/"+all_modifica_date.getFullYear()+" - "+all_modifica_date.getHours()+":"+mins_modifica;
       postsContent=postsTemplate.replace("%POSIZIONE",posts.result[index].nome).replace("%TITOLO",posts.result[index].testo).replace("%DATA",data).replace("%MODIFICA","modificato: "+modifica_data).replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",posts.result[index].descrizione).replace("%del_btn_id",posts.result[index].id).replace("%put_btn_id", posts.result[index].id).replace("%id",posts.result[index].id);
     }else{
       postsContent=postsTemplate.replace("%POSIZIONE",posts.result[index].nome).replace("%TITOLO",posts.result[index].testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",posts.result[index].descrizione).replace("%del_btn_id",posts.result[index].id).replace("%put_btn_id", posts.result[index].id).replace("%id",posts.result[index].id);
@@ -819,16 +818,19 @@ const render = async(posts) =>{
   let all_markers = [];
 
   if(posts.result.length){ 
-    map_posts = L.map('map_posts').setView([52.517, 13.388], 9.5)
-    L.maplibreGL({
-      style: 'https://tiles.openfreemap.org/styles/liberty',
-    }).addTo(map_posts)
+    if (!map_posts){
+        map_posts = L.map('map_posts').setView([52.517, 13.388], 9.5)
+        L.maplibreGL({
+          style: 'https://tiles.openfreemap.org/styles/liberty',
+      }).addTo(map_posts)
+    }
+    
 
     posts.result.forEach((post)=>{
       const marker = {
         position: [post.latitudine, post.longitudine],
         map_posts: map_posts,
-        name: post.testo,
+        name: post.nome,
         id: post.id
       }
 
@@ -848,7 +850,8 @@ const render = async(posts) =>{
     if(mins.length===1){
       mins="0"+mins
     }
-    const data = all_date.getDay()+"/"+all_date.getMonth()+"/"+all_date.getFullYear()+" - "+all_date.getHours()+":"+mins
+
+    const data = all_date.getDate()+"/"+String(parseInt(all_date.getMonth())+1)+"/"+all_date.getFullYear()+" - "+all_date.getHours()+":"+mins
     
     if(post.ultima_modifica){
       const all_modifica_date = new Date(parseInt(post.ultima_modifica));
@@ -856,7 +859,7 @@ const render = async(posts) =>{
       if(mins_modifica.length===1){
         mins_modifica="0"+mins_modifica;
       }
-      const modifica_data = all_modifica_date.getDay()+"/"+all_modifica_date.getMonth()+"/"+all_modifica_date.getFullYear()+" - "+all_modifica_date.getHours()+":"+mins_modifica;
+      const modifica_data = all_modifica_date.getDate()+"/"+all_modifica_date.getMonth()+"/"+all_modifica_date.getFullYear()+" - "+all_modifica_date.getHours()+":"+mins_modifica;
       postsContent+=postsTemplate.replace("%POSIZIONE",post.nome).replace("%TITOLO",post.testo).replace("%DATA",data).replace("%MODIFICA","modificato: "+modifica_data).replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",post.descrizione).replace("%del_btn_id",post.id).replace("%put_btn_id", post.id).replace("%id",post.id);
     }else{
       postsContent+=postsTemplate.replace("%POSIZIONE",post.nome).replace("%TITOLO",post.testo).replace("%DATA",data).replace("%MODIFICA","").replace("%MEDIA",loadingPost).replace("%DESCRIZIONE",post.descrizione).replace("%del_btn_id",post.id).replace("%put_btn_id", post.id).replace("%id",post.id);

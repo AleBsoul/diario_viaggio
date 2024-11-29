@@ -337,10 +337,8 @@ app.put("/modificaPost",(req, res)=>{
         addPosition(posizione);
       };
       selectPosition(posizione.nome).then((id_pos)=>{
-        console.log(id_pos);
         updates.push(` id_posizione = '${id_pos[0].id}'`);
         sql += updates.join(',') + ` WHERE id = '${id}'`;
-        console.log(sql);
         executeQuery(sql).then((result)=>{
             res.json({result: "post modificato"});
           })

@@ -184,7 +184,6 @@ const preRender = async (data) => {
     const loading = `<iframe class='loadingViaggio' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`
     const loadingProfilo = `<iframe class='loadingProfilo' src='https://lottie.host/embed/66e70a89-2afc-4021-9865-bd5da9882885/69ZUtWw7XT.json' ></iframe>`    
     travelContentDiv.innerHTML = "";
-    console.log(data);
     for (const travel of data) {
         travelContentDiv.innerHTML += travelsTemp.replace("%nome", travel.titolo).replace("%utente", travel.username).replace("%id_utente", travel.idUser).replace("%id", travel.idViaggio).replace("%IMGVIAGGIO",loading).replace("%IMGPROFILO",loadingProfilo).replace("%IDViaggioDel",travel.idViaggio);
     }
@@ -311,7 +310,6 @@ update_submit.onclick=async()=>{
         if (cognome!==user.cognome) utente.cognome = cognome;
         if (bio!==user.bio) utente.bio = bio;
 
-        console.log(utente);
         await updateUser(utente);
         await getUser(id).then((result)=>{
             document.getElementById("loading-put-user").style.opacity=0;
