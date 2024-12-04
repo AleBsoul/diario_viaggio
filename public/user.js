@@ -114,17 +114,14 @@ let travel_to_del=[];
 
 document.getElementById("del_button").onclick=async()=>{
     const travels = document.querySelectorAll(".travel");
-    for (const id of travel_to_del){
-        for(const travel of travels){
-            if(travel.id.split("-")[1] === id){
-                travel.remove();
-                const index = travel_to_del.indexOf(id);
-                travel_to_del.splice(index,1);
-                button_del_travel();
-            }
-        }
-        delViaggio(id);
+    const to_del = document.querySelectorAll(".del_travel")
+    for(const travel of to_del){
+        travel.remove();
+        delViaggio(travel.id.split("-")[1]);
     }
+    const del_button = document.getElementById("del_button");
+    del_button.disabled = true;
+    travel_to_del = [];
 }
 
 //bottone per eliminare 1 o più viaggi

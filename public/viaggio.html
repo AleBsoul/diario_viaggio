@@ -224,58 +224,90 @@
     <div class="inv" id="blurred-div"></div>
 
     <!-- sidebar -->
-    <div class="sidebar close no_export">
+    <nav class="sidebar close no_export ">
         <div class="logo-details">
             <img src="assets/images/logo.png" class="logo" alt="Logo">
         </div>
         <ul class="nav-links">
             <li>
-                <a href="#">
+                <a>
                     <i class='bx bx-home' id="nav-home"></i>
                     <span class="link_name">Home</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Home</a></li>
+                    <li><a class="link_name" >Home</a></li>
                 </ul>
             </li>
             <li>
-                <a href="#">
+                <a>
                     <i class='bx bx-user' id="nav-user"></i>
                     <span class="link_name">Profilo</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Profilo</a></li>
+                    <li><a class="link_name" >Profilo</a></li>
                 </ul>
             </li>
             <li>
-                <a href="#">
+                <a>
                     <i class='bx bx-plus' id="openModal"></i>
                     <span class="link_name">Aggiungi</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Aggiungi</a></li>
+                    <li><a class="link_name">Aggiungi</a></li>
                 </ul>
             </li>
 
             <li>
                 <div class="logout" title="Log out">
-                    <a href="#">
+                    <a>
                         <i class='bx bx-log-out' id="nav-logout"></i>
                         <span class="link_name">Log out</span>
                     </a>
                     <ul class="sub-menu blank">
-                        <li><a class="link_name" href="#">Log out</a></li>
+                        <li><a class="link_name">Log out</a></li>
                     </ul>
+                </div>
+                
             </li>
 
-    </div>
-    </li>
-    </ul>
-    </div>
+        </ul>
+    </nav>
+
+
+    <!-- navbar piccola -->
+    <nav class="navbar">
+        <ul class="nav-list">
+            <li class="nav-item" id="nav-home">
+                <a class="nav-link">
+                    <i class='bx bx-home' ></i>
+                </a>
+            </li>
+            <li class="nav-item" id="nav-user">
+                <a class="nav-link">
+                    <i class='bx bx-user'></i>
+                </a>
+            </li>
+            <li class="nav-item center" id="nav-home">
+                <a class="nav-link">
+                    <img src="assets/images/logo.png" alt="Logo">
+                </a>
+            </li>
+            <li class="nav-item" id="openModal">
+                <a class="nav-link">
+                    <i class='bx bx-plus'></i>
+                </a>
+            </li>
+            <li class="nav-item" id="nav-logout">
+                <a style="color: rgb(155, 16, 16);"class="nav-link">
+                    <i class='bx bx-log-out'></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
 
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs" crossorigin="anonymous"></script>        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;key=AIzaSyCxv9j86w7iiuRA9VOIayp_FYGUUC_UMXQ"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs" crossorigin="anonymous"></script>        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;key=AIzaSyCxv9j86w7iiuRA9VOIayp_FYGUUC_UMXQ"></script> -->
 
     <script type="module" src="sidebar.js"></script>
     <script type="module" src="common.js"></script>

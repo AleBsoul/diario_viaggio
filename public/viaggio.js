@@ -1,6 +1,6 @@
 import { uploadFile, downloadFile} from "./mega.js"
 import { newViaggioClick, getSingleViaggio, checkNull } from "./common.js"
-import { addressAutocomplete } from "./autocomplete.js";
+import { addressAutocomplete } from "./autoComplete.js";
 
 let index = 0; //per decidere quale post renderizzare
 const right_arrow = document.getElementById("right-arrow");
@@ -173,7 +173,7 @@ const addMarkers = (all_markers) => {
   all_markers.forEach((m) => {
     const lat = m.position[0];
     const long = m.position[1];
-    markers.push(L.marker([lat, long]).addTo(map_posts).bindPopup(m.name));
+    markers.push(L.marker([lat, long]).addTo(map_posts).bindPopup(m.name.split(",")[0]));
   });
 
   // Create a LatLngBounds object
@@ -365,8 +365,9 @@ updatePost_btn.onclick=async()=>{
   const media = document.getElementById("put_media_post_input");
   let position
   if(place){
+    console.log(place.properties)
     position = {
-      nome: place.properties.state,
+      nome: place.properties.formatted,
       latitudine: place.geometry.coordinates[1],
       longitudine: place.geometry.coordinates[0]
     }
@@ -474,7 +475,7 @@ newPost.onclick=async()=>{
   if(titolo.value && descrizione.value && media.value && posizione.value){
     document.getElementById("loading-add-post").style.opacity=1;
     const position = {
-      nome: place.properties.state,
+      nome: place.properties.formatted,
       latitudine: place.geometry.coordinates[1],
       longitudine: place.geometry.coordinates[0]
     };
@@ -608,7 +609,9 @@ const del_btn_event = () =>{
       posts = await get_posts(viaggio.id);
       if(posts.result.length>0){
         if(check_export){
-          await render(posts);
+          const all_travels = document.querySelectorAll(".post-container")
+          const item_to_delete = [...all_travels].find(item => item.id === del_btn.id);
+          item_to_delete.remove()
         }else{
           index = 0
           renderSingle();

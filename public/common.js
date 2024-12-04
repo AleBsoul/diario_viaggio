@@ -82,24 +82,30 @@ const newViaggioClick=async()=>{
 }
 
 
-const homeBtn = document.getElementById("nav-home");
-homeBtn.onclick=()=>{
-    window.location.href='index.html';
-}
+const homeBtns = document.querySelectorAll("#nav-home");
+homeBtns.forEach((homeBtn)=>{
+    homeBtn.onclick=()=>{
+        window.location.href='index.html';
+    }    
+})
 
 
-const userBtn = document.getElementById("nav-user");
-userBtn.onclick=()=>{
-    sessionStorage.setItem("utente",JSON.stringify(user));
-    window.location.href='user.html';
-}
+const userBtns = document.querySelectorAll("#nav-user");
+userBtns.forEach((userBtn)=>{
+    userBtn.onclick=()=>{
+        sessionStorage.setItem("utente",JSON.stringify(user));
+        window.location.href='user.html';
+    }    
+})
 
 
-const logoutBtn = document.getElementById("nav-logout");
-logoutBtn.onclick=()=>{
-    sessionStorage.setItem("loggato",null);
-    window.location.href="login.html";
-}
+const logoutBtns = document.querySelectorAll("#nav-logout");
+logoutBtns.forEach((logoutBtn)=>{
+    logoutBtn.onclick=()=>{
+        sessionStorage.setItem("loggato",null);
+        window.location.href="login.html";
+    }    
+})
 
 
 
@@ -108,10 +114,24 @@ logoutBtn.onclick=()=>{
 //modal new viaggio
 const modal = document.getElementById("modal");
 const closeButton = document.querySelector(".close-button");
-const openModal_btn = document.getElementById("openModal");
+const openModal_btns = document.querySelectorAll("#openModal");
 const close_btn = document.getElementById("close_btn");
 
 let isOpened = false;
+
+openModal_btns.forEach((openModal_btn) => {
+    openModal_btn.onclick = () => {
+        const forms = document.getElementsByTagName("form");
+        for (let i = 0; i < forms.length; i++) {
+            forms[i].style.display = "none";
+        }
+        formAdd.style.display = "block";
+        openModal();
+    };
+});
+close_btn.onclick=()=>{
+    closeModal();
+}
 
 const openModal = () => {
     modal.classList.add("is-open");
@@ -128,17 +148,7 @@ const closeModal = () => {
 
 
 
-openModal_btn.onclick=()=>{
-    const forms = document.getElementsByTagName("form");
-    for(let i=0; i<forms.length; i++){
-        forms[i].style.display="none";
-    }
-    formAdd.style.display="block";
-    openModal();
-}
-close_btn.onclick=()=>{
-    closeModal();
-}
+
 
 const getUser = async (id) => {
     try{

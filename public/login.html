@@ -21,8 +21,7 @@
   <div class="title">
     <h2>Post your travel</h2>
   </div>
-</div>
-    <div class="modal" id="modal">
+  <div class="modal" id="modal">
         <button class="modal-button" id="openModal">Click here to login</button>
         <div class="modal-container">
             <div class="modal-left">
@@ -95,57 +94,88 @@
           <i class="fa fa-envelope"></i>
       </div>
       <p class="message">Controlla la mail</p>
-  </div>
-
-  <!-- sidebar -->
-  <div class="sidebar close">
-    <div class="logo-details">
-        <img src="assets/images/logo.png" class="logo" alt="Logo">
     </div>
-    <ul class="nav-links">
-      <li>
-        <a href="#">
-          <i class='bx bx-home' id="nav-home"></i>
-          <span class="link_name" >Home</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Home</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">
-          <i class='bx bx-user' id="nav-user"></i>
-          <span class="link_name" >Profilo</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Profilo</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">
-          <i class='bx bx-plus' id="openModal"></i>
-          <span class="link_name" >Aggiungi</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#" >Aggiungi</a></li>
-        </ul>
-      </li>
-      
-      <li>
-        <div class="logout" title="Log out">
-            <a href="#">
-                <i class='bx bx-log-out' id="nav-logout"></i>
-                <span class="link_name" >Log out</span>
-              </a>
-              <ul class="sub-menu blank">
-                <li><a class="link_name" href="#">Log out</a></li>
-              </ul>
-            </li>
-            
+
+    <!-- sidebar -->
+    <nav class="sidebar close no_export ">
+        <div class="logo-details">
+            <img src="assets/images/logo.png" class="logo" alt="Logo">
         </div>
-    </li>
-</ul>
-  </div>
+        <ul class="nav-links">
+            <li>
+                <a>
+                    <i class='bx bx-home' id="nav-home"></i>
+                    <span class="link_name">Home</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name">Home</a></li>
+                </ul>
+            </li>
+            <li>
+                <a>
+                    <i class='bx bx-user' id="nav-user"></i>
+                    <span class="link_name">Profilo</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name">Profilo</a></li>
+                </ul>
+            </li>
+            <li>
+                <a>
+                    <i class='bx bx-plus' class="openModal"></i>
+                    <span class="link_name">Aggiungi</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name">Aggiungi</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <div class="logout" title="Log out">
+                    <a >
+                        <i class='bx bx-log-out' id="nav-logout"></i>
+                        <span class="link_name">Log out</span>
+                    </a>
+                    <ul class="sub-menu blank">
+                        <li><a class="link_name">Log out</a></li>
+                    </ul>
+                </div>
+                
+            </li>
+
+        </ul>
+    </nav>
+    <!-- navbar piccola -->
+    <nav class="navbar">
+        <ul class="nav-list">
+            <li class="nav-item">
+                <a class="nav-link">
+                    <i class='bx bx-home'></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link">
+                    <i class='bx bx-user'></i>
+                </a>
+            </li>
+            <li class="nav-item center">
+                <a class="nav-link">
+                    <img src="assets/images/logo.png" alt="Logo">
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link ">
+                    <i class='bx bx-plus'></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a style="color: rgb(155, 16, 16);"class="nav-link">
+                    <i class='bx bx-log-out' ></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
   <script type="module" src="sidebar.js"></script>
   <script type="module" src="login.js"></script>
 </body>
