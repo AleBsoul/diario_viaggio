@@ -1,8 +1,5 @@
 import { uploadFile, downloadFile } from "./mega.js"
 const modal = document.getElementById("modal");
-const modalButton = document.querySelector(".modal-button");
-const closeButton = document.querySelector(".close-button");
-const openModal_btn = document.getElementById("openModal");
 const close_btn = document.getElementById("close_btn");
 
 const loginForm = document.getElementById("login_form");
@@ -14,9 +11,6 @@ const sign_submit = document.getElementById("sign_submit");
 const log_submit = document.getElementById("log_submit");
 
 
-
-let isOpened = false;
-
 const checkNull = (element) => {
   element.parentElement.classList.remove("null")
   if(!element.value){
@@ -27,25 +21,9 @@ const checkNull = (element) => {
 const openModal = () => {
   modal.classList.add("is-open");
 };
-
-const closeModal = () => {
-  modal.classList.remove("is-open");
-};
-
-setTimeout(openModal,500);
-
-openModal_btn.onclick=()=>{
-    openModal();
-}
-close_btn.onclick=()=>{
-    closeModal();
-}
-
-log_submit.onclick=()=>{
-}
+openModal();
 
 
-const user = {}
 const login = (user) => {
   return new Promise((resolve, reject) => {
       fetch("/login", {
