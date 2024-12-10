@@ -19,8 +19,8 @@ const storage = new Storage({
 }).ready;
 let folder;
 const root = await storage;
-const existingFolder = root.find(conf.directory);
-if (existingFolder) {
+const existingFolder = await root.find(conf.directory);
+if (await existingFolder) {
     folder = existingFolder;
 } else {
     folder = await root.mkdir(conf.directory);
